@@ -56,6 +56,7 @@ ocv_add_module(julia
                                  opencv_highgui
                                  opencv_features2d
                                  opencv_videoio
+                                 opencv_dnn
 )
 
 ocv_glob_module_sources()

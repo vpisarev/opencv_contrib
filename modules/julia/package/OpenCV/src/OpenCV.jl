@@ -10,7 +10,7 @@ using CxxWrap
 function __init__()
     @initcxx
 end
-const Scalar = Union{Tuple{Number}, Tuple{Number, Number}, Tuple{Number, Number, Number}, NTuple{4, Number}}
+const Scalar = Union{Tuple{}, Tuple{Number}, Tuple{Number, Number}, Tuple{Number, Number, Number}, NTuple{4, Number}}
 
 include("Mat.jl")
 
