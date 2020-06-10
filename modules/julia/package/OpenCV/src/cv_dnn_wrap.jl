@@ -25,7 +25,7 @@ function Base.setproperty!(m::dnn_Layer, s::Symbol, v)
     if s==:preferableTarget
         jlopencv_Layer_set_preferableTarget(m, julia_to_cpp(v))
     end
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function finalize(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}, outputs::Array{InputArray, 1}) where {T <: dnn_Layer}
@@ -33,10 +33,10 @@ function finalize(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}, outputs::Array{
 end
 finalize(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}; outputs::Array{InputArray, 1} = (Array{InputArray, 1}())) where {T <: dnn_Layer} = finalize(cobj, inputs, outputs)
 
-function run(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}, internals::Array{InputArray, 1}, outputs::Array{InputArray, 1}) where {T <: dnn_Layer}
-	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_run(julia_to_cpp(cobj),julia_to_cpp(inputs),julia_to_cpp(internals),julia_to_cpp(outputs)))
-end
-run(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}, internals::Array{InputArray, 1}; outputs::Array{InputArray, 1} = (Array{InputArray, 1}())) where {T <: dnn_Layer} = run(cobj, inputs, internals, outputs)
+# function run(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}, internals::Array{InputArray, 1}, outputs::Array{InputArray, 1}) where {T <: dnn_Layer}
+# 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_run(julia_to_cpp(cobj),julia_to_cpp(inputs),julia_to_cpp(internals),julia_to_cpp(outputs)))
+# end
+# run(cobj::cv_Ptr{T}, inputs::Array{InputArray, 1}, internals::Array{InputArray, 1}; outputs::Array{InputArray, 1} = (Array{InputArray, 1}())) where {T <: dnn_Layer} = run(cobj, inputs, internals, outputs)
 
 function outputNameToIndex(cobj::cv_Ptr{T}, outputName::String) where {T <: dnn_Layer}
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_outputNameToIndex(julia_to_cpp(cobj),julia_to_cpp(outputName)))
@@ -45,7 +45,7 @@ function Base.getproperty(m::dnn_Net, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::dnn_Net, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function empty(cobj::dnn_Net)
@@ -97,10 +97,6 @@ function forward(cobj::dnn_Net, outBlobNames::Array{String, 1}, outputBlobs::Arr
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Net_cv_dnn_Net_forward(julia_to_cpp(cobj),julia_to_cpp(outBlobNames),julia_to_cpp(outputBlobs)))
 end
 forward(cobj::dnn_Net, outBlobNames::Array{String, 1}; outputBlobs::Array{InputArray, 1} = (Array{InputArray, 1}())) = forward(cobj, outBlobNames, outputBlobs)
-
-function forward(cobj::dnn_Net, outBlobNames::Array{String, 1})
-	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Net_cv_dnn_Net_forward(julia_to_cpp(cobj),julia_to_cpp(outBlobNames)))
-end
 
 function forwardAsync(cobj::dnn_Net, outputName::String)
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Net_cv_dnn_Net_forwardAsync(julia_to_cpp(cobj),julia_to_cpp(outputName)))
@@ -193,14 +189,11 @@ function getPerfProfile(cobj::dnn_Net)
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Net_cv_dnn_Net_getPerfProfile(julia_to_cpp(cobj)))
 end
 
-function dnn_Net()
-	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_Net_cv_dnn_Net_Net())
-end
 function Base.getproperty(m::dnn_Model, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::dnn_Model, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function setInputSize(cobj::dnn_Model, size::Size)
@@ -249,7 +242,7 @@ function Base.getproperty(m::dnn_ClassificationModel, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::dnn_ClassificationModel, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function classify(cobj::dnn_ClassificationModel, frame::InputArray)
@@ -268,7 +261,7 @@ function Base.getproperty(m::dnn_KeypointsModel, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::dnn_KeypointsModel, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function estimate(cobj::dnn_KeypointsModel, frame::InputArray, thresh::Float32)
@@ -288,7 +281,7 @@ function Base.getproperty(m::dnn_SegmentationModel, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::dnn_SegmentationModel, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function segment(cobj::dnn_SegmentationModel, frame::InputArray, mask::InputArray)
@@ -308,13 +301,13 @@ function Base.getproperty(m::dnn_DetectionModel, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::dnn_DetectionModel, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function detect(cobj::dnn_DetectionModel, frame::InputArray, confThreshold::Float32, nmsThreshold::Float32)
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_DetectionModel_cv_dnn_DetectionModel_detect(julia_to_cpp(cobj),julia_to_cpp(frame),julia_to_cpp(confThreshold),julia_to_cpp(nmsThreshold)))
 end
-detect(cobj::dnn_DetectionModel, frame::InputArray; confThreshold::Float32 = Float32(0.5f), nmsThreshold::Float32 = Float32(0.0f)) = detect(cobj, frame, confThreshold, nmsThreshold)
+detect(cobj::dnn_DetectionModel, frame::InputArray; confThreshold::Float32 = Float32(0.5), nmsThreshold::Float32 = Float32(0.0)) = detect(cobj, frame, confThreshold, nmsThreshold)
 
 function dnn_DetectionModel(model::String, config::String)
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_DetectionModel_cv_dnn_DetectionModel_DetectionModel(julia_to_cpp(model),julia_to_cpp(config)))
@@ -434,9 +427,9 @@ end
 function NMSBoxes(bboxes::Array{Rect{Float64}, 1}, scores::Array{Float32, 1}, score_threshold::Float32, nms_threshold::Float32, eta::Float32, top_k::Int32)
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_NMSBoxes(julia_to_cpp(bboxes),julia_to_cpp(scores),julia_to_cpp(score_threshold),julia_to_cpp(nms_threshold),julia_to_cpp(eta),julia_to_cpp(top_k)))
 end
-NMSBoxes(bboxes::Array{Rect{Float64}, 1}, scores::Array{Float32, 1}, score_threshold::Float32, nms_threshold::Float32; eta::Float32 = Float32(1.0f), top_k::Int32 = Int32(0)) = NMSBoxes(bboxes, scores, score_threshold, nms_threshold, eta, top_k)
+NMSBoxes(bboxes::Array{Rect{Float64}, 1}, scores::Array{Float32, 1}, score_threshold::Float32, nms_threshold::Float32; eta::Float32 = Float32(1.0), top_k::Int32 = Int32(0)) = NMSBoxes(bboxes, scores, score_threshold, nms_threshold, eta, top_k)
 
 function NMSBoxesRotated(bboxes::Array{RotatedRect, 1}, scores::Array{Float32, 1}, score_threshold::Float32, nms_threshold::Float32, eta::Float32, top_k::Int32)
 	return cpp_to_julia(jlopencv_cv_dnn_cv_dnn_NMSBoxes(julia_to_cpp(bboxes),julia_to_cpp(scores),julia_to_cpp(score_threshold),julia_to_cpp(nms_threshold),julia_to_cpp(eta),julia_to_cpp(top_k)))
 end
-NMSBoxesRotated(bboxes::Array{RotatedRect, 1}, scores::Array{Float32, 1}, score_threshold::Float32, nms_threshold::Float32; eta::Float32 = Float32(1.0f), top_k::Int32 = Int32(0)) = NMSBoxesRotated(bboxes, scores, score_threshold, nms_threshold, eta, top_k)
+NMSBoxesRotated(bboxes::Array{RotatedRect, 1}, scores::Array{Float32, 1}, score_threshold::Float32, nms_threshold::Float32; eta::Float32 = Float32(1.0), top_k::Int32 = Int32(0)) = NMSBoxesRotated(bboxes, scores, score_threshold, nms_threshold, eta, top_k)

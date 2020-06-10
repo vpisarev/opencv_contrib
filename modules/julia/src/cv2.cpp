@@ -167,7 +167,7 @@ JLCXX_MODULE cv_wrap(jlcxx::Module &mod)
     mod.method("jlopencv_cv_cv_waitKey", [](int &delay) { auto retval = cv::waitKey(delay); return retval; });
 
     mod.method("jlopencv_cv_cv_getTextSize", [](string &text, int &fontFace, double &fontScale, int &thickness) {int baseLine; auto retval = cv::getTextSize(text, fontFace, fontScale, thickness, &baseLine); return make_tuple(move(retval),move(baseLine)); });
-    mod.method("jlopencv_cv_cv_putText", [](Mat &img, string &text, Point &org, int &fontFace, double &fontScale, Scalar &color, int &thickness, int &lineType, bool &bottomLeftOrigin) { cv::putText(img, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin); return img; });
+    mod.method("jlopencv_cv_cv_putText", [](Mat &img, string &text, Point &org, int &fontFace, double &fontScale, Scalar &color, int &thickness, int &lineType, bool bottomLeftOrigin) { cv::putText(img, text, org, fontFace, fontScale, color, thickness, lineType, bottomLeftOrigin); return img; });
     mod.method("jlopencv_cv_cv_rectangle", [](Mat &img, Point &pt1, Point &pt2, Scalar &color, int &thickness, int &lineType, int &shift) { cv::rectangle(img, pt1, pt2, color, thickness, lineType, shift); return img; });
 
     mod.method("jlopencv_cv_cv_cvtColor", [](Mat &src, int &code, Mat &dst, int &dstCn) { cv::cvtColor(src, dst, code, dstCn); return dst; });
@@ -494,6 +494,7 @@ JLCXX_MODULE cv_wrap(jlcxx::Module &mod)
     mod.add_type<cv::dnn::SegmentationModel>("dnn_SegmentationModel", jlcxx::julia_base_type<cv::dnn::Model>());
     mod.add_type<cv::dnn::DetectionModel>("dnn_DetectionModel", jlcxx::julia_base_type<cv::dnn::Model>());
 
+
     mod.add_type<LayerId>("dnn_LayerId");
     mod.add_type<AsyncArray>("AsyncArray");
 
@@ -505,7 +506,7 @@ JLCXX_MODULE cv_wrap(jlcxx::Module &mod)
     mod.method("jlopencv_Layer_get_preferableTarget", [](const cv::Ptr<cv::dnn::Layer> &cobj) { return cobj->preferableTarget; });
 
     mod.method("jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_finalize", [](cv::Ptr<cv::dnn::Layer> &cobj, vector<Mat> &inputs, vector<Mat> &outputs) { cobj->finalize(inputs, outputs);  return outputs; });
-    mod.method("jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_run", [](cv::Ptr<cv::dnn::Layer> &cobj, vector<Mat> &inputs, vector<Mat> &internals, vector<Mat> &outputs) { cobj->run(inputs, outputs, internals);  return make_tuple(move(outputs),move(internals)); });
+    // mod.method("jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_run", [](cv::Ptr<cv::dnn::Layer> &cobj, vector<Mat> &inputs, vector<Mat> &internals, vector<Mat> &outputs) { cobj->run(inputs, outputs, internals);  return make_tuple(move(outputs),move(internals)); });
     mod.method("jlopencv_cv_dnn_cv_dnn_Layer_cv_dnn_Layer_outputNameToIndex", [](cv::Ptr<cv::dnn::Layer> &cobj, string &outputName) { auto retval = cobj->outputNameToIndex(outputName);  return retval; });
     mod.method("jlopencv_cv_dnn_cv_dnn_Net_cv_dnn_Net_Net", []() { return jlcxx::create<cv::dnn::Net>(); });
 
@@ -612,7 +613,6 @@ JLCXX_MODULE cv_wrap(jlcxx::Module &mod)
     mod.set_const("DNN_TARGET_OPENCL", (int)cv::dnn::DNN_TARGET_OPENCL);
     mod.set_const("DNN_TARGET_OPENCL_FP16", (int)cv::dnn::DNN_TARGET_OPENCL_FP16);
     mod.set_const("DNN_TARGET_VULKAN", (int)cv::dnn::DNN_TARGET_VULKAN);
-
 
 // Hack for more complex default parameters
     mod.method("stdggvectoriStringkOP", [](){return std::vector<String>();});

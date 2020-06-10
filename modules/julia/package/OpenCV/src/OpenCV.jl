@@ -52,6 +52,15 @@ function cpp_to_julia(var::Tuple)
     end
     return tuple(ret_arr...)
 end
+
+function cpp_to_julia(var::CxxBool)
+    return Bool(var)
+end
+
+function julia_to_cpp(var::Bool)
+    return CxxBool(var)
+end
+
 # using StaticArrays
 
 include("cv_wrap.jl")

@@ -20,7 +20,7 @@ function Base.getproperty(m::KeyPoint, s::Symbol)
     return Base.getfield(m, s)
 end
 function Base.setproperty!(m::KeyPoint, s::Symbol, v)
-    return Base.setfield(m, s, v)
+    return Base.setfield!(m, s, v)
 end
 
 function KeyPoint(x::Float32, y::Float32, _size::Float32, _angle::Float32, _response::Float32, _octave::Int32, _class_id::Int32)
