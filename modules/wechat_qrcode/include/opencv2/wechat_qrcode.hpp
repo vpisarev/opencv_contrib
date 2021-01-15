@@ -9,7 +9,7 @@
 #define __OPENCV_WECHAT_QRCODE_HPP__
 #include "opencv2/core.hpp"
 /** @defgroup wechat_qrcode WeChat QR code detector for detecting and parsing QR code.
-*/
+ */
 namespace cv {
 namespace wechat_qrcode {
 //! @addtogroup wechat_qrcode
@@ -48,7 +48,9 @@ public:
      * empty if not found.
      * @return list of decoded string.
      */
-    CV_WRAP std::vector<std::string> detectAndDecode(InputArray img, OutputArrayOfArrays points = noArray());
+    CV_WRAP std::vector<std::string> detectAndDecode(InputArray img,
+                                                     OutputArrayOfArrays points = noArray());
+
 protected:
     class Impl;
     Ptr<Impl> p;
