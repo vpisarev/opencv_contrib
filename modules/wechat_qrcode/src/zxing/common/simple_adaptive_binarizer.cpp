@@ -28,7 +28,7 @@ const ArrayRef<char> EMPTY(0);
 }  // namespace
 
 SimpleAdaptiveBinarizer::SimpleAdaptiveBinarizer(Ref<LuminanceSource> source)
-    : GlobalHistogramBinarizer(source), luminances(EMPTY) {
+    : GlobalHistogramBinarizer(source) {
     filtered = false;
 }
 
@@ -74,7 +74,7 @@ int SimpleAdaptiveBinarizer::binarizeImage0(ErrorHandler &err_handler) {
     unsigned char *src = (unsigned char *)localLuminances->data();
     unsigned char *dst = matrix->getPtr();
 
-    qrBinarize(src, dst, width, height);
+    qrBinarize(src, dst);
 
     matrix0_ = matrix;
 
@@ -84,11 +84,10 @@ int SimpleAdaptiveBinarizer::binarizeImage0(ErrorHandler &err_handler) {
 /*A simplified adaptive thresholder.
   This compares the current pixel value to the mean value of a (large) window
    surrounding it.*/
-int SimpleAdaptiveBinarizer::qrBinarize(const unsigned char *_img, unsigned char *_dst, int _width,
-                                        int _height) {
-    unsigned char *mask = _dst;
+int SimpleAdaptiveBinarizer::qrBinarize(const unsigned char *src, unsigned char *dst) {
+    unsigned char *mask = dst;
 
-    if (_width > 0 && _height > 0) {
+    if (width > 0 && height > 0) {
         unsigned *col_sums;
         int logwindw;
         int logwindh;
@@ -99,64 +98,63 @@ int SimpleAdaptiveBinarizer::qrBinarize(const unsigned char *_img, unsigned char
         unsigned g;
         int x;
         int y;
-        // mask=(unsigned char *)malloc(_width*_height*sizeof(*mask));
         /*We keep the window size fairly large to ensure it doesn't fit
            completely inside the center of a finder pattern of a version 1 QR
            code at full resolution.*/
-        for (logwindw = 4; logwindw < 8 && (1 << logwindw) < ((_width + 7) >> 3); logwindw++)
+        for (logwindw = 4; logwindw < 8 && (1 << logwindw) < ((width + 7) >> 3); logwindw++)
             ;
-        for (logwindh = 4; logwindh < 8 && (1 << logwindh) < ((_height + 7) >> 3); logwindh++)
+        for (logwindh = 4; logwindh < 8 && (1 << logwindh) < ((height + 7) >> 3); logwindh++)
             ;
         windw = 1 << logwindw;
         windh = 1 << logwindh;
 
         int logwinds = (logwindw + logwindh);
 
-        col_sums = (unsigned *)malloc(_width * sizeof(*col_sums));
+        col_sums = (unsigned *)malloc(width * sizeof(*col_sums));
         /*Initialize sums down each column.*/
-        for (x = 0; x < _width; x++) {
-            g = _img[x];
+        for (x = 0; x < width; x++) {
+            g = src[x];
             col_sums[x] = (g << (logwindh - 1)) + g;
         }
         for (y = 1; y < (windh >> 1); y++) {
-            y1offs = min(y, _height - 1) * _width;
-            for (x = 0; x < _width; x++) {
-                g = _img[y1offs + x];
+            y1offs = min(y, height - 1) * width;
+            for (x = 0; x < width; x++) {
+                g = src[y1offs + x];
                 col_sums[x] += g;
             }
         }
-        for (y = 0; y < _height; y++) {
+        for (y = 0; y < height; y++) {
             unsigned m;
             int x0;
             int x1;
             /*Initialize the sum over the window.*/
             m = (col_sums[0] << (logwindw - 1)) + col_sums[0];
             for (x = 1; x < (windw >> 1); x++) {
-                x1 = min(x, _width - 1);
+                x1 = min(x, width - 1);
                 m += col_sums[x1];
             }
 
             int offset = y * width;
 
-            for (x = 0; x < _width; x++) {
+            for (x = 0; x < width; x++) {
                 /*Perform the test against the threshold T = (m/n)-D,
                    where n=windw*windh and D=3.*/
-                g = _img[offset + x];
+                g = src[offset + x];
                 mask[offset + x] = ((g + 3) << (logwinds) < m);
                 /*Update the window sum.*/
-                if (x + 1 < _width) {
+                if (x + 1 < width) {
                     x0 = max(0, x - (windw >> 1));
-                    x1 = min(x + (windw >> 1), _width - 1);
+                    x1 = min(x + (windw >> 1), width - 1);
                     m += col_sums[x1] - col_sums[x0];
                 }
             }
             /*Update the column sums.*/
-            if (y + 1 < _height) {
-                y0offs = max(0, y - (windh >> 1)) * _width;
-                y1offs = min(y + (windh >> 1), _height - 1) * _width;
-                for (x = 0; x < _width; x++) {
-                    col_sums[x] -= _img[y0offs + x];
-                    col_sums[x] += _img[y1offs + x];
+            if (y + 1 < height) {
+                y0offs = max(0, y - (windh >> 1)) * width;
+                y1offs = min(y + (windh >> 1), height - 1) * width;
+                for (x = 0; x < width; x++) {
+                    col_sums[x] -= src[y0offs + x];
+                    col_sums[x] += src[y1offs + x];
                 }
             }
         }

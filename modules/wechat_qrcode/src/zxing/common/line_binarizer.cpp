@@ -54,8 +54,6 @@ Ref<BitMatrix> LineBinarizer::getBlackMatrix(ErrorHandler &err_handler) {
 int LineBinarizer::binarizeImage(ErrorHandler &err_handler) {
     if (width >= BLOCK_SIZE && height >= BLOCK_SIZE) {
         LuminanceSource &source = *getLuminanceSource();
-        // int width = source.getWidth();
-        // int height = source.getHeight();
         Ref<BitMatrix> matrix(new BitMatrix(width, height, err_handler));
         if (err_handler.ErrCode()) return -1;
 
@@ -63,7 +61,7 @@ int LineBinarizer::binarizeImage(ErrorHandler &err_handler) {
 
         unsigned char *src = (unsigned char *)localLuminances->data();
         unsigned char *dst = matrix->getPtr();
-        binarizeImage(src, dst, width, height);
+        binarizeImage(src, dst);
         matrix0_ = matrix;
     } else {
         matrix0_ = GlobalHistogramBinarizer::getBlackMatrix(err_handler);
@@ -72,14 +70,13 @@ int LineBinarizer::binarizeImage(ErrorHandler &err_handler) {
     return 0;
 }
 
-void LineBinarizer::binarizeImage(const unsigned char *src, unsigned char *dst, int _width,
-                                  int _height) {
-    cv::Mat src_img = cv::Mat(_height, _width, CV_8UC1, (void *)src);
+void LineBinarizer::binarizeImage(const unsigned char *src, unsigned char *dst) {
+    cv::Mat src_img = cv::Mat(height, width, CV_8UC1, (void *)src);
 
     int x0 = 0;
-    int y0 = int(_height * 0.33 / 1.66);  // TODO: use DecodeTipInfo
-    int y1 = int(_height * 1.33 / 1.66);
-    cv::Rect roi = cv::Rect(x0, y0, _width, y1 - y0 + 1);
+    int y0 = int(height * 0.33 / 1.66);  // TODO: use DecodeTipInfo
+    int y1 = int(height * 1.33 / 1.66);
+    cv::Rect roi = cv::Rect(x0, y0, width, y1 - y0 + 1);
 
     cv::Mat src_roi = src_img(roi);
     cv::Mat norm_roi;
@@ -87,17 +84,17 @@ void LineBinarizer::binarizeImage(const unsigned char *src, unsigned char *dst, 
 
     for (int j = 0; j < norm_roi.rows; j++) {
         uchar *src_line = norm_roi.ptr(j);
-        uchar *dst_line = dst + (y0 + j) * _width;
-        binarizeLine(src_line, dst_line, _width);
+        uchar *dst_line = dst + (y0 + j) * width;
+        binarizeLine(src_line, dst_line);
     }
 
     return;
 }
 
-bool LineBinarizer::binarizeLine(const unsigned char *line, unsigned char *dst, int _width) {
+bool LineBinarizer::binarizeLine(const unsigned char *line, unsigned char *dst) {
     std::vector<short> maxiam_index;
     std::vector<short> miniam_index;
-    scanLine(line, _width, maxiam_index, miniam_index);
+    scanLine(line, maxiam_index, miniam_index);
     int len1 = maxiam_index.size();
     int len2 = miniam_index.size();
     if ((len1 + len2) < 40 || std::abs(len1 - len2) > 1) return false;
@@ -145,13 +142,13 @@ bool LineBinarizer::binarizeLine(const unsigned char *line, unsigned char *dst, 
     return true;
 }
 
-void LineBinarizer::scanLine(const unsigned char *line, int _width, std::vector<short> &maxiam_index,
+void LineBinarizer::scanLine(const unsigned char *line, std::vector<short> &maxiam_index,
                              std::vector<short> &miniam_index) {
     short cur_max_i = 0;
     short cur_min_i = 0;
     short diff_thresh = 25;
     int flag = 0;
-    for (int i = 0; i < _width; ++i) {
+    for (int i = 0; i < width; ++i) {
         auto v = line[i];
         if (v > line[cur_max_i]) {
             cur_max_i = i;

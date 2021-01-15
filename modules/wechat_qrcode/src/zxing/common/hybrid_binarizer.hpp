@@ -49,11 +49,6 @@ namespace zxing {
 
 class HybridBinarizer : public GlobalHistogramBinarizer {
 private:
-    // Ref<BitMatrix> matrix_;
-    // Ref<BitArray> cached_row_;
-
-    // bool onedFirstGetBlackRow;
-
     Ref<ByteMatrix> grayByte_;
     // ArrayRef<int> integral_;
     ArrayRef<int> blockIntegral_;
@@ -90,11 +85,12 @@ private:
 
 #ifdef USE_LEVEL_BINARIZER
     void calculateThresholdForBlock(Ref<ByteMatrix>& luminances, int subWidth, int subHeight,
-                                    int SIZE_POWER, Ref<BitMatrix> const& matrix, ErrorHandler& err_handler);
+                                    int SIZE_POWER, Ref<BitMatrix> const& matrix,
+                                    ErrorHandler& err_handler);
 #else
     void calculateThresholdForBlock(Ref<ByteMatrix>& luminances, int subWidth, int subHeight,
-                                    ArrayRef<int>& blackPoints,
-                                    Ref<BitMatrix> const& matrix, ErrorHandler& err_handler);
+                                    ArrayRef<int>& blackPoints, Ref<BitMatrix> const& matrix,
+                                    ErrorHandler& err_handler);
 #endif
 
     void thresholdBlock(Ref<ByteMatrix>& luminances, int xoffset, int yoffset, int threshold,

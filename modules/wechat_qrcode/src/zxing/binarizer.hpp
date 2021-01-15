@@ -68,20 +68,6 @@ public:
     int rotateCounterClockwise();
     int rotateCounterClockwise45();
 
-    // bool isHistogramBinarized() const{
-    //	return histogramBinarized;
-    //}
-    // void setUsingHistogram(bool use){
-    //	usingHistogram=use;
-    //	if(!usingHistogram)
-    //		histogramBinarized=false;
-    //}
-    // bool getUsingHisogram(){
-    //	return usingHistogram;
-    //}
-
-    // void binarizeByHistogram();
-
     virtual Ref<BitMatrix> getBlackMatrix(ErrorHandler& err_handler);
     virtual Ref<BitMatrix> getInvertedMatrix(ErrorHandler& err_handler);
     virtual Ref<BitArray> getBlackRow(int y, Ref<BitArray> row, ErrorHandler& err_handler);

@@ -24,23 +24,17 @@
 namespace zxing {
 
 class SimpleAdaptiveBinarizer : public GlobalHistogramBinarizer {
-private:
-    ArrayRef<char> luminances;
-    // ArrayRef<int> buckets;
 public:
     explicit SimpleAdaptiveBinarizer(Ref<LuminanceSource> source);
     virtual ~SimpleAdaptiveBinarizer();
 
     virtual Ref<BitArray> getBlackRow(int y, Ref<BitArray> row, ErrorHandler &err_handler) override;
     virtual Ref<BitMatrix> getBlackMatrix(ErrorHandler &err_handler) override;
-    // static int estimateBlackPoint(ArrayRef<int> const& buckets);
-    // static int estimateBlackPoint2(ArrayRef<int> const& buckets);
     Ref<Binarizer> createBinarizer(Ref<LuminanceSource> source) override;
 
 private:
     int binarizeImage0(ErrorHandler &err_handler);
-    int qrBinarize(const unsigned char *_img, unsigned char *_dst, int _width, int _height);
-    // void initArrays(int luminanceSize);
+    int qrBinarize(const unsigned char *src, unsigned char *dst);
     bool filtered;
 };
 
