@@ -36,15 +36,10 @@ int DecoderMgr::decodeImage(cv::Mat src, bool use_nn_detector, string& result) {
     qbarUicomBlock_ = new UnicomBlock(width, height);
 
     // Four Binarizers
-    ErrorHandler err_handler;
     int tryBinarizeTime = 4;
     for (int tb = 0; tb < tryBinarizeTime; tb++) {
-        err_handler.Reset();
         if (source == NULL || height * width > source->getMaxSize()) {
             source = ImgSource::create(scaled_img_zx.data(), width, height);
-            if (err_handler.ErrCode()) {
-                continue;
-            }
         } else {
             source->reset(scaled_img_zx.data(), width, height);
         }
