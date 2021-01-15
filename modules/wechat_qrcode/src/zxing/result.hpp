@@ -73,7 +73,6 @@ public:
     uint32_t getSrTime() { return sr_time_; };
     void setSrTime(uint32_t sr_time) { sr_time_ = sr_time; };
 
-    friend std::ostream& operator<<(std::ostream& out, Result& result);
 };
 
 }  // namespace zxing

@@ -12,8 +12,6 @@
 #include "zxing/common/perspective_transform.hpp"
 #include "zxing/reader_exception.hpp"
 
-#include <iostream>
-#include <sstream>
 
 namespace zxing {
 using namespace std;
@@ -48,9 +46,7 @@ Ref<BitMatrix> GridSampler::sampleGrid(Ref<BitMatrix> image, int dimension,
         if (err_handler.ErrCode()) return Ref<BitMatrix>();
 
         if (outlier >= maxOutlier) {
-            ostringstream s;
-            s << "Over 30% points out of bounds.";
-            err_handler = ReaderErrorHandler(s.str().c_str());
+            err_handler = ReaderErrorHandler("Over 30% points out of bounds.");
             return Ref<BitMatrix>();
         }
 
@@ -97,16 +93,6 @@ int GridSampler::checkAndNudgePoints(int width, int height, vector<float> &point
 
         if (x < -1 || x > width || y < -1 || y > height) {
             outCount++;
-
-            /*
-            if (outCount > maxError)
-            {
-                ostringstream s;
-                //s << "Transformed point out of bounds at " << x << "," << y;
-                s << "Over 30% points out of bounds.";
-                throw ReaderException(s.str().c_str());
-            }
-            */
             if (x > width + maxborder || y > height + maxborder || x < -maxborder ||
                 y < -maxborder) {
                 err_handler = ReaderErrorHandler("checkAndNudgePoints::Out of bounds!");

@@ -88,7 +88,6 @@ private:
 #endif
 };
 
-std::ostream& operator<<(std::ostream&, BitArray const&);
 
 }  // namespace zxing
 
