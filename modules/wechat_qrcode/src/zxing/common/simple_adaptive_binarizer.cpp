@@ -11,6 +11,7 @@
 #include "zxing/common/simple_adaptive_binarizer.hpp"
 #include "zxing/common/array.hpp"
 #include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 using namespace zxing;
@@ -52,8 +53,6 @@ Ref<BitMatrix> SimpleAdaptiveBinarizer::getBlackMatrix(ErrorHandler &err_handler
     return Binarizer::getBlackMatrix(err_handler);
 }
 
-using namespace std;
-
 int SimpleAdaptiveBinarizer::binarizeImage0(ErrorHandler &err_handler) {
     LuminanceSource &source = *getLuminanceSource();
 
@@ -81,7 +80,7 @@ int SimpleAdaptiveBinarizer::qrBinarize(const unsigned char *src, unsigned char 
     if (width > 0 && height > 0) {
         unsigned *col_sums;
         int logwindw;
-        int logwindh;
+        int logwindh=0;
         int windw;
         int windh;
         int y0offs;
@@ -92,12 +91,8 @@ int SimpleAdaptiveBinarizer::qrBinarize(const unsigned char *src, unsigned char 
         /*We keep the window size fairly large to ensure it doesn't fit
            completely inside the center of a finder pattern of a version 1 QR
            code at full resolution.*/
-        for (logwindw = 4; logwindw < 8 && (1 << logwindw) < ((width + 7) >> 3); logwindw++)
-            ;
-        for (logwindh = 4; logwindh < 8 && (1 << logwindh) < ((height + 7) >> 3); logwindh++)
-            ;
+        for (logwindw = 4; logwindw < 8 && (1 << logwindw) < ((width + 7) >> 3); logwindw++);
         windw = 1 << logwindw;
-        windh = 1 << logwindh;
 
         int logwinds = (logwindw + logwindh);
 

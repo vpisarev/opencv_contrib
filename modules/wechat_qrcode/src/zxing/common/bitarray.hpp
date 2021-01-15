@@ -18,7 +18,6 @@
 #include "zxing/zxing.hpp"
 
 #include <cstring>
-#include <iostream>
 #include <limits>
 #include <vector>
 
