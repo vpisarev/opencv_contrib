@@ -49,8 +49,6 @@ public:
 
     virtual bool isRotateSupported() const;
 
-    virtual Ref<LuminanceSource> invert() const;
-
     virtual Ref<LuminanceSource> rotateCounterClockwise(zxing::ErrorHandler& err_handler) const;
 
     operator std::string() const;

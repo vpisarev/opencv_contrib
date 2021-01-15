@@ -10,7 +10,6 @@
 
 #include "zxing/luminance_source.hpp"
 #include "zxing/common/illegal_argument_exception.hpp"
-#include "zxing/inverted_luminance_source.hpp"
 
 #include <sstream>
 
@@ -59,20 +58,6 @@ LuminanceSource::operator std::string() const {
         oss << '\n';
     }
     return oss.str();
-}
-
-Ref<LuminanceSource> LuminanceSource::invert() const {
-    // N.B.: this only works because we use counted objects with the
-    // count in the object. This is _not_ how things like shared_ptr
-    // work. They do not allow you to make a smart pointer from a native
-    // pointer more than once. If we ever switch to (something like)
-    // shared_ptr's, the luminace source is going to have keep a weak
-    // pointer to itself from which it can create a strong pointer as
-    // needed. And, FWIW, that has nasty semantics in the face of
-    // exceptions during construction.
-
-    return Ref<LuminanceSource>(
-        new InvertedLuminanceSource(Ref<LuminanceSource>(const_cast<LuminanceSource*>(this))));
 }
 
 void LuminanceSource::denoseLuminanceSource(int inter) { tvInter = inter; }

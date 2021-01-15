@@ -16,11 +16,6 @@
 using namespace std;
 using namespace zxing;
 
-namespace {
-const int BLOCK_SIZE = 7;
-static int min(int a, int b) { return a < b ? a : b; }
-
-}  // namespace
 
 LineBinarizer::LineBinarizer(Ref<LuminanceSource> source) : GlobalHistogramBinarizer(source) {}
 
@@ -52,7 +47,7 @@ Ref<BitMatrix> LineBinarizer::getBlackMatrix(ErrorHandler &err_handler) {
 }
 
 int LineBinarizer::binarizeImage(ErrorHandler &err_handler) {
-    if (width >= BLOCK_SIZE && height >= BLOCK_SIZE) {
+    if (width >= 7 && height >= 7) {
         LuminanceSource &source = *getLuminanceSource();
         Ref<BitMatrix> matrix(new BitMatrix(width, height, err_handler));
         if (err_handler.ErrCode()) return -1;

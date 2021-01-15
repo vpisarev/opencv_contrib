@@ -20,11 +20,6 @@ using namespace zxing;
 // VC++
 using zxing::LuminanceSource;
 
-namespace {
-const int LUMINANCE_BITS = 5;
-const ArrayRef<char> EMPTY(0);
-}  // namespace
-
 SimpleAdaptiveBinarizer::SimpleAdaptiveBinarizer(Ref<LuminanceSource> source)
     : GlobalHistogramBinarizer(source) {
     filtered = false;
