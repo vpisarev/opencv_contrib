@@ -35,6 +35,8 @@
 
 #endif
 
+
+
 #ifndef NO_ICONV_INSIDE
 #define NO_ICONV_INSIDE
 #endif
@@ -51,6 +53,10 @@ typedef unsigned char boolean;
 #include <limits>
 
 #if defined(_WIN32) || defined(_WIN64)
+
+#ifndef NO_ICONV
+#define NO_ICONV
+#endif
 
 #include <float.h>
 

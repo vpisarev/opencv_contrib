@@ -224,15 +224,6 @@ void DecodedBitStreamParser::decodeByteSegment(Ref<BitSource> bits_, string& res
         // upon decoding. I have seen ISO-8859-1 used as well as
         // Shift_JIS -- without anything like an ECI designator to
         // give a hint.
-
-#ifndef NO_ICONV_INSIDE
-        outputCharset = StringUtils::UTF8;
-#else
-        // outputCharset = guessCharset;
-        outputCharset = StringUtils::UTF8;
-#endif
-
-        // encoding.push_back(outputCharset);
         encoding = outputCharset;
 
     } else {
