@@ -7,7 +7,9 @@
 
 #ifndef __OPENCV_WECHAT_QRCODE_PRECOMP_HPP__
 #define __OPENCV_WECHAT_QRCODE_PRECOMP_HPP__
-
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
 #include <stdint.h>
 #include <stdio.h>
 #include <algorithm>
