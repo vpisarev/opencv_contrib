@@ -105,7 +105,7 @@ void UnicomBlock::Bfs(int y, int x) {
 
             if (iPosition >= 0 && iPosition < int(m_vcIndex.size()) && 0 == m_vcIndex[iPosition]) {
                 if (iNextX < 0 || iNextX >= m_poImage->getWidth() || iNextY < 0 ||
-                    iNextY >= m_poImage->getHeight() || bValue != m_poImage->get(iNextX, iNextY))
+                    iNextY >= m_poImage->getHeight() || bValue != (m_poImage->get(iNextX, iNextY) != (unsigned char)0))
                     continue;
 
                 m_vcIndex[iPosition] = m_iNowIdx;

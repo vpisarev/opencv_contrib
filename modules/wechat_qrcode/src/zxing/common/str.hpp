@@ -23,8 +23,6 @@ using namespace std;
 
 namespace zxing {
 
-class String;
-std::ostream& operator<<(std::ostream& out, String const& s);
 
 class String : public Counted {
 private:
@@ -43,7 +41,6 @@ public:
     void append(int d);
     void append(Ref<String> str);
     int length() const;
-    friend std::ostream& zxing::operator<<(std::ostream& out, String const& s);
 };
 
 class StrUtil {

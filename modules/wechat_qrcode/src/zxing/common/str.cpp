@@ -48,10 +48,6 @@ void String::append(int d) {
 
 void String::append(Ref<String> str) { append(str->getText()); }
 
-std::ostream& zxing::operator<<(std::ostream& out, String const& s) {
-    out << s.text_;
-    return out;
-}
 
 string StrUtil::COMBINE_STRING(string str1, string str2) {
     string str = str1;

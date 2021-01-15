@@ -88,8 +88,6 @@ private:
 #endif
 };
 
-std::ostream& operator<<(std::ostream&, BitArray const&);
-
 }  // namespace zxing
 
 #endif  // __ZXING_COMMON_BITARRAY_HPP__
