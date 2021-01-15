@@ -14,7 +14,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
-#include <sstream>
 #include <string>
 #include <tuple>
 #include <utility>
