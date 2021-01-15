@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -19,5 +20,6 @@
 #include <vector>
 
 #include "imgsource.hpp"
+using std::ostringstream;
 using std::string;
 #endif  // __OPENCV_WECHAT_QRCODE_PRECOMP_HPP__

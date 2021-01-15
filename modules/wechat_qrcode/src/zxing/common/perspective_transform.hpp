@@ -34,6 +34,7 @@ public:
     Ref<PerspectiveTransform> times(Ref<PerspectiveTransform> other);
     void transformPoints(std::vector<float>& points);
 
+    friend std::ostream& operator<<(std::ostream& out, const PerspectiveTransform& pt);
 };
 }  // namespace zxing
 

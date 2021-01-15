@@ -11,6 +11,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
+#include <iostream>
+
 using namespace std;
 
 namespace zxing {

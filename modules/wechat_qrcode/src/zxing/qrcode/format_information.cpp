@@ -110,5 +110,11 @@ bool operator==(const FormatInformation& a, const FormatInformation& b) {
     return &(a.errorCorrectionLevel_) == &(b.errorCorrectionLevel_) && a.dataMask_ == b.dataMask_;
 }
 
+std::ostream& operator<<(std::ostream& out, const FormatInformation& fi) {
+    const FormatInformation* fip = &fi;
+    out << "FormatInformation @ " << fip;
+    return out;
+}
+
 }  // namespace qrcode
 }  // namespace zxing

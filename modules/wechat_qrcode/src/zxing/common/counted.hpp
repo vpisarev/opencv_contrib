@@ -10,6 +10,9 @@
 
 #ifndef __ZXING_COMMON_COUNTED_HPP__
 #define __ZXING_COMMON_COUNTED_HPP__
+
+#include <iostream>
+
 namespace zxing {
 
 /* base class for reference-counted objects */
