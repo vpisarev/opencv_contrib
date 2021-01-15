@@ -41,12 +41,12 @@ int DecoderMgr::decodeImage(cv::Mat src, bool use_nn_detector, string& result) {
     for (int tb = 0; tb < tryBinarizeTime; tb++) {
         err_handler.Reset();
         if (source == NULL || height * width > source->getMaxSize()) {
-            source = ImgSource::create(scaled_img_zx.data(), width, height, 1, 1);
+            source = ImgSource::create(scaled_img_zx.data(), width, height);
             if (err_handler.ErrCode()) {
                 continue;
             }
         } else {
-            source->reset(scaled_img_zx.data(), width, height, 1, 1);
+            source->reset(scaled_img_zx.data(), width, height);
         }
         int ret = TryDecode(source, zx_result);
         if (!ret) {

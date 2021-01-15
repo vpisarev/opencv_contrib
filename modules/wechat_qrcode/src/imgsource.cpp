@@ -20,42 +20,19 @@ using zxing::LuminanceSource;
 using zxing::Ref;
 namespace cv {
 namespace wechat_qrcode {
-inline unsigned char ImgSource::convertPixel(unsigned char const* pixel,
-                                             ErrorHandler& err_handler) const {
-    if (_comps == 1 || _comps == 2) {
-        // Gray or gray+alpha
-        return pixel[0];
-    }
-    if (_comps == 3 || _comps == 4) {
-        // Red, Green, Blue, (Alpha)
-        // We assume 16 bit values here
-        // 0x200 = 1<<9, half an lsb of the result to force rounding
-        return (unsigned char)((306 * (int)pixel[0] + 601 * (int)pixel[1] + 117 * (int)pixel[2] +
-                                0x200) >>
-                               10);
-    } else {
-        err_handler = zxing::IllegalArgumentErrorHandler("Unexpected image depth");
-        return 0;
-    }
-}
 
 // Initialize the ImgSource
-ImgSource::ImgSource(unsigned char* pixels, int width, int height, int comps_, int pixelStep_)
+ImgSource::ImgSource(unsigned char* pixels, int width, int height)
     : Super(width, height) {
     luminances = new unsigned char[width * height];
     memset(luminances, 0, width * height);
 
     rgbs = pixels;
-    _comps = comps_;
-    _pixelStep = pixelStep_;
 
     dataWidth = width;
     dataHeight = height;
     left = 0;
     top = 0;
-
-    maxDataWidth = width;
-    maxDataHeight = height;
 
     // Make gray luminances first
     makeGray();
@@ -63,12 +40,10 @@ ImgSource::ImgSource(unsigned char* pixels, int width, int height, int comps_, i
 
 // Added for crop function
 ImgSource::ImgSource(unsigned char* pixels, int width, int height, int left_, int top_,
-                     int cropWidth, int cropHeight, int comps_, int pixelStep_,
+                     int cropWidth, int cropHeight,
                      ErrorHandler& err_handler)
     : Super(cropWidth, cropHeight) {
     rgbs = pixels;
-    _comps = comps_;
-    _pixelStep = pixelStep_;
 
     dataWidth = width;
     dataHeight = height;
@@ -95,22 +70,18 @@ ImgSource::~ImgSource() {
     }
 }
 
-Ref<ImgSource> ImgSource::create(unsigned char* pixels, int width, int height, int comps,
-                                 int pixelStep) {
-    return Ref<ImgSource>(new ImgSource(pixels, width, height, comps, pixelStep));
+Ref<ImgSource> ImgSource::create(unsigned char* pixels, int width, int height) {
+    return Ref<ImgSource>(new ImgSource(pixels, width, height));
 }
 
 Ref<ImgSource> ImgSource::create(unsigned char* pixels, int width, int height, int left, int top,
-                                 int cropWidth, int cropHeight, int comps, int pixelStep,
+                                 int cropWidth, int cropHeight,
                                  zxing::ErrorHandler& err_handler) {
-    return Ref<ImgSource>(new ImgSource(pixels, width, height, left, top, cropWidth, cropHeight,
-                                        comps, pixelStep, err_handler));
+    return Ref<ImgSource>(new ImgSource(pixels, width, height, left, top, cropWidth, cropHeight, err_handler));
 }
 
-void ImgSource::reset(unsigned char* pixels, int width, int height, int comps, int pixelStep) {
+void ImgSource::reset(unsigned char* pixels, int width, int height) {
     rgbs = pixels;
-    _comps = comps;
-    _pixelStep = pixelStep;
     left = 0;
     top = 0;
 
@@ -198,8 +169,7 @@ bool ImgSource::isCropSupported() const { return true; }
 
 Ref<LuminanceSource> ImgSource::crop(int left_, int top_, int width, int height,
                                      ErrorHandler& err_handler) const {
-    return ImgSource::create(rgbs, dataWidth, dataHeight, left + left_, top + top_, width, height,
-                             _comps, _pixelStep, err_handler);
+    return ImgSource::create(rgbs, dataWidth, dataHeight, left + left_, top + top_, width, height, err_handler);
 }
 
 bool ImgSource::isRotateSupported() const { return false; }
@@ -210,8 +180,7 @@ Ref<LuminanceSource> ImgSource::rotateCounterClockwise(ErrorHandler& err_handler
     int width = getWidth();
     int height = getHeight();
 
-    return ImgSource::create(rgbs, dataWidth, dataHeight, top, left, height, width, _comps,
-                             _pixelStep, err_handler);
+    return ImgSource::create(rgbs, dataWidth, dataHeight, top, left, height, width, err_handler);
 }
 
 

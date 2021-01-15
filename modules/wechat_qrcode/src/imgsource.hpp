@@ -18,18 +18,13 @@ namespace wechat_qrcode {
 class ImgSource : public zxing::LuminanceSource {
 private:
     typedef LuminanceSource Super;
-    int _comps;
-    int _pixelStep;
     zxing::ArrayRef<char> _matrix;
     unsigned char* rgbs;
     unsigned char* luminances;
     int dataWidth;
     int dataHeight;
-    int maxDataWidth;
-    int maxDataHeight;
     int left;
     int top;
-    unsigned char convertPixel(unsigned char const* pixel, zxing::ErrorHandler& err_handler) const;
     void makeGray();
     void makeGrayReset();
 
@@ -40,17 +35,15 @@ private:
     ~ImgSource();
 
 public:
-    ImgSource(unsigned char* pixels, int width, int height, int comps, int pixelStep);
+    ImgSource(unsigned char* pixels, int width, int height);
     ImgSource(unsigned char* pixels, int width, int height, int left, int top, int cropWidth,
-              int cropHeight, int comps, int pixelStep, zxing::ErrorHandler& err_handler);
+              int cropHeight, zxing::ErrorHandler& err_handler);
 
-    static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height, int comps,
-                                        int pixelStep);
+    static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height);
     static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height, int left,
-                                        int top, int cropWidth, int cropHeight, int comps,
-                                        int pixelStep, zxing::ErrorHandler& err_handler);
+                                        int top, int cropWidth, int cropHeight, zxing::ErrorHandler& err_handler);
 
-    void reset(unsigned char* pixels, int width, int height, int comps, int pixelStep);
+    void reset(unsigned char* pixels, int width, int height);
                
     zxing::ArrayRef<char> getRow(int y, zxing::ArrayRef<char> row,
                                     zxing::ErrorHandler& err_handler) const override;
@@ -65,7 +58,7 @@ public:
     zxing::Ref<LuminanceSource> rotateCounterClockwise(
         zxing::ErrorHandler& err_handler) const override;
 
-    int getMaxSize() { return maxDataHeight * maxDataWidth; }
+    int getMaxSize() { return dataHeight * dataWidth; }
 };
 }  // namespace wechat_qrcode
 }  // namespace cv
