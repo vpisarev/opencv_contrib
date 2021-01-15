@@ -80,7 +80,7 @@ int SimpleAdaptiveBinarizer::qrBinarize(const unsigned char *src, unsigned char 
     if (width > 0 && height > 0) {
         unsigned *col_sums;
         int logwindw;
-        int logwindh;
+        int logwindh=0;
         int windw;
         int windh;
         int y0offs;
