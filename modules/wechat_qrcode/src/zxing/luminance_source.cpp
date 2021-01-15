@@ -59,4 +59,3 @@ LuminanceSource::operator std::string() const {
     }
     return oss.str();
 }
-

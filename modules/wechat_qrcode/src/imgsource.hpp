@@ -42,9 +42,7 @@ public:
     static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height);
     static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height, int left,
                                         int top, int cropWidth, int cropHeight, zxing::ErrorHandler& err_handler);
-
     void reset(unsigned char* pixels, int width, int height);
-               
     zxing::ArrayRef<char> getRow(int y, zxing::ArrayRef<char> row,
                                     zxing::ErrorHandler& err_handler) const override;
     zxing::ArrayRef<char> getMatrix() const override;
