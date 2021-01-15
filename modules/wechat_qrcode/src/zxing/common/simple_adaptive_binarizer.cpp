@@ -10,8 +10,6 @@
 
 #include "zxing/common/simple_adaptive_binarizer.hpp"
 #include "zxing/common/array.hpp"
-#include "zxing/not_found_exception.hpp"
-
 #include <cstdlib>
 
 using namespace std;

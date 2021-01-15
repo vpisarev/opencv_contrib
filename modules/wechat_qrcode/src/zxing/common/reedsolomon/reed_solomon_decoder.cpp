@@ -11,7 +11,6 @@
 #include "zxing/common/reedsolomon/reed_solomon_decoder.hpp"
 #include "zxing/common/illegal_argument_exception.hpp"
 #include "zxing/common/reedsolomon/reed_solomon_exception.hpp"
-#include "zxing/illegal_state_exception.hpp"
 
 #include <iostream>
 #include <memory>
@@ -20,7 +19,6 @@ using std::vector;
 using zxing::ArrayRef;
 using zxing::ErrorHandler;
 using zxing::GenericGFPoly;
-using zxing::IllegalStateException;
 using zxing::ReedSolomonDecoder;
 using zxing::Ref;
 

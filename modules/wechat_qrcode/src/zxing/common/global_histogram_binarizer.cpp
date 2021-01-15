@@ -10,7 +10,6 @@
 
 #include "zxing/common/global_histogram_binarizer.hpp"
 #include "zxing/common/array.hpp"
-#include "zxing/not_found_exception.hpp"
 
 using zxing::ArrayRef;
 using zxing::Binarizer;

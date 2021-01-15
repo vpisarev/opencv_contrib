@@ -17,7 +17,7 @@ using zxing::LuminanceSource;
 using zxing::Ref;
 
 LuminanceSource::LuminanceSource(int width, int height)
-    : width_(width), height_(height), tvInter(-1) {}
+    : width_(width), height_(height) {}
 
 LuminanceSource::~LuminanceSource() {}
 
@@ -60,4 +60,3 @@ LuminanceSource::operator std::string() const {
     return oss.str();
 }
 
-void LuminanceSource::denoseLuminanceSource(int inter) { tvInter = inter; }

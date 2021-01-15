@@ -40,10 +40,8 @@ inline unsigned char ImgSource::convertPixel(unsigned char const* pixel,
 }
 
 // Initialize the ImgSource
-ImgSource::ImgSource(unsigned char* pixels, int width, int height, int comps_, int pixelStep_,
-                     ErrorHandler& err_handler)
+ImgSource::ImgSource(unsigned char* pixels, int width, int height, int comps_, int pixelStep_)
     : Super(width, height) {
-    tvInter = -1;
     luminances = new unsigned char[width * height];
     memset(luminances, 0, width * height);
 
@@ -60,7 +58,7 @@ ImgSource::ImgSource(unsigned char* pixels, int width, int height, int comps_, i
     maxDataHeight = height;
 
     // Make gray luminances first
-    makeGray(err_handler);
+    makeGray();
 }
 
 // Added for crop function
@@ -88,8 +86,7 @@ ImgSource::ImgSource(unsigned char* pixels, int width, int height, int left_, in
     luminances = new unsigned char[width * height];
 
     // Make gray luminances first
-    makeGray(err_handler);
-    if (err_handler.ErrCode()) return;
+    makeGray();
 }
 
 ImgSource::~ImgSource() {
@@ -99,8 +96,8 @@ ImgSource::~ImgSource() {
 }
 
 Ref<ImgSource> ImgSource::create(unsigned char* pixels, int width, int height, int comps,
-                                 int pixelStep, ErrorHandler& err_handler) {
-    return Ref<ImgSource>(new ImgSource(pixels, width, height, comps, pixelStep, err_handler));
+                                 int pixelStep) {
+    return Ref<ImgSource>(new ImgSource(pixels, width, height, comps, pixelStep));
 }
 
 Ref<ImgSource> ImgSource::create(unsigned char* pixels, int width, int height, int left, int top,
@@ -110,8 +107,7 @@ Ref<ImgSource> ImgSource::create(unsigned char* pixels, int width, int height, i
                                         comps, pixelStep, err_handler));
 }
 
-void ImgSource::reset(unsigned char* pixels, int width, int height, int comps, int pixelStep,
-                      ErrorHandler& err_handler) {
+void ImgSource::reset(unsigned char* pixels, int width, int height, int comps, int pixelStep) {
     rgbs = pixels;
     _comps = comps;
     _pixelStep = pixelStep;
@@ -122,7 +118,7 @@ void ImgSource::reset(unsigned char* pixels, int width, int height, int comps, i
     setHeight(height);
     dataWidth = width;
     dataHeight = height;
-    makeGrayReset(err_handler);
+    makeGrayReset();
 }
 
 ArrayRef<char> ImgSource::getRow(int y, zxing::ArrayRef<char> row,
@@ -151,8 +147,6 @@ ArrayRef<char> ImgSource::getMatrix() const {
 
     int area = width * height;
 
-    if (tvInter > -1) tvDenoising();
-
     // If the caller asks for the entire underlying image, save the copy and
     // give them the original data. The docs specifically warn that
     // result.length must be ignored.
@@ -180,47 +174,16 @@ ArrayRef<char> ImgSource::getMatrix() const {
     return newMatrix;
 }
 
-void ImgSource::makeGrayRow(int y, ErrorHandler& err_handler) {
-    int offsetRGB = y * dataWidth * _pixelStep;
 
-    const unsigned char* pixelRow = rgbs + offsetRGB;
-
-    int offsetGRAY = y * dataWidth;
-
-    for (int x = 0; x < dataWidth; x++) {
-        luminances[offsetGRAY + x] = convertPixel(pixelRow + (x * _pixelStep), err_handler);
-        if (err_handler.ErrCode()) return;
-    }
-}
-
-void ImgSource::makeGray(ErrorHandler& err_handler) {
+void ImgSource::makeGray() {
     int area = dataWidth * dataHeight;
     _matrix = zxing::ArrayRef<char>(area);
-
-    if (_comps == 1) {
-        arrayCopy(rgbs, 0, &_matrix[0], 0, area);
-    } else {
-        for (int y = 0; y < dataHeight; y++) {
-            makeGrayRow(y, err_handler);
-        }
-        if (err_handler.ErrCode()) return;
-
-        arrayCopy(luminances, 0, &_matrix[0], 0, area);
-    }
+    arrayCopy(rgbs, 0, &_matrix[0], 0, area);
 }
 
-void ImgSource::makeGrayReset(ErrorHandler& err_handler) {
+void ImgSource::makeGrayReset() {
     int area = dataWidth * dataHeight;
-    if (_comps == 1) {
-        arrayCopy(rgbs, 0, &_matrix[0], 0, area);
-    } else {
-        for (int y = 0; y < dataHeight; y++) {
-            makeGrayRow(y, err_handler);
-        }
-        if (err_handler.ErrCode()) return;
-
-        arrayCopy(luminances, 0, &_matrix[0], 0, area);
-    }
+    arrayCopy(rgbs, 0, &_matrix[0], 0, area);
 }
 
 void ImgSource::arrayCopy(unsigned char* src, int inputOffset, char* dst, int outputOffset,
@@ -251,79 +214,6 @@ Ref<LuminanceSource> ImgSource::rotateCounterClockwise(ErrorHandler& err_handler
                              _pixelStep, err_handler);
 }
 
-zxing::ArrayRef<char> ImgSource::downSample(zxing::ArrayRef<char> image, int& width, int& height,
-                                            int pixelStep) {
-    zxing::ArrayRef<char> downSampleImage;
-    width /= 2;
-    height /= 2;
-    char* buffer = new char[pixelStep * width * height];
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (pixelStep == 1)
-                buffer[i * width + j] = image[i * 2 * width + j * 2];
-            else if (pixelStep == 4) {
-                for (int p = 0; p < 4; p++) {
-                    buffer[i * width * pixelStep + j * pixelStep + p] =
-                        image[i * width * 2 * pixelStep + j * 2 * pixelStep + p];
-                }
-            }
-        }
-    }
-    downSampleImage = zxing::ArrayRef<char>(buffer, pixelStep * width * height);
-    delete[] buffer;
-    return downSampleImage;
-}
-
-// Total Variation denoising
-void ImgSource::tvDenoising() const {
-    int nx = getWidth();
-    int ny = getHeight();
-    // char * luminances_ = (char*)luminances;
-    zxing::ArrayRef<char> pre_img = zxing::ArrayRef<char>(nx * ny);
-    arrayCopy(luminances, 0, &pre_img[0], 0, nx * ny);
-    int ep = 1;
-    double dt = ep / 4.0, lam = 0.0;
-    int ep2 = ep * ep;
-    for (int t = 0; t < tvInter; t++) {
-        for (int i = 0; i < ny; i++) {
-            for (int j = 0; j < nx; j++) {
-                int tmp_i1 = (i + 1) < ny ? (i + 1) : (ny - 1);
-                int tmp_j1 = (j + 1) < nx ? (j + 1) : (nx - 1);
-                int tmp_i2 = (i - 1) > -1 ? (i - 1) : 0;
-                int tmp_j2 = (j - 1) > -1 ? (j - 1) : 0;
-                double tmp_x = (luminances[i * nx + tmp_j1] - luminances[i * nx + tmp_j2]) /
-                               2;  // I_x  = (I(:,[2:nx nx])-I(:,[1 1:nx-1]))/2;
-                double tmp_y = (luminances[tmp_i1 * nx + j] - luminances[tmp_i2 * nx + j]) /
-                               2;  // I_y  = (I([2:ny ny],:)-I([1 1:ny-1],:))/2;
-                double tmp_xx =
-                    luminances[i * nx + tmp_j1] + luminances[i * nx + tmp_j2] -
-                    luminances[i * nx + j] * 2;  // I_xx = I(:,[2:nx nx])+I(:,[1 1:nx-1])-2*I;
-                double tmp_yy =
-                    luminances[tmp_i1 * nx + j] + luminances[tmp_i2 * nx + j] -
-                    luminances[i * nx + j] * 2;  // I_yy = I([2:ny ny],:)+I([1 1:ny-1],:)-2*I;
-                double tmp_dp = luminances[tmp_i1 * nx + tmp_j1] +
-                                luminances[tmp_i2 * nx + tmp_j2];  // Dp = I([2:ny ny],[2:nx
-                                                                   // nx])+I([1 1:ny-1],[1 1:nx-1]);
-                double tmp_dm = luminances[tmp_i2 * nx + tmp_j1] +
-                                luminances[tmp_i1 * nx + tmp_j2];  // Dm = I([1 1:ny-1],[2:nx
-                                                                   // nx])+I([2:ny ny],[1 1:nx-1]);
-                double tmp_xy = (tmp_dp - tmp_dm) / 4;             // I_xy = (Dp-Dm)/4;
-                double tmp_num =
-                    tmp_xx * (tmp_y * tmp_y + ep2) - 2 * tmp_x * tmp_y * tmp_xy +
-                    tmp_yy * (tmp_x * tmp_x +
-                              ep2);  // Num =
-                                     // I_xx.*(ep2+I_y.^2)-2*I_x.*I_y.*I_xy+I_yy.*(ep2+I_x.^2);
-                double tmp_den = pow((tmp_x * tmp_x + tmp_y * tmp_y + ep2),
-                                     1.5);  // Den = (ep2+I_x.^2+I_y.^2).^(3/2);
-                luminances[i * nx + j] +=
-                    dt * (tmp_num / tmp_den + lam * (pre_img[i * nx + j] - luminances[i * nx + j]));
-            }
-        }
-    }
-    return;
-}
-
-void ImgSource::denoseLuminanceSource(int inter) { tvInter = inter; }
 
 Ref<ByteMatrix> ImgSource::getByteMatrix() const {
     return Ref<ByteMatrix>(new ByteMatrix(getWidth(), getHeight(), getMatrix()));

@@ -29,42 +29,33 @@ private:
     int maxDataHeight;
     int left;
     int top;
-
     unsigned char convertPixel(unsigned char const* pixel, zxing::ErrorHandler& err_handler) const;
-    void makeGrayRow(int y, zxing::ErrorHandler& err_handler);
-    void makeGray(zxing::ErrorHandler& err_handler);
-    void makeGrayReset(zxing::ErrorHandler& err_handler);
+    void makeGray();
+    void makeGrayReset();
 
     void arrayCopy(unsigned char* src, int inputOffset, char* dst, int outputOffset,
                    int length) const;
 
-    zxing::ArrayRef<char> downSample(zxing::ArrayRef<char> image, int& width, int& height,
-                                     int pixelStep);
 
     ~ImgSource();
 
 public:
-    ImgSource(unsigned char* pixels, int width, int height, int comps, int pixelStep,
-              zxing::ErrorHandler& err_handler);
+    ImgSource(unsigned char* pixels, int width, int height, int comps, int pixelStep);
     ImgSource(unsigned char* pixels, int width, int height, int left, int top, int cropWidth,
               int cropHeight, int comps, int pixelStep, zxing::ErrorHandler& err_handler);
 
     static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height, int comps,
-                                        int pixelStep, zxing::ErrorHandler& err_handler);
+                                        int pixelStep);
     static zxing::Ref<ImgSource> create(unsigned char* pixels, int width, int height, int left,
                                         int top, int cropWidth, int cropHeight, int comps,
                                         int pixelStep, zxing::ErrorHandler& err_handler);
 
-    void reset(unsigned char* pixels, int width, int height, int comps, int pixelStep,
-               zxing::ErrorHandler& err_handler);
-
+    void reset(unsigned char* pixels, int width, int height, int comps, int pixelStep);
+               
     zxing::ArrayRef<char> getRow(int y, zxing::ArrayRef<char> row,
-                                 zxing::ErrorHandler& err_handler) const override;
+                                    zxing::ErrorHandler& err_handler) const override;
     zxing::ArrayRef<char> getMatrix() const override;
     zxing::Ref<zxing::ByteMatrix> getByteMatrix() const override;
-    int tvInter;
-    virtual void denoseLuminanceSource(int inter) override;
-    void tvDenoising() const;
 
     bool isCropSupported() const override;
     zxing::Ref<LuminanceSource> crop(int left, int top, int width, int height,

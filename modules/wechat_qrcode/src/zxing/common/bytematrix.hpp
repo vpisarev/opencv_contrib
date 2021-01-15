@@ -34,7 +34,6 @@ public:
         bytes[offset] = char_value & 0XFF;
     }
 
-    // ArrayRef<char> getRow(int y, ArrayRef<char> row);
     unsigned char* getByteRow(int y, ErrorHandler& err_handler);
 
     int getWidth() const { return width; }

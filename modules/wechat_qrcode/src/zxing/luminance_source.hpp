@@ -33,8 +33,6 @@ public:
     void setWidth(int w) { width_ = w; }
     void setHeight(int h) { height_ = h; }
     void filter();
-    int tvInter;
-    virtual void denoseLuminanceSource(int inter);
 
     // Callers take ownership of the returned memory and must call delete [] on
     // it themselves.
