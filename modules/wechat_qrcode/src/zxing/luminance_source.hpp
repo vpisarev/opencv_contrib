@@ -44,13 +44,14 @@ public:
     virtual Ref<ByteMatrix> getByteMatrix() const = 0;
 
     virtual bool isCropSupported() const;
-    virtual Ref<LuminanceSource> crop(int left, int top, int width, int height) const;
+    virtual Ref<LuminanceSource> crop(int left, int top, int width, int height,
+                                      zxing::ErrorHandler& err_handler) const;
 
     virtual bool isRotateSupported() const;
 
     virtual Ref<LuminanceSource> invert() const;
 
-    virtual Ref<LuminanceSource> rotateCounterClockwise() const;
+    virtual Ref<LuminanceSource> rotateCounterClockwise(zxing::ErrorHandler& err_handler) const;
 
     operator std::string() const;
 };

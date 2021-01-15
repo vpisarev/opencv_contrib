@@ -31,13 +31,14 @@ public:
     Ref<ByteMatrix> getByteMatrix() const override;
 
     bool isCropSupported() const override;
-    Ref<LuminanceSource> crop(int left, int top, int width, int height) const override;
+    Ref<LuminanceSource> crop(int left, int top, int width, int height,
+                              ErrorHandler& err_handler) const override;
 
     bool isRotateSupported() const override;
 
     virtual Ref<LuminanceSource> invert() const override;
 
-    Ref<LuminanceSource> rotateCounterClockwise() const override;
+    Ref<LuminanceSource> rotateCounterClockwise(ErrorHandler& err_handler) const override;
 
     virtual void denoseLuminanceSource(int inter) override;
 };

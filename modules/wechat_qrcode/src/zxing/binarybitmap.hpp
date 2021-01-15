@@ -42,7 +42,7 @@ public:
     Ref<BinaryBitmap> rotateCounterClockwise();
 
     bool isCropSupported() const;
-    Ref<BinaryBitmap> crop(int left, int top, int width, int height);
+    Ref<BinaryBitmap> crop(int left, int top, int width, int height, ErrorHandler& err_handler);
 
     bool isHistogramBinarized() const;
     bool ifUseHistogramBinarize() const;

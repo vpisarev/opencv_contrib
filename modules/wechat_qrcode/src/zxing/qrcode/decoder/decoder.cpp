@@ -50,7 +50,7 @@ Ref<DecoderResult> Decoder::decode(Ref<BitMatrix> bits, ErrorHandler &err_handle
     int width = bits->getWidth();
     int height = bits->getHeight();
 
-    Ref<BitMatrix> bits2(new BitMatrix(width, height, (bool *)bits->getPtr(), err_handler));
+    Ref<BitMatrix> bits2(new BitMatrix(width, height, bits->getPtr(), err_handler));
     if (err_handler.ErrCode()) return Ref<DecoderResult>();
     Ref<DecoderResult> rst = decode(bits, false, err_handler);
     if (err_handler.ErrCode() || rst == NULL) {

@@ -52,7 +52,6 @@ public:
 
 private:
     float fix_;
-    float moduleSize_;
     CheckState horizontalState_;
     CheckState verticalState_;
 };

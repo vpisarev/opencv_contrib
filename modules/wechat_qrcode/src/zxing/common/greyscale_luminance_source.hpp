@@ -36,7 +36,7 @@ public:
 
     bool isRotateSupported() const override { return true; }
 
-    Ref<LuminanceSource> rotateCounterClockwise(ErrorHandler& err_handler) const;
+    Ref<LuminanceSource> rotateCounterClockwise(ErrorHandler& err_handler) const override;
 };
 
 }  // namespace zxing

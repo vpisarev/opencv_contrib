@@ -33,12 +33,13 @@ const int BLOCK_SIZE_POWER = 3;
 const int BLOCK_SIZE = 1 << BLOCK_SIZE_POWER;  // ...0100...00
 const int BLOCK_SIZE_MASK = BLOCK_SIZE - 1;    // ...0011...11
 const int MINIMUM_DIMENSION = BLOCK_SIZE * 5;
+#ifdef USE_SET_INT
 const int BITS_PER_BYTE = 8;
 const int BITS_PER_WORD = BitMatrix::bitsPerWord;
+#endif
 }  // namespace
 
 HybridBinarizer::HybridBinarizer(Ref<LuminanceSource> source) : GlobalHistogramBinarizer(source) {
-
     int subWidth = width >> BLOCK_SIZE_POWER;
     if ((width & BLOCK_SIZE_MASK) != 0) {
         subWidth++;
@@ -74,7 +75,6 @@ Ref<Binarizer> HybridBinarizer::createBinarizer(Ref<LuminanceSource> source) {
 
 #ifdef USE_LEVEL_BINARIZER
 int HybridBinarizer::initBlockIntegral() {
-
     blockIntegral_ = new Array<int>(width * height);
 
     int* integral = blockIntegral_->data();
@@ -672,9 +672,9 @@ void HybridBinarizer::thresholdBlock(Ref<ByteMatrix>& _luminances, int xoffset, 
     }
 }
 
-void HybridBinarizer::thresholdIrregularBlock(Ref<ByteMatrix>& _luminances, int xoffset, int yoffset,
-                                              int blockWidth, int blockHeight, int threshold,
-                                              Ref<BitMatrix> const& matrix,
+void HybridBinarizer::thresholdIrregularBlock(Ref<ByteMatrix>& _luminances, int xoffset,
+                                              int yoffset, int blockWidth, int blockHeight,
+                                              int threshold, Ref<BitMatrix> const& matrix,
                                               ErrorHandler& err_handler) {
     for (int y = 0; y < blockHeight; y++) {
         unsigned char* pTemp = _luminances->getByteRow(yoffset + y, err_handler);
@@ -1027,7 +1027,8 @@ int HybridBinarizer::binarizeByBlock(ErrorHandler& err_handler) {
         Ref<BitMatrix> newMatrix(new BitMatrix(width, height, err_handler));
         if (err_handler.ErrCode()) return -1;
 
-        calculateThresholdForBlock(grayByte_, subWidth_, subHeight_, BLOCK_SIZE_POWER, newMatrix, err_handler);
+        calculateThresholdForBlock(grayByte_, subWidth_, subHeight_, BLOCK_SIZE_POWER, newMatrix,
+                                   err_handler);
         if (err_handler.ErrCode()) return -1;
 
         matrix0_ = newMatrix;

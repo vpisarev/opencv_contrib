@@ -29,10 +29,6 @@
 namespace zxing {
 
 class AdaptiveThresholdMeanBinarizer : public GlobalHistogramBinarizer {
-private:
-    int width_;
-    int height_;
-
 public:
     explicit AdaptiveThresholdMeanBinarizer(Ref<LuminanceSource> source);
     virtual ~AdaptiveThresholdMeanBinarizer();

@@ -44,17 +44,20 @@ ArrayRef<char> InvertedLuminanceSource::getMatrix() const {
 
 bool InvertedLuminanceSource::isCropSupported() const { return delegate->isCropSupported(); }
 
-Ref<LuminanceSource> InvertedLuminanceSource::crop(int left, int top, int width, int height) const {
+Ref<LuminanceSource> InvertedLuminanceSource::crop(int left, int top, int width, int height,
+                                                   ErrorHandler& err_handler) const {
     return Ref<LuminanceSource>(
-        new InvertedLuminanceSource(delegate->crop(left, top, width, height)));
+        new InvertedLuminanceSource(delegate->crop(left, top, width, height, err_handler)));
 }
 
 bool InvertedLuminanceSource::isRotateSupported() const { return delegate->isRotateSupported(); }
 
 Ref<LuminanceSource> InvertedLuminanceSource::invert() const { return delegate; }
 
-Ref<LuminanceSource> InvertedLuminanceSource::rotateCounterClockwise() const {
-    return Ref<LuminanceSource>(new InvertedLuminanceSource(delegate->rotateCounterClockwise()));
+Ref<LuminanceSource> InvertedLuminanceSource::rotateCounterClockwise(
+    ErrorHandler& err_handler) const {
+    return Ref<LuminanceSource>(
+        new InvertedLuminanceSource(delegate->rotateCounterClockwise(err_handler)));
 }
 
 void InvertedLuminanceSource::denoseLuminanceSource(int inter) { tvInter = inter; }

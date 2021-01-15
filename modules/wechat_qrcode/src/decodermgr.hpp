@@ -29,7 +29,6 @@ public:
     int decodeImage(cv::Mat src, bool use_nn_detector, string& result);
 
 private:
-    unsigned int readers_flag_;
     zxing::Ref<zxing::UnicomBlock> qbarUicomBlock_;
     zxing::DecodeHints decode_hints_;
 

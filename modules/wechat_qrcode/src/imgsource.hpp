@@ -68,10 +68,11 @@ public:
 
     bool isCropSupported() const override;
     zxing::Ref<LuminanceSource> crop(int left, int top, int width, int height,
-                                     zxing::ErrorHandler& err_handler) const;
+                                     zxing::ErrorHandler& err_handler) const override;
 
     bool isRotateSupported() const override;
-    zxing::Ref<LuminanceSource> rotateCounterClockwise(zxing::ErrorHandler& err_handler) const;
+    zxing::Ref<LuminanceSource> rotateCounterClockwise(
+        zxing::ErrorHandler& err_handler) const override;
 
     int getMaxSize() { return maxDataHeight * maxDataWidth; }
 };

@@ -64,9 +64,6 @@ public:
     explicit ArrayRef(Array<T> *a) : array_(0) { reset(a); }
     ArrayRef(const ArrayRef &other) : Counted(), array_(0) { reset(other.array_); }
 
-    template <class Y>
-    ArrayRef(const ArrayRef<Y> &other) : array_(0) {}
-
     ~ArrayRef() {
         if (array_) {
             array_->release();

@@ -472,22 +472,6 @@ AlignmentPatternFinder::~AlignmentPatternFinder() {
     delete possibleCenters_;
 }
 
-
-static const double pi = 3.1415926535897932384626433832795029;
-
-// void AlignmentPatternFinder::initAngleTable(){
-//	if (sinTable_.size() == 0)
-//	{
-//		sinTable_ = vector<float>(180);
-//		cosTable_ = vector<float>(180);
-//		for (int a = 0; a < 180; ++a)
-//		{
-//			sinTable_[a] = sin(a * pi / 180);
-//			cosTable_[a] = cos(a * pi / 180);
-//		}
-//	}
-//}
-
 #ifdef USING_WX
 
 float AlignmentPatternFinder::centerFromEnd(int *stateCount, int end) {

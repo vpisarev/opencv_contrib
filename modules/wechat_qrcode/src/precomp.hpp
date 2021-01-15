@@ -7,11 +7,6 @@
 
 #ifndef __OPENCV_WECHAT_QRCODE_PRECOMP_HPP__
 #define __OPENCV_WECHAT_QRCODE_PRECOMP_HPP__
-// for windows
-#ifdef _WIN32
-#define __attribute__()
-#define __attribute__(x)
-#endif
 
 #include <stdint.h>
 #include <stdio.h>

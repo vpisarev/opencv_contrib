@@ -52,9 +52,10 @@ Ref<LuminanceSource> BinaryBitmap::getLuminanceSource() const {
 
 bool BinaryBitmap::isCropSupported() const { return getLuminanceSource()->isCropSupported(); }
 
-Ref<BinaryBitmap> BinaryBitmap::crop(int left, int top, int width, int height) {
-    return Ref<BinaryBitmap>(new BinaryBitmap(
-        binarizer_->createBinarizer(getLuminanceSource()->crop(left, top, width, height))));
+Ref<BinaryBitmap> BinaryBitmap::crop(int left, int top, int width, int height,
+                                     ErrorHandler& err_handler) {
+    return Ref<BinaryBitmap>(new BinaryBitmap(binarizer_->createBinarizer(
+        getLuminanceSource()->crop(left, top, width, height, err_handler))));
 }
 
 bool BinaryBitmap::isRotateSupported() const { return binarizer_->isRotateSupported(); }

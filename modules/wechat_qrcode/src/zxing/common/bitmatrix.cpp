@@ -45,10 +45,10 @@ void BitMatrix::init(int _width, int _height, ErrorHandler& err_handler) {
     isInitColsCounters = false;
 }
 
-void BitMatrix::init(int _width, int _height, bool* bitsPtr, ErrorHandler& err_handler) {
+void BitMatrix::init(int _width, int _height, unsigned char* bitsPtr, ErrorHandler& err_handler) {
     init(_width, _height, err_handler);
     if (err_handler.ErrCode()) return;
-    memcpy(bits->data(), bitsPtr, width * height * sizeof(bool));
+    memcpy(bits->data(), bitsPtr, width * height * sizeof(unsigned char));
 }
 
 void BitMatrix::initRowCounters() {
@@ -88,7 +88,7 @@ BitMatrix::BitMatrix(int _width, int _height, ErrorHandler& err_handler) {
     init(_width, _height, err_handler);
 }
 
-BitMatrix::BitMatrix(int _width, int _height, bool* bitsPtr, ErrorHandler& err_handler) {
+BitMatrix::BitMatrix(int _width, int _height, unsigned char* bitsPtr, ErrorHandler& err_handler) {
     init(_width, _height, bitsPtr, err_handler);
 }
 // Copy bitMatrix

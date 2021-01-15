@@ -24,13 +24,13 @@ LuminanceSource::~LuminanceSource() {}
 
 bool LuminanceSource::isCropSupported() const { return false; }
 
-Ref<LuminanceSource> LuminanceSource::crop(int, int, int, int) const {
+Ref<LuminanceSource> LuminanceSource::crop(int, int, int, int, zxing::ErrorHandler&) const {
     return Ref<LuminanceSource>();
 }
 
 bool LuminanceSource::isRotateSupported() const { return false; }
 
-Ref<LuminanceSource> LuminanceSource::rotateCounterClockwise() const {
+Ref<LuminanceSource> LuminanceSource::rotateCounterClockwise(zxing::ErrorHandler&) const {
     return Ref<LuminanceSource>();
 }
 

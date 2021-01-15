@@ -47,7 +47,7 @@ private:
     ArrayRef<int> rowOffsets;
 
 public:
-    BitMatrix(int _width, int _height, bool* bitsPtr, ErrorHandler& err_handler);
+    BitMatrix(int _width, int _height, unsigned char* bitsPtr, ErrorHandler& err_handler);
     BitMatrix(int dimension, ErrorHandler& err_handler);
     BitMatrix(int _width, int _height, ErrorHandler& err_handler);
 
@@ -56,14 +56,14 @@ public:
 
     ~BitMatrix();
 
-    bool get(int x, int y) const { return (bool)bits[width * y + x]; }
+    unsigned char get(int x, int y) const { return bits[width * y + x]; }
 
-    void set(int x, int y) { bits[rowOffsets[y] + x] = true; }
+    void set(int x, int y) { bits[rowOffsets[y] + x] = (unsigned char)1; }
 
-    void set(int x, int y, bool value) { bits[rowOffsets[y] + x] = value; }
+    void set(int x, int y, unsigned char value) { bits[rowOffsets[y] + x] = value; }
 
     void swap(int srcX, int srcY, int dstX, int dstY) {
-        bool temp = bits[width * srcY + srcX];
+        auto temp = bits[width * srcY + srcX];
         bits[width * srcY + srcX] = bits[width * dstY + dstX];
         bits[width * dstY + dstX] = temp;
     }
@@ -105,7 +105,7 @@ public:
 
 private:
     inline void init(int, int, ErrorHandler& err_handler);
-    inline void init(int _width, int _height, bool* bitsPtr, ErrorHandler& err_handler);
+    inline void init(int _width, int _height, unsigned char* bitsPtr, ErrorHandler& err_handler);
 
     void setRowRecords(int y);
     void setColsRecords(int x);
