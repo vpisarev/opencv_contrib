@@ -119,11 +119,5 @@ void PerspectiveTransform::transformPoints(vector<float>& points) {
     }
 }
 
-ostream& operator<<(ostream& out, const PerspectiveTransform& pt) {
-    out << pt.a11 << ", " << pt.a12 << ", " << pt.a13 << ", \n";
-    out << pt.a21 << ", " << pt.a22 << ", " << pt.a23 << ", \n";
-    out << pt.a31 << ", " << pt.a32 << ", " << pt.a33 << "\n";
-    return out;
-}
 
 }  // namespace zxing

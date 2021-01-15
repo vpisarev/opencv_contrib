@@ -41,7 +41,6 @@ public:
     char getDataMask();
     float getPossiableFix();
     friend bool operator==(const FormatInformation &a, const FormatInformation &b);
-    friend std::ostream &operator<<(std::ostream &out, const FormatInformation &fi);
 };
 }  // namespace qrcode
 }  // namespace zxing
