@@ -83,7 +83,7 @@ void UnicomBlock::Bfs(int y, int x) {
     int iMaxX = x, iMaxY = y;
     int iMinX = x, iMinY = y;
 
-    const bool bValue = m_poImage->get(x, y);
+    const bool bValue = (m_poImage->get(x, y) != (unsigned char)0);
 
     m_vcIndex[y * m_iWidth + x] = m_iNowIdx;
     m_vcQueue[iTail++] = y << 16 | x;

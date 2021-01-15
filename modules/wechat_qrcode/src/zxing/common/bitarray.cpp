@@ -40,8 +40,7 @@ bool BitArray::isRange(int start, int end, bool value, ErrorHandler &err_handler
         return true;  // empty range matches
     }
 
-    // bool* rowBits = getRowBoolPtr();
-    bool startBool = (bool)bits[start];
+    bool startBool = bits[start] != (unsigned char)0;
 
     int end2 = start;
 

@@ -121,7 +121,7 @@ void BitMatrix::xxor(Ref<BitMatrix> _bits) {
 
 BitMatrix::~BitMatrix() {}
 
-void BitMatrix::flip(int x, int y) { bits[rowOffsets[y] + x] = !((bool)bits[rowOffsets[y] + x]); }
+void BitMatrix::flip(int x, int y) { bits[rowOffsets[y] + x] = (bits[rowOffsets[y] + x]==(unsigned char)0); }
 
 void BitMatrix::flipAll() {
     bool* matrixBits = (bool*)bits->data();

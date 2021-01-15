@@ -197,7 +197,7 @@ int QRCodeDetector::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points)
 
 cv::Mat QRCodeDetector::Impl::cropObj(const cv::Mat& img, const Mat& point, Align& aligner) {
     // make some padding to boost the qrcode details recall.
-    float padding_w = 0.1, padding_h = 0.1;
+    float padding_w = 0.1f, padding_h = 0.1f;
     auto min_padding = 15;
     auto cropped = aligner.crop(img, point, padding_w, padding_h, min_padding);
     return cropped;

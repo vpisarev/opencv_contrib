@@ -18,7 +18,7 @@ namespace zxing {
 namespace qrcode {
 
 int BitMatrixParser::copyBit(size_t x, size_t y, int versionBits) {
-    bool bit = mirror_ ? bitMatrix_->get(y, x) : bitMatrix_->get(x, y);
+    bool bit = ((mirror_ ? bitMatrix_->get(y, x) : bitMatrix_->get(x, y)) != (unsigned char)0);
     return bit ? (versionBits << 1) | 0x1 : versionBits << 1;
 }
 

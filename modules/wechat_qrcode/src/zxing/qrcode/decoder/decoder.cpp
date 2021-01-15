@@ -68,9 +68,6 @@ Ref<DecoderResult> Decoder::decode(Ref<BitMatrix> bits, ErrorHandler &err_handle
         result->setOther(Ref<QRCodeDecoderMetaData>(new QRCodeDecoderMetaData(true)));
         return result;
     }
-
-    err_handler = zxing::ReaderErrorHandler("Decoder::decode mirror & no mirror");
-    return Ref<DecoderResult>();
 };
 
 Ref<DecoderResult> Decoder::decode(Ref<BitMatrix> bits, bool isMirror, ErrorHandler &err_handler) {

@@ -19,7 +19,7 @@ using namespace zxing;
 namespace {
 const int BLOCK_SIZE = 6;
 // const int BLOCK_SIZE = 8; // not as good as BLOCK_SIZE = 6
-const float WINDOW_FRACTION = 0.13;
+const float WINDOW_FRACTION = 0.13f;
 
 static int min(int a, int b) { return a < b ? a : b; }
 
