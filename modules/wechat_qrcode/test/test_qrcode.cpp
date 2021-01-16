@@ -10,21 +10,35 @@
 namespace opencv_test {
 namespace {
 std::string qrcode_images_name[] = {
-    "version_1_down.jpg",  /*"version_1_left.jpg",  "version_1_right.jpg", "version_1_up.jpg",*/
-    "version_1_top.jpg",   /*"version_2_down.jpg",*/  "version_2_left.jpg",  /*"version_2_right.jpg",*/
-    "version_2_up.jpg",    "version_2_top.jpg",   "version_3_down.jpg",  "version_3_left.jpg",
-    /*"version_3_right.jpg",*/ "version_3_up.jpg",    "version_3_top.jpg",   "version_4_down.jpg",
-    "version_4_left.jpg",  /*"version_4_right.jpg",*/ "version_4_up.jpg",    "version_4_top.jpg",
-    "version_5_down.jpg",  "version_5_left.jpg",  /*"version_5_right.jpg",*/ "version_5_up.jpg",
-    "version_5_top.jpg",   "russian.jpg",         "kanji.jpg",           /*"link_github_ocv.jpg",*/
-    "link_ocv.jpg",        "link_wiki_cv.jpg"};
+    "version_1_down.jpg", /*"version_1_left.jpg",  "version_1_right.jpg", "version_1_up.jpg",*/
+    "version_1_top.jpg",
+    /*"version_2_down.jpg",*/ "version_2_left.jpg", /*"version_2_right.jpg",*/
+    "version_2_up.jpg",
+    "version_2_top.jpg",
+    "version_3_down.jpg",
+    "version_3_left.jpg",
+    /*"version_3_right.jpg",*/ "version_3_up.jpg",
+    "version_3_top.jpg",
+    "version_4_down.jpg",
+    "version_4_left.jpg",
+    /*"version_4_right.jpg",*/ "version_4_up.jpg",
+    "version_4_top.jpg",
+    "version_5_down.jpg",
+    "version_5_left.jpg",
+    /*"version_5_right.jpg",*/ "version_5_up.jpg",
+    "version_5_top.jpg",
+    "russian.jpg",
+    "kanji.jpg", /*"link_github_ocv.jpg",*/
+    "link_ocv.jpg",
+    "link_wiki_cv.jpg"};
 
 std::string qrcode_images_close[] = {/*"close_1.png",*/ "close_2.png", "close_3.png", "close_4.png",
                                      "close_5.png"};
 std::string qrcode_images_monitor[] = {"monitor_1.png", "monitor_2.png", "monitor_3.png",
                                        "monitor_4.png", "monitor_5.png"};
 std::string qrcode_images_curved[] = {"curved_1.jpg", /*"curved_2.jpg", "curved_3.jpg",
-                                      "curved_4.jpg",*/ "curved_5.jpg", "curved_6.jpg",
+                                      "curved_4.jpg",*/
+                                      "curved_5.jpg", "curved_6.jpg",
                                       /*"curved_7.jpg", "curved_8.jpg"*/};
 // std::string qrcode_images_multiple[] = {"2_qrcodes.png", "3_close_qrcodes.png", "3_qrcodes.png",
 //                                         "4_qrcodes.png", "5_qrcodes.png",       "6_qrcodes.png",
@@ -42,10 +56,10 @@ TEST_P(Objdetect_QRCode, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCodeDetector(
+    // auto detector = wechat_qrcode::QRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCodeDetector();
+    auto detector = wechat_qrcode::QRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -89,10 +103,10 @@ TEST_P(Objdetect_QRCode_Close, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCodeDetector(
+    // auto detector = wechat_qrcode::QRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCodeDetector();
+    auto detector = wechat_qrcode::QRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -136,10 +150,10 @@ TEST_P(Objdetect_QRCode_Monitor, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCodeDetector(
+    // auto detector = wechat_qrcode::QRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCodeDetector();
+    auto detector = wechat_qrcode::QRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -183,10 +197,10 @@ TEST_P(Objdetect_QRCode_Curved, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCodeDetector(
+    // auto detector = wechat_qrcode::QRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCodeDetector();
+    auto detector = wechat_qrcode::QRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -230,10 +244,10 @@ TEST_P(Objdetect_QRCode_Multi, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCodeDetector(
+    // auto detector = wechat_qrcode::QRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCodeDetector();
+    auto detector = wechat_qrcode::QRCode();
     vector<string> decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");

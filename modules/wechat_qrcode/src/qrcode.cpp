@@ -6,19 +6,18 @@
 // Copyright (C) 2020 THL A29 Limited, a Tencent company. All rights reserved.
 
 #include "decodermgr.hpp"
+#include "detector/align.hpp"
+#include "detector/ssd_detector.hpp"
 #include "opencv2/core.hpp"
 #include "opencv2/core/utils/filesystem.hpp"
 #include "opencv2/wechat_qrcode.hpp"
-#include "detector/align.hpp"
-#include "detector/ssd_detector.hpp"
-#include "scale/super_scale.hpp"
 #include "precomp.hpp"
+#include "scale/super_scale.hpp"
 #include "zxing/result.hpp"
 using cv::InputArray;
 namespace cv {
 namespace wechat_qrcode {
-class QRCodeDetector::Impl
-{
+class QRCode::Impl {
 public:
     Impl() {}
     ~Impl() {}
@@ -38,7 +37,8 @@ public:
      * @param points succussfully decoded qrcode with bounding box points.
      * @return vector<string>
      */
-    std::vector<std::string> decode(const Mat& img, std::vector<Mat>& candidate_points, std::vector<Mat>& points);
+    std::vector<std::string> decode(const Mat& img, std::vector<Mat>& candidate_points,
+                                    std::vector<Mat>& points);
     int applyDetector(const Mat& img, std::vector<Mat>& points);
     Mat cropObj(const Mat& img, const Mat& point, Align& aligner);
     std::vector<float> getScaleList(const int width, const int height);
@@ -47,13 +47,10 @@ public:
     bool use_nn_detector_, use_nn_sr_;
 };
 
-
-
-QRCodeDetector::QRCodeDetector(const String& detector_prototxt_path,
-                               const String& detector_caffe_model_path,
-                               const String& super_resolution_prototxt_path,
-                               const String& super_resolution_caffe_model_path) {
-    p = makePtr<QRCodeDetector::Impl>();
+QRCode::QRCode(const String& detector_prototxt_path, const String& detector_caffe_model_path,
+               const String& super_resolution_prototxt_path,
+               const String& super_resolution_caffe_model_path) {
+    p = makePtr<QRCode::Impl>();
     if (!detector_caffe_model_path.empty() && !detector_prototxt_path.empty()) {
         // initialize detector model (caffe)
         p->use_nn_detector_ = true;
@@ -80,14 +77,14 @@ QRCodeDetector::QRCodeDetector(const String& detector_prototxt_path,
         CV_CheckEQ(utils::fs::exists(super_resolution_caffe_model_path), true,
                    "fail to find super resolution caffe model file");
         auto ret = p->super_resolution_model_->init(super_resolution_prototxt_path,
-                                                 super_resolution_caffe_model_path);
+                                                    super_resolution_caffe_model_path);
         CV_CheckEQ(ret, 0, "fail to load the super resolution model.");
     } else {
         p->use_nn_sr_ = false;
     }
 }
 
-vector<string> QRCodeDetector::detectAndDecode(InputArray img, OutputArrayOfArrays points) {
+vector<string> QRCode::detectAndDecode(InputArray img, OutputArrayOfArrays points) {
     CV_Assert(!img.empty());
     CV_CheckDepthEQ(img.depth(), CV_8U, "");
 
@@ -122,8 +119,8 @@ vector<string> QRCodeDetector::detectAndDecode(InputArray img, OutputArrayOfArra
     return ret;
 };
 
-vector<string> QRCodeDetector::Impl::decode(const Mat& img, vector<Mat>& candidate_points,
-                                      vector<Mat>& points) {
+vector<string> QRCode::Impl::decode(const Mat& img, vector<Mat>& candidate_points,
+                                    vector<Mat>& points) {
     if (candidate_points.size() == 0) {
         return vector<string>();
     }
@@ -156,7 +153,7 @@ vector<string> QRCodeDetector::Impl::decode(const Mat& img, vector<Mat>& candida
     return decode_results;
 }
 
-vector<Mat> QRCodeDetector::Impl::detect(const Mat& img) {
+vector<Mat> QRCode::Impl::detect(const Mat& img) {
     auto points = vector<Mat>();
 
     if (use_nn_detector_) {
@@ -180,7 +177,7 @@ vector<Mat> QRCodeDetector::Impl::detect(const Mat& img) {
     return points;
 }
 
-int QRCodeDetector::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points) {
+int QRCode::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points) {
     int img_w = img.cols;
     int img_h = img.rows;
 
@@ -195,7 +192,7 @@ int QRCodeDetector::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points)
     return 0;
 }
 
-cv::Mat QRCodeDetector::Impl::cropObj(const cv::Mat& img, const Mat& point, Align& aligner) {
+cv::Mat QRCode::Impl::cropObj(const cv::Mat& img, const Mat& point, Align& aligner) {
     // make some padding to boost the qrcode details recall.
     float padding_w = 0.1f, padding_h = 0.1f;
     auto min_padding = 15;
@@ -204,7 +201,7 @@ cv::Mat QRCodeDetector::Impl::cropObj(const cv::Mat& img, const Mat& point, Alig
 }
 
 // empirical rules
-vector<float> QRCodeDetector::Impl::getScaleList(const int width, const int height) {
+vector<float> QRCode::Impl::getScaleList(const int width, const int height) {
     if (width < 320 || height < 320) return {1.0, 2.0, 0.5};
     if (width < 640 && height < 640) return {1.0, 0.5};
     return {0.5, 1.0};

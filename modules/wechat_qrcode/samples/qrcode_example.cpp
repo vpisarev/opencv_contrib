@@ -25,8 +25,8 @@ int main(int argc, char* argv[]) {
         cout << "    Usage: " << argv[0] << " <input_image>" << endl;
         return (0);
     }
-    auto detector =
-        wechat_qrcode::QRCodeDetector("detect.prototxt", "detect.caffemodel","sr.prototxt", "sr.caffemodel");
+    auto detector = wechat_qrcode::QRCode("detect.prototxt", "detect.caffemodel", "sr.prototxt",
+                                          "sr.caffemodel");
     vector<Mat> points;
     auto res = detector.detectAndDecode(img, points);
     for (const auto& t : res) cout << t << endl;

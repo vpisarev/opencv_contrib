@@ -15,16 +15,16 @@ namespace wechat_qrcode {
 //! @addtogroup wechat_qrcode
 //! @{
 /**
- * @brief  QRCodeDetector includes two CNN-based models:
+ * @brief  QRCode includes two CNN-based models:
  * A object detection model and a super resolution model.
  * Object detection model is applied to detect QRCode with the bounding box.
  * super resolution model is applied to zoom in QRCode when it is small.
  *
  */
-class CV_EXPORTS_W QRCodeDetector {
+class CV_EXPORTS_W QRCode {
 public:
     /**
-     * @brief Initialize the QRCodeDetector.
+     * @brief Initialize the QRCode.
      * Two models are packaged with caffe format.
      * Therefore, there are prototxt and caffe model two files.
      *
@@ -33,11 +33,11 @@ public:
      * @param super_resolution_prototxt_path prototxt file path for the super resolution model
      * @param super_resolution_caffe_model_path caffe file path for the super resolution model
      */
-    CV_WRAP QRCodeDetector(const std::string& detector_prototxt_path = "",
-                           const std::string& detector_caffe_model_path = "",
-                           const std::string& super_resolution_prototxt_path = "",
-                           const std::string& super_resolution_caffe_model_path = "");
-    ~QRCodeDetector(){};
+    CV_WRAP QRCode(const std::string& detector_prototxt_path = "",
+                   const std::string& detector_caffe_model_path = "",
+                   const std::string& super_resolution_prototxt_path = "",
+                   const std::string& super_resolution_caffe_model_path = "");
+    ~QRCode(){};
 
     /**
      * @brief  Both detects and decodes QR code.
