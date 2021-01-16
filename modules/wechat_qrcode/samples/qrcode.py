@@ -15,8 +15,8 @@ else:
     print("    Usage: " + sys.argv[0] + "  <input_image>")
     exit(0)
 for i in range(10):
-    detector = cv2.wechat_qrcode_QRCode(
-        "detect.prototxt", "detect.caffemodel","sr.prototxt", "sr.caffemodel")
+    detector = cv2.wechat_qrcode_WeChatQRCode(
+        "detect.prototxt", "detect.caffemodel", "sr.prototxt", "sr.caffemodel")
 
     ret_str, points = detector.detectAndDecode(img)
     print(ret_str)

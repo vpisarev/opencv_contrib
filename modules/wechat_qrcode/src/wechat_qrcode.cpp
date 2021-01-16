@@ -5,19 +5,19 @@
 // Tencent is pleased to support the open source community by making WeChat QRCode available.
 // Copyright (C) 2020 THL A29 Limited, a Tencent company. All rights reserved.
 
+#include "opencv2/wechat_qrcode.hpp"
 #include "decodermgr.hpp"
 #include "detector/align.hpp"
 #include "detector/ssd_detector.hpp"
 #include "opencv2/core.hpp"
 #include "opencv2/core/utils/filesystem.hpp"
-#include "opencv2/wechat_qrcode.hpp"
 #include "precomp.hpp"
 #include "scale/super_scale.hpp"
 #include "zxing/result.hpp"
 using cv::InputArray;
 namespace cv {
 namespace wechat_qrcode {
-class QRCode::Impl {
+class WeChatQRCode::Impl {
 public:
     Impl() {}
     ~Impl() {}
@@ -47,10 +47,11 @@ public:
     bool use_nn_detector_, use_nn_sr_;
 };
 
-QRCode::QRCode(const String& detector_prototxt_path, const String& detector_caffe_model_path,
-               const String& super_resolution_prototxt_path,
-               const String& super_resolution_caffe_model_path) {
-    p = makePtr<QRCode::Impl>();
+WeChatQRCode::WeChatQRCode(const String& detector_prototxt_path,
+                           const String& detector_caffe_model_path,
+                           const String& super_resolution_prototxt_path,
+                           const String& super_resolution_caffe_model_path) {
+    p = makePtr<WeChatQRCode::Impl>();
     if (!detector_caffe_model_path.empty() && !detector_prototxt_path.empty()) {
         // initialize detector model (caffe)
         p->use_nn_detector_ = true;
@@ -84,7 +85,7 @@ QRCode::QRCode(const String& detector_prototxt_path, const String& detector_caff
     }
 }
 
-vector<string> QRCode::detectAndDecode(InputArray img, OutputArrayOfArrays points) {
+vector<string> WeChatQRCode::detectAndDecode(InputArray img, OutputArrayOfArrays points) {
     CV_Assert(!img.empty());
     CV_CheckDepthEQ(img.depth(), CV_8U, "");
 
@@ -119,8 +120,8 @@ vector<string> QRCode::detectAndDecode(InputArray img, OutputArrayOfArrays point
     return ret;
 };
 
-vector<string> QRCode::Impl::decode(const Mat& img, vector<Mat>& candidate_points,
-                                    vector<Mat>& points) {
+vector<string> WeChatQRCode::Impl::decode(const Mat& img, vector<Mat>& candidate_points,
+                                          vector<Mat>& points) {
     if (candidate_points.size() == 0) {
         return vector<string>();
     }
@@ -153,7 +154,7 @@ vector<string> QRCode::Impl::decode(const Mat& img, vector<Mat>& candidate_point
     return decode_results;
 }
 
-vector<Mat> QRCode::Impl::detect(const Mat& img) {
+vector<Mat> WeChatQRCode::Impl::detect(const Mat& img) {
     auto points = vector<Mat>();
 
     if (use_nn_detector_) {
@@ -177,7 +178,7 @@ vector<Mat> QRCode::Impl::detect(const Mat& img) {
     return points;
 }
 
-int QRCode::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points) {
+int WeChatQRCode::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points) {
     int img_w = img.cols;
     int img_h = img.rows;
 
@@ -192,7 +193,7 @@ int QRCode::Impl::applyDetector(const cv::Mat& img, vector<Mat>& points) {
     return 0;
 }
 
-cv::Mat QRCode::Impl::cropObj(const cv::Mat& img, const Mat& point, Align& aligner) {
+cv::Mat WeChatQRCode::Impl::cropObj(const cv::Mat& img, const Mat& point, Align& aligner) {
     // make some padding to boost the qrcode details recall.
     float padding_w = 0.1f, padding_h = 0.1f;
     auto min_padding = 15;
@@ -201,7 +202,7 @@ cv::Mat QRCode::Impl::cropObj(const cv::Mat& img, const Mat& point, Align& align
 }
 
 // empirical rules
-vector<float> QRCode::Impl::getScaleList(const int width, const int height) {
+vector<float> WeChatQRCode::Impl::getScaleList(const int width, const int height) {
     if (width < 320 || height < 320) return {1.0, 2.0, 0.5};
     if (width < 640 && height < 640) return {1.0, 0.5};
     return {0.5, 1.0};

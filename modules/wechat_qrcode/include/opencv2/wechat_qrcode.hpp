@@ -21,7 +21,7 @@ namespace wechat_qrcode {
  * super resolution model is applied to zoom in QRCode when it is small.
  *
  */
-class CV_EXPORTS_W QRCode {
+class CV_EXPORTS_W WeChatQRCode {
 public:
     /**
      * @brief Initialize the QRCode.
@@ -33,11 +33,11 @@ public:
      * @param super_resolution_prototxt_path prototxt file path for the super resolution model
      * @param super_resolution_caffe_model_path caffe file path for the super resolution model
      */
-    CV_WRAP QRCode(const std::string& detector_prototxt_path = "",
-                   const std::string& detector_caffe_model_path = "",
-                   const std::string& super_resolution_prototxt_path = "",
-                   const std::string& super_resolution_caffe_model_path = "");
-    ~QRCode(){};
+    CV_WRAP WeChatQRCode(const std::string& detector_prototxt_path = "",
+                         const std::string& detector_caffe_model_path = "",
+                         const std::string& super_resolution_prototxt_path = "",
+                         const std::string& super_resolution_caffe_model_path = "");
+    ~WeChatQRCode(){};
 
     /**
      * @brief  Both detects and decodes QR code.

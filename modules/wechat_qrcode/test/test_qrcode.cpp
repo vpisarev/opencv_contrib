@@ -56,10 +56,10 @@ TEST_P(Objdetect_QRCode, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCode(
+    // auto detector = wechat_qrcode::WeChatQRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCode();
+    auto detector = wechat_qrcode::WeChatQRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -103,10 +103,10 @@ TEST_P(Objdetect_QRCode_Close, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCode(
+    // auto detector = wechat_qrcode::WeChatQRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCode();
+    auto detector = wechat_qrcode::WeChatQRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -150,10 +150,10 @@ TEST_P(Objdetect_QRCode_Monitor, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCode(
+    // auto detector = wechat_qrcode::WeChatQRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCode();
+    auto detector = wechat_qrcode::WeChatQRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -197,10 +197,10 @@ TEST_P(Objdetect_QRCode_Curved, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCode(
+    // auto detector = wechat_qrcode::WeChatQRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCode();
+    auto detector = wechat_qrcode::WeChatQRCode();
     auto decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
@@ -244,10 +244,10 @@ TEST_P(Objdetect_QRCode_Multi, regression) {
     vector<Mat> points;
     // can not find the model file
     // so we temporarily comment it out
-    // auto detector = wechat_qrcode::QRCode(
+    // auto detector = wechat_qrcode::WeChatQRCode(
     //     findDataFile("detect.prototxt", false), findDataFile("detect.caffemodel", false),
     //     findDataFile("sr.prototxt", false), findDataFile("sr.caffemodel", false));
-    auto detector = wechat_qrcode::QRCode();
+    auto detector = wechat_qrcode::WeChatQRCode();
     vector<string> decoded_info = detector.detectAndDecode(src, points);
 
     const std::string dataset_config = findDataFile(root + "dataset_config.json");
