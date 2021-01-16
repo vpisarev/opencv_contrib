@@ -8,9 +8,9 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/version.hpp"
-#include "zxing/format_exception.hpp"
-#include "zxing/qrcode/format_information.hpp"
+#include "version.hpp"
+#include "../format_exception.hpp"
+#include "format_information.hpp"
 
 #include <cstdarg>
 #include <iostream>

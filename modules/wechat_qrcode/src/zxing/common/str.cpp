@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/str.hpp"
+#include "str.hpp"
 
 #include <cstring>
 
@@ -47,7 +47,6 @@ void String::append(int d) {
 }
 
 void String::append(Ref<String> str) { append(str->getText()); }
-
 
 string StrUtil::COMBINE_STRING(string str1, string str2) {
     string str = str1;

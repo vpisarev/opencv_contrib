@@ -11,8 +11,8 @@
 #ifndef __ZXING_QRCODE_DETECTOR_ALIGNMENT_PATTERN_HPP_
 #define __ZXING_QRCODE_DETECTOR_ALIGNMENT_PATTERN_HPP_
 
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/resultpoint.hpp"
+#include "../../common/bitmatrix.hpp"
+#include "../../resultpoint.hpp"
 
 #include <cmath>
 

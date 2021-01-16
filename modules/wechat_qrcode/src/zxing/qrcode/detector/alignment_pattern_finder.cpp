@@ -8,8 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/detector/alignment_pattern_finder.hpp"
-#include "zxing/common/bitarray.hpp"
+#include "alignment_pattern_finder.hpp"
 
 #include <cmath>
 #include <cstdlib>

@@ -8,11 +8,11 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/decoder/mode.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/qrcode/version.hpp"
-#include "zxing/reader_exception.hpp"
-#include "zxing/zxing.hpp"
+#include "mode.hpp"
+#include "../../common/counted.hpp"
+#include "../../reader_exception.hpp"
+#include "../../zxing.hpp"
+#include "../version.hpp"
 
 #include <sstream>
 

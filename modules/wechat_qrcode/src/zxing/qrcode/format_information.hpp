@@ -11,9 +11,9 @@
 #ifndef __ZXING_QRCODE_FORMAT_INFORMATION_HPP__
 #define __ZXING_QRCODE_FORMAT_INFORMATION_HPP__
 
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/error_correction_level.hpp"
+#include "../common/counted.hpp"
+#include "../errorhandler.hpp"
+#include "error_correction_level.hpp"
 
 namespace zxing {
 namespace qrcode {

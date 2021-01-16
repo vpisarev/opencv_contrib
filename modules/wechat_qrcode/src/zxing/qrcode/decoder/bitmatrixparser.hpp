@@ -11,13 +11,13 @@
 #ifndef __ZXING_QRCODE_DECODER_BITMATRIXPARSER_HPP__
 #define __ZXING_QRCODE_DECODER_BITMATRIXPARSER_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/format_information.hpp"
-#include "zxing/qrcode/version.hpp"
-#include "zxing/reader_exception.hpp"
+#include "../../common/array.hpp"
+#include "../../common/bitmatrix.hpp"
+#include "../../common/counted.hpp"
+#include "../../errorhandler.hpp"
+#include "../../reader_exception.hpp"
+#include "../format_information.hpp"
+#include "../version.hpp"
 
 namespace zxing {
 namespace qrcode {

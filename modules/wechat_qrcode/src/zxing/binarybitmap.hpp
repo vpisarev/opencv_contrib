@@ -11,12 +11,12 @@
 #ifndef __ZXING_BINARYBITMAP_HPP__
 #define __ZXING_BINARYBITMAP_HPP__
 
-#include "zxing/binarizer.hpp"
-#include "zxing/common/bitarray.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/unicomblock.hpp"
-#include "zxing/errorhandler.hpp"
+#include "binarizer.hpp"
+#include "common/bitarray.hpp"
+#include "common/bitmatrix.hpp"
+#include "common/counted.hpp"
+#include "common/unicomblock.hpp"
+#include "errorhandler.hpp"
 
 namespace zxing {
 

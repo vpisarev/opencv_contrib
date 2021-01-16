@@ -13,7 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "zxing/common/counted.hpp"
+#include "counted.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -22,7 +22,6 @@
 using namespace std;
 
 namespace zxing {
-
 
 class String : public Counted {
 private:

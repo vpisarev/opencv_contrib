@@ -11,11 +11,11 @@
 #ifndef __ZXING_COMMON_GLOBAL_HISTOGRAM_BINARIZER_HPP__
 #define __ZXING_COMMON_GLOBAL_HISTOGRAM_BINARIZER_HPP__
 
-#include "zxing/binarizer.hpp"
-#include "zxing/common/array.hpp"
-#include "zxing/common/bitarray.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../binarizer.hpp"
+#include "../errorhandler.hpp"
+#include "array.hpp"
+#include "bitarray.hpp"
+#include "bitmatrix.hpp"
 
 #ifndef USE_GOOGLE_CODE
 #define USE_GOOGLE_CODE 0

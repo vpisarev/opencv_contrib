@@ -12,10 +12,10 @@
 #define __ZXING_RESULT_HPP__
 
 #include <stdint.h>
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/str.hpp"
-#include "zxing/resultpoint.hpp"
+#include "common/array.hpp"
+#include "common/counted.hpp"
+#include "common/str.hpp"
+#include "resultpoint.hpp"
 
 #include <string>
 

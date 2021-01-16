@@ -11,8 +11,8 @@
 #ifndef __ZXING_COMMON_REEDSOLOMON_GENERICGF_HPP__
 #define __ZXING_COMMON_REEDSOLOMON_GENERICGF_HPP__
 
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../../errorhandler.hpp"
+#include "../counted.hpp"
 
 #include <vector>
 

@@ -11,10 +11,10 @@
 #ifndef __ZXING_COMMON_GRID_SAMPLER_HPP__
 #define __ZXING_COMMON_GRID_SAMPLER_HPP__
 
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/bytematrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/perspective_transform.hpp"
+#include "bitmatrix.hpp"
+#include "bytematrix.hpp"
+#include "counted.hpp"
+#include "perspective_transform.hpp"
 
 namespace zxing {
 class GridSampler {

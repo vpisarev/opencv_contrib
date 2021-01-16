@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/stringutils.hpp"
-#include "zxing/decodehints.hpp"
+#include "../common/stringutils.hpp"
+#include "../decodehints.hpp"
 
 #include <cstring>
 
@@ -310,7 +310,6 @@ string StringUtils::guessEncodingZXing(char* bytes, int length) {
     if (!is_gbk_code(bytes, length)) {
         canBeGBK = false;
     }
-
 
     if (canBeUTF8 && utf8BytesLeft > 0) {
         canBeUTF8 = false;
@@ -639,7 +638,6 @@ int StringUtils::is_gbk_code(char* str, int length) {
     }
     return 0;
 }
-
 
 int StringUtils::is_ascii_code(char* str, int length) {
     unsigned char c = 0;

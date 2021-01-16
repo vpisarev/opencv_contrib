@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/global_histogram_binarizer.hpp"
-#include "zxing/common/array.hpp"
+#include "global_histogram_binarizer.hpp"
+#include "array.hpp"
 
 using zxing::ArrayRef;
 using zxing::Binarizer;

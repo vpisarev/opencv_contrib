@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/luminance_source.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "luminance_source.hpp"
+#include "common/illegal_argument_exception.hpp"
 
 #include <sstream>
 

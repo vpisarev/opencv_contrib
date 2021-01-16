@@ -11,9 +11,9 @@
 #ifndef __ZXING_COMMON_GREYSCALE_LUMINANCE_SOURCE_HPP__
 #define __ZXING_COMMON_GREYSCALE_LUMINANCE_SOURCE_HPP__
 
-#include "zxing/common/bytematrix.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/luminance_source.hpp"
+#include "../errorhandler.hpp"
+#include "../luminance_source.hpp"
+#include "bytematrix.hpp"
 
 namespace zxing {
 

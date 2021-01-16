@@ -11,7 +11,7 @@
 #ifndef __ZXING_RESULTPOINT_HPP__
 #define __ZXING_RESULTPOINT_HPP__
 
-#include "zxing/common/counted.hpp"
+#include "common/counted.hpp"
 
 #include <vector>
 

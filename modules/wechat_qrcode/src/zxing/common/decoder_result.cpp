@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/decoder_result.hpp"
+#include "decoder_result.hpp"
 
 using namespace std;
 using namespace zxing;

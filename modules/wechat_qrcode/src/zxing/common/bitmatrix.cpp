@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "bitmatrix.hpp"
+#include "illegal_argument_exception.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -121,7 +121,9 @@ void BitMatrix::xxor(Ref<BitMatrix> _bits) {
 
 BitMatrix::~BitMatrix() {}
 
-void BitMatrix::flip(int x, int y) { bits[rowOffsets[y] + x] = (bits[rowOffsets[y] + x]==(unsigned char)0); }
+void BitMatrix::flip(int x, int y) {
+    bits[rowOffsets[y] + x] = (bits[rowOffsets[y] + x] == (unsigned char)0);
+}
 
 void BitMatrix::flipAll() {
     bool* matrixBits = (bool*)bits->data();

@@ -11,11 +11,11 @@
 #ifndef __ZXING_COMMON_BITARRAY_HPP__
 #define __ZXING_COMMON_BITARRAY_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/zxing.hpp"
+#include "../errorhandler.hpp"
+#include "../zxing.hpp"
+#include "array.hpp"
+#include "counted.hpp"
+#include "illegal_argument_exception.hpp"
 
 #include <cstring>
 #include <iostream>

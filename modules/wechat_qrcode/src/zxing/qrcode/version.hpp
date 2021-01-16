@@ -11,11 +11,11 @@
 #ifndef __ZXING_QRCODE_VERSION_HPP__
 #define __ZXING_QRCODE_VERSION_HPP__
 
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/error_correction_level.hpp"
-#include "zxing/reader_exception.hpp"
+#include "../common/bitmatrix.hpp"
+#include "../common/counted.hpp"
+#include "../errorhandler.hpp"
+#include "../reader_exception.hpp"
+#include "error_correction_level.hpp"
 
 #include <vector>
 

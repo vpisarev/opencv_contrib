@@ -8,9 +8,9 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/exception.hpp"
+#include "exception.hpp"
 #include <string.h>
-#include "zxing/zxing.hpp"
+#include "zxing.hpp"
 
 using zxing::Exception;
 

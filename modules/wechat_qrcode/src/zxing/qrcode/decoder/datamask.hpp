@@ -11,10 +11,10 @@
 #ifndef __ZXING_QRCODE_DECODER_DATAMASK_HPP__
 #define __ZXING_QRCODE_DECODER_DATAMASK_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../../common/array.hpp"
+#include "../../common/bitmatrix.hpp"
+#include "../../common/counted.hpp"
+#include "../../errorhandler.hpp"
 
 #include <vector>
 

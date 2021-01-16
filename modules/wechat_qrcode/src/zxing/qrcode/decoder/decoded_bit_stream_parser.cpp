@@ -8,11 +8,10 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/decoder/decoded_bit_stream_parser.hpp"
-#include "zxing/common/characterseteci.hpp"
-#include "zxing/common/stringutils.hpp"
-#include "zxing/format_exception.hpp"
-#include "zxing/zxing.hpp"
+#include "decoded_bit_stream_parser.hpp"
+#include "../../common/stringutils.hpp"
+#include "../../format_exception.hpp"
+#include "../../zxing.hpp"
 
 #include <iostream>
 #ifndef NO_ICONV_INSIDE
@@ -65,11 +64,13 @@ namespace {
 int GB2312_SUBSET = 1;
 }
 
-void DecodedBitStreamParser::append(std::string& result, string const& in, ErrorHandler& err_handler) {
+void DecodedBitStreamParser::append(std::string& result, string const& in,
+                                    ErrorHandler& err_handler) {
     append(result, (char const*)in.c_str(), in.length(), err_handler);
 }
 
-void DecodedBitStreamParser::append(std::string& result, const char* bufIn, size_t nIn, ErrorHandler& err_handler) {
+void DecodedBitStreamParser::append(std::string& result, const char* bufIn, size_t nIn,
+                                    ErrorHandler& err_handler) {
     if (err_handler.ErrCode()) return;
 #ifndef NO_ICONV_INSIDE
     if (nIn == 0) {

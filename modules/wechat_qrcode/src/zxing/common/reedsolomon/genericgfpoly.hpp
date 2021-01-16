@@ -11,9 +11,9 @@
 #ifndef __ZXING_COMMON_REEDSOLOMON_GENERICGFPOLY_HPP__
 #define __ZXING_COMMON_REEDSOLOMON_GENERICGFPOLY_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../../errorhandler.hpp"
+#include "../array.hpp"
+#include "../counted.hpp"
 
 #include <vector>
 

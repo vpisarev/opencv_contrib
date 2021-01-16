@@ -8,8 +8,8 @@
 #ifndef __ZXING_COMMON_IMAGECUT_HPP__
 #define __ZXING_COMMON_IMAGECUT_HPP__
 #include <stdint.h>
-#include "zxing/common/bytematrix.hpp"
-#include "zxing/common/counted.hpp"
+#include "bytematrix.hpp"
+#include "counted.hpp"
 
 #include <vector>
 

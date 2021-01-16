@@ -11,11 +11,11 @@
 #ifndef __ZXING_BINARIZER_HPP__
 #define __ZXING_BINARIZER_HPP__
 
-#include "zxing/common/bitarray.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/luminance_source.hpp"
+#include "common/bitarray.hpp"
+#include "common/bitmatrix.hpp"
+#include "common/counted.hpp"
+#include "errorhandler.hpp"
+#include "luminance_source.hpp"
 
 #define ONED_ENABLE_LINE_BINARIZER
 

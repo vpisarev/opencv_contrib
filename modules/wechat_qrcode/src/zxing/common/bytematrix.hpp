@@ -8,10 +8,10 @@
 #ifndef __ZXING_COMMON_BYTEMATRIX_HPP__
 #define __ZXING_COMMON_BYTEMATRIX_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/bitarray.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../errorhandler.hpp"
+#include "array.hpp"
+#include "bitarray.hpp"
+#include "counted.hpp"
 
 #include <limits>
 

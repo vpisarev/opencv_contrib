@@ -10,12 +10,12 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <vector>
-#include "zxing/binarizer.hpp"
-#include "zxing/common/bitarray.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/bytematrix.hpp"
-#include "zxing/common/global_histogram_binarizer.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../binarizer.hpp"
+#include "../errorhandler.hpp"
+#include "bitarray.hpp"
+#include "bitmatrix.hpp"
+#include "bytematrix.hpp"
+#include "global_histogram_binarizer.hpp"
 
 // Macro to use max-min in function calculateBlackPoints
 #ifndef USE_MAX_MIN

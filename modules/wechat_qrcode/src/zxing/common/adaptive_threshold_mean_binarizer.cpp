@@ -5,8 +5,8 @@
 // Tencent is pleased to support the open source community by making WeChat QRCode available.
 // Copyright (C) 2020 THL A29 Limited, a Tencent company. All rights reserved.
 
-#include "zxing/common/adaptive_threshold_mean_binarizer.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "adaptive_threshold_mean_binarizer.hpp"
+#include "illegal_argument_exception.hpp"
 
 using namespace std;
 using namespace zxing;

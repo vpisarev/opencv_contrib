@@ -11,7 +11,7 @@
 #ifndef __ZXING_DECODEHINTS_HPP__
 #define __ZXING_DECODEHINTS_HPP__
 
-#include "zxing/errorhandler.hpp"
+#include "errorhandler.hpp"
 
 namespace zxing {
 class DecodeHints {

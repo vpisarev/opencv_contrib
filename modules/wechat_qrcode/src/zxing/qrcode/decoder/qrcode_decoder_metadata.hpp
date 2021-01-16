@@ -11,8 +11,9 @@
 #ifndef __ZXING_QRCODE_DECODER_QRCODEDECODERMETADATA_HPP__
 #define __ZXING_QRCODE_DECODER_QRCODEDECODERMETADATA_HPP__
 
-#include "zxing/common/counted.hpp"
-#include "zxing/resultpoint.hpp"
+#include "../../common/array.hpp"
+#include "../../common/counted.hpp"
+#include "../../resultpoint.hpp"
 
 // VC++
 // The main class which implements QR Code decoding -- as opposed to locating
@@ -35,7 +36,7 @@ private:
     bool mirrored_;
 
 public:
-    explicit QRCodeDecoderMetaData(bool mirrored):mirrored_(mirrored) {}
+    explicit QRCodeDecoderMetaData(bool mirrored) : mirrored_(mirrored) {}
 
 public:
     /**

@@ -7,7 +7,7 @@
 //
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
-#include "zxing/qrcode/detector/pattern_result.hpp"
+#include "pattern_result.hpp"
 
 // VC++
 using namespace std;

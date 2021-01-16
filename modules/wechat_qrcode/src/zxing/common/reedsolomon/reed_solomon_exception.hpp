@@ -11,7 +11,7 @@
 #ifndef __ZXING_COMMON_REEDSOLOMON_REEDSOLOMONEXCEPTION_HPP__
 #define __ZXING_COMMON_REEDSOLOMON_REEDSOLOMONEXCEPTION_HPP__
 
-#include "zxing/exception.hpp"
+#include "../../exception.hpp"
 
 namespace zxing {
 class ReedSolomonException : public Exception {

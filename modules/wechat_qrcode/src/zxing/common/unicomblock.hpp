@@ -7,8 +7,8 @@
 
 #ifndef __ZXING_COMMON_UNICOMBLOCK_HPP__
 #define __ZXING_COMMON_UNICOMBLOCK_HPP__
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
+#include "bitmatrix.hpp"
+#include "counted.hpp"
 
 #include <cstring>
 #include <vector>

@@ -11,9 +11,9 @@
 #ifndef __ZXING_QRCODE_DECODER_MODE_HPP__
 #define __ZXING_QRCODE_DECODER_MODE_HPP__
 
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/version.hpp"
+#include "../../common/counted.hpp"
+#include "../../errorhandler.hpp"
+#include "../version.hpp"
 
 namespace zxing {
 namespace qrcode {

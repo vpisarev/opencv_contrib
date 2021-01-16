@@ -8,11 +8,11 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/qrcode_reader.hpp"
+#include "qrcode_reader.hpp"
 #include <ctime>
-#include "zxing/common/bitarray.hpp"
-#include "zxing/qrcode/detector/detector.hpp"
-#include "zxing/reader_exception.hpp"
+#include "../common/bitarray.hpp"
+#include "../reader_exception.hpp"
+#include "detector/detector.hpp"
 #ifdef STRAT_TIMER
 #include <windows.h>
 #endif
@@ -181,8 +181,8 @@ Ref<Result> QRCodeReader::decodeMore(Ref<BinaryBitmap> image, Ref<BitMatrix> ima
                         }
 
                         points = detectorResult->getPoints();
-                        Ref<DecoderResult> decoderResult(decoder_.decode(
-                            detectorResult->getBits(), err_handler));
+                        Ref<DecoderResult> decoderResult(
+                            decoder_.decode(detectorResult->getBits(), err_handler));
                         if (err_handler.ErrCode() || decoderResult == NULL) {
                             ept = err_handler.ErrMsg();
                             setDecoderFix(decoder_.getPossibleFix(), points);

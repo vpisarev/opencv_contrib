@@ -5,7 +5,7 @@
 // Tencent is pleased to support the open source community by making WeChat QRCode available.
 // Copyright (C) 2020 THL A29 Limited, a Tencent company. All rights reserved.
 
-#include "zxing/common/unicomblock.hpp"
+#include "unicomblock.hpp"
 #include <stdio.h>
 
 #include <algorithm>
@@ -105,7 +105,8 @@ void UnicomBlock::Bfs(int y, int x) {
 
             if (iPosition >= 0 && iPosition < int(m_vcIndex.size()) && 0 == m_vcIndex[iPosition]) {
                 if (iNextX < 0 || iNextX >= m_poImage->getWidth() || iNextY < 0 ||
-                    iNextY >= m_poImage->getHeight() || bValue != (m_poImage->get(iNextX, iNextY) != (unsigned char)0))
+                    iNextY >= m_poImage->getHeight() ||
+                    bValue != (m_poImage->get(iNextX, iNextY) != (unsigned char)0))
                     continue;
 
                 m_vcIndex[iPosition] = m_iNowIdx;

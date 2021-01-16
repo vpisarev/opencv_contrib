@@ -11,10 +11,10 @@
 #ifndef __ZXING_READER_HPP__
 #define __ZXING_READER_HPP__
 
-#include "zxing/binarybitmap.hpp"
-#include "zxing/decodehints.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/result.hpp"
+#include "binarybitmap.hpp"
+#include "decodehints.hpp"
+#include "errorhandler.hpp"
+#include "result.hpp"
 
 namespace zxing {
 

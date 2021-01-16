@@ -11,11 +11,11 @@
 #ifndef __ZXING_COMMON_DETECTOR_RESULT_HPP__
 #define __ZXING_COMMON_DETECTOR_RESULT_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/bytematrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/resultpoint.hpp"
+#include "../resultpoint.hpp"
+#include "array.hpp"
+#include "bitmatrix.hpp"
+#include "bytematrix.hpp"
+#include "counted.hpp"
 
 namespace zxing {
 

@@ -11,7 +11,7 @@
 #ifndef __ZXING_COMMON_PERSPECTIVETRANSFORM_HPP__
 #define __ZXING_COMMON_PERSPECTIVETRANSFORM_HPP__
 
-#include "zxing/common/counted.hpp"
+#include "counted.hpp"
 
 #include <vector>
 
@@ -33,7 +33,6 @@ public:
     Ref<PerspectiveTransform> buildAdjoint();
     Ref<PerspectiveTransform> times(Ref<PerspectiveTransform> other);
     void transformPoints(std::vector<float>& points);
-
 };
 }  // namespace zxing
 

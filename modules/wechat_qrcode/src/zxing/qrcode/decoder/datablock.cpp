@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/decoder/datablock.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "datablock.hpp"
+#include "../../common/illegal_argument_exception.hpp"
 
 namespace zxing {
 namespace qrcode {

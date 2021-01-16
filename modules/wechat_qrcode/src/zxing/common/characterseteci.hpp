@@ -12,8 +12,8 @@
 #define __ZXING_COMMON_CHARACTERSETECI_HPP__
 
 #include <map>
-#include "zxing/common/counted.hpp"
-#include "zxing/decodehints.hpp"
+#include "../decodehints.hpp"
+#include "counted.hpp"
 
 namespace zxing {
 namespace common {

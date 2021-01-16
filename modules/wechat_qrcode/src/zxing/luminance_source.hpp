@@ -12,10 +12,10 @@
 #define __ZXING_LUMINANCE_SOURCE_HPP__
 
 #include <string.h>
-#include "zxing/common/array.hpp"
-#include "zxing/common/bytematrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
+#include "common/array.hpp"
+#include "common/bytematrix.hpp"
+#include "common/counted.hpp"
+#include "errorhandler.hpp"
 
 namespace zxing {
 

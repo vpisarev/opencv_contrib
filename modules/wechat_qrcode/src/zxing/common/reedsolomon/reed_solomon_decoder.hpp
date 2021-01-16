@@ -11,11 +11,11 @@
 #ifndef __ZXING_COMMON_REEDSOLOMON_REEDSOLOMONDECODER_HPP__
 #define __ZXING_COMMON_REEDSOLOMON_REEDSOLOMONDECODER_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/reedsolomon/genericgf.hpp"
-#include "zxing/common/reedsolomon/genericgfpoly.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../../errorhandler.hpp"
+#include "../array.hpp"
+#include "../counted.hpp"
+#include "genericgf.hpp"
+#include "genericgfpoly.hpp"
 
 #include <memory>
 #include <vector>

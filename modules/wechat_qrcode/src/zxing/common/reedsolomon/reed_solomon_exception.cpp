@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/reedsolomon/reed_solomon_exception.hpp"
+#include "reed_solomon_exception.hpp"
 
 namespace zxing {
 ReedSolomonException::ReedSolomonException(const char *msg) throw() : Exception(msg) {}

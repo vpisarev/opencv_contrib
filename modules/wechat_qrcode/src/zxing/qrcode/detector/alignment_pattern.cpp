@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/detector/alignment_pattern.hpp"
+#include "alignment_pattern.hpp"
 
 #include <algorithm>
 using std::abs;

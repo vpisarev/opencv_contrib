@@ -8,9 +8,9 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/reedsolomon/genericgf.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
-#include "zxing/common/reedsolomon/genericgfpoly.hpp"
+#include "genericgf.hpp"
+#include "../illegal_argument_exception.hpp"
+#include "genericgfpoly.hpp"
 
 #include <iostream>
 

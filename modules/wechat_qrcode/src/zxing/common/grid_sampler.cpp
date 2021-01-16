@@ -8,9 +8,9 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/grid_sampler.hpp"
-#include "zxing/common/perspective_transform.hpp"
-#include "zxing/reader_exception.hpp"
+#include "grid_sampler.hpp"
+#include "../reader_exception.hpp"
+#include "perspective_transform.hpp"
 
 #include <iostream>
 #include <sstream>

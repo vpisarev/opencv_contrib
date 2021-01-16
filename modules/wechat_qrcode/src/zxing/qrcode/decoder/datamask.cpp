@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/decoder/datamask.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "datamask.hpp"
+#include "../../common/illegal_argument_exception.hpp"
 
 namespace zxing {
 namespace qrcode {
@@ -106,18 +106,16 @@ public:
  */
 class DataMask111 : public DataMask {
 public:
-    bool isMasked(size_t x, size_t y) override { return ((((x + y) % 2) + ((x * y) % 3)) % 2) == 0; }
+    bool isMasked(size_t x, size_t y) override {
+        return ((((x + y) % 2) + ((x * y) % 3)) % 2) == 0;
+    }
 };
 
 vector<Ref<DataMask> > DataMask::DATA_MASKS = {
-    Ref<DataMask>(new DataMask000()),
-    Ref<DataMask>(new DataMask001()),
-    Ref<DataMask>(new DataMask010()),
-    Ref<DataMask>(new DataMask011()),
-    Ref<DataMask>(new DataMask100()),
-    Ref<DataMask>(new DataMask101()),
-    Ref<DataMask>(new DataMask110()),
-    Ref<DataMask>(new DataMask111()),
+    Ref<DataMask>(new DataMask000()), Ref<DataMask>(new DataMask001()),
+    Ref<DataMask>(new DataMask010()), Ref<DataMask>(new DataMask011()),
+    Ref<DataMask>(new DataMask100()), Ref<DataMask>(new DataMask101()),
+    Ref<DataMask>(new DataMask110()), Ref<DataMask>(new DataMask111()),
 };
 
 }  // namespace qrcode

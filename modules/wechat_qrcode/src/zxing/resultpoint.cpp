@@ -9,8 +9,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/resultpoint.hpp"
-#include "zxing/common/mathutils.hpp"
+#include "resultpoint.hpp"
+#include "common/mathutils.hpp"
 
 using zxing::common::MathUtils;
 

@@ -11,7 +11,7 @@
 #ifndef __ZXING_READER_EXCEPTION_HPP__
 #define __ZXING_READER_EXCEPTION_HPP__
 
-#include "zxing/exception.hpp"
+#include "exception.hpp"
 
 namespace zxing {
 

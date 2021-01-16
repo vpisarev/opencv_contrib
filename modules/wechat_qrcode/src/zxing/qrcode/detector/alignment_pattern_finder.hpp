@@ -11,11 +11,11 @@
 #ifndef __ZXING_QRCODE_DETECTOR_ALIGNMENT_PATTERN_FINDER_HPP_
 #define __ZXING_QRCODE_DETECTOR_ALIGNMENT_PATTERN_FINDER_HPP_
 
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/detector/alignment_pattern.hpp"
-#include "zxing/qrcode/detector/finder_pattern.hpp"
+#include "../../common/bitmatrix.hpp"
+#include "../../common/counted.hpp"
+#include "../../errorhandler.hpp"
+#include "alignment_pattern.hpp"
+#include "finder_pattern.hpp"
 
 #include "alignment_pattern.hpp"
 

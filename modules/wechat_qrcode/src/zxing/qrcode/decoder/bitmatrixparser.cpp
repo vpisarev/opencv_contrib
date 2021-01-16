@@ -8,9 +8,9 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/decoder/bitmatrixparser.hpp"
+#include "bitmatrixparser.hpp"
 #include <stdio.h>
-#include "zxing/qrcode/decoder/datamask.hpp"
+#include "datamask.hpp"
 
 using zxing::ErrorHandler;
 

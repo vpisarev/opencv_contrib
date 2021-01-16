@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/format_information.hpp"
+#include "format_information.hpp"
 
 #include <limits>
 
@@ -109,7 +109,6 @@ Ref<FormatInformation> FormatInformation::doDecodeFormatInformation(int maskedFo
 bool operator==(const FormatInformation& a, const FormatInformation& b) {
     return &(a.errorCorrectionLevel_) == &(b.errorCorrectionLevel_) && a.dataMask_ == b.dataMask_;
 }
-
 
 }  // namespace qrcode
 }  // namespace zxing

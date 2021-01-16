@@ -11,16 +11,16 @@
 #ifndef __ZXING_QRCODE_DETECTOR_DETECTOR_HPP_
 #define __ZXING_QRCODE_DETECTOR_DETECTOR_HPP_
 
-#include "zxing/common/bitmatrix.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/detector_result.hpp"
-#include "zxing/common/perspective_transform.hpp"
-#include "zxing/common/unicomblock.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/detector/alignment_pattern.hpp"
-#include "zxing/qrcode/detector/finder_pattern.hpp"
-#include "zxing/qrcode/detector/finder_pattern_info.hpp"
-#include "zxing/qrcode/detector/pattern_result.hpp"
+#include "../../common/bitmatrix.hpp"
+#include "../../common/counted.hpp"
+#include "../../common/detector_result.hpp"
+#include "../../common/perspective_transform.hpp"
+#include "../../common/unicomblock.hpp"
+#include "../../errorhandler.hpp"
+#include "alignment_pattern.hpp"
+#include "finder_pattern.hpp"
+#include "finder_pattern_info.hpp"
+#include "pattern_result.hpp"
 
 #include <vector>
 

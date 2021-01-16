@@ -11,7 +11,7 @@
 #ifndef __ZXING_COMMON_ILLEGALARGUMENTEXCEPTION_HPP__
 #define __ZXING_COMMON_ILLEGALARGUMENTEXCEPTION_HPP__
 
-#include "zxing/exception.hpp"
+#include "../exception.hpp"
 
 using namespace std;
 

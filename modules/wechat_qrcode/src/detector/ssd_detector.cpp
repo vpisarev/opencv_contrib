@@ -6,7 +6,7 @@
 // Copyright (C) 2020 THL A29 Limited, a Tencent company. All rights reserved.
 
 #include "ssd_detector.hpp"
-#include "precomp.hpp"
+#include "../precomp.hpp"
 #define CLIP(x, x1, x2) max(x1, min(x, x2))
 namespace cv {
 namespace wechat_qrcode {

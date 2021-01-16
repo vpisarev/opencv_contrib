@@ -8,14 +8,13 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/line_binarizer.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "line_binarizer.hpp"
+#include "illegal_argument_exception.hpp"
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 using namespace std;
 using namespace zxing;
-
 
 LineBinarizer::LineBinarizer(Ref<LuminanceSource> source) : GlobalHistogramBinarizer(source) {}
 

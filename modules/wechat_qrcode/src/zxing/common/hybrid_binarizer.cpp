@@ -8,9 +8,9 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/hybrid_binarizer.hpp"
+#include "hybrid_binarizer.hpp"
 #include <stdint.h>
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "illegal_argument_exception.hpp"
 
 #include <fstream>
 #include <iostream>

@@ -11,10 +11,10 @@
 #ifndef __ZXING_COMMON_DECODER_RESULT_HPP__
 #define __ZXING_COMMON_DECODER_RESULT_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/str.hpp"
-#include "zxing/qrcode/decoder/qrcode_decoder_metadata.hpp"
+#include "../qrcode/decoder/qrcode_decoder_metadata.hpp"
+#include "array.hpp"
+#include "counted.hpp"
+#include "str.hpp"
 
 #include <string>
 

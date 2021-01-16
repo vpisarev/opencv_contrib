@@ -8,16 +8,16 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/decoder/decoder.hpp"
-#include "zxing/checksum_exception.hpp"
-#include "zxing/common/reedsolomon/reed_solomon_exception.hpp"
-#include "zxing/format_exception.hpp"
-#include "zxing/qrcode/decoder/datablock.hpp"
-#include "zxing/qrcode/decoder/decoded_bit_stream_parser.hpp"
-#include "zxing/qrcode/decoder/qrcode_decoder_metadata.hpp"
-#include "zxing/qrcode/error_correction_level.hpp"
-#include "zxing/qrcode/version.hpp"
-#include "zxing/reader_exception.hpp"
+#include "decoder.hpp"
+#include "../../checksum_exception.hpp"
+#include "../../common/reedsolomon/reed_solomon_exception.hpp"
+#include "../../format_exception.hpp"
+#include "../../reader_exception.hpp"
+#include "../error_correction_level.hpp"
+#include "../version.hpp"
+#include "datablock.hpp"
+#include "decoded_bit_stream_parser.hpp"
+#include "qrcode_decoder_metadata.hpp"
 
 #include <iostream>
 

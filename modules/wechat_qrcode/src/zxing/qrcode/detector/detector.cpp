@@ -8,19 +8,19 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/detector/detector.hpp"
+#include "detector.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
-#include "zxing/common/grid_sampler.hpp"
-#include "zxing/common/mathutils.hpp"
-#include "zxing/decodehints.hpp"
-#include "zxing/qrcode/detector/alignment_pattern.hpp"
-#include "zxing/qrcode/detector/alignment_pattern_finder.hpp"
-#include "zxing/qrcode/detector/finder_pattern.hpp"
-#include "zxing/qrcode/detector/finder_pattern_finder.hpp"
-#include "zxing/qrcode/version.hpp"
+#include "../../common/grid_sampler.hpp"
+#include "../../common/mathutils.hpp"
+#include "../../decodehints.hpp"
+#include "../version.hpp"
+#include "alignment_pattern.hpp"
+#include "alignment_pattern_finder.hpp"
+#include "finder_pattern.hpp"
+#include "finder_pattern_finder.hpp"
 
 using std::abs;
 using std::max;
@@ -100,7 +100,8 @@ Ref<DetectorResult> Detector::getResultViaAlignment(int patternIdx, int alignmen
         return Ref<DetectorResult>(NULL);
     }
 
-    if (alignmentIdx >= int(possiblePatternResults_[patternIdx]->possibleAlignmentPatterns.size()) ||
+    if (alignmentIdx >=
+            int(possiblePatternResults_[patternIdx]->possibleAlignmentPatterns.size()) ||
         alignmentIdx < 0) {
         return Ref<DetectorResult>(NULL);
     }
@@ -195,7 +196,6 @@ Ref<PatternResult> Detector::processFinderPatternInfo(Ref<FinderPatternInfo> inf
         err_handler = ReaderErrorHandler("bad midule size");
         return Ref<PatternResult>();
     }
-
 
     float moduleSize = (moduleSizeX_ + moduleSizeY_) / 2.0f;
 
@@ -305,8 +305,7 @@ Ref<PatternResult> Detector::processFinderPatternInfo(Ref<FinderPatternInfo> inf
     }
 
     // Any way use the fit line result
-    if (foundFitLine == true && !hasSameResult(result->possibleAlignmentPatterns, fitLineCenter))
-    {
+    if (foundFitLine == true && !hasSameResult(result->possibleAlignmentPatterns, fitLineCenter)) {
         float alignmentX = fitLineCenter->getX();
         float alignmentY = fitLineCenter->getY();
         fixAlignmentPattern(alignmentX, alignmentY, moduleSize);
@@ -321,8 +320,7 @@ Ref<PatternResult> Detector::processFinderPatternInfo(Ref<FinderPatternInfo> inf
         }
     }
 
-    if (!hasSameResult(result->possibleAlignmentPatterns, estimateCenter))
-    {
+    if (!hasSameResult(result->possibleAlignmentPatterns, estimateCenter)) {
         float alignmentX = estimateCenter->getX();
         float alignmentY = estimateCenter->getY();
         fixAlignmentPattern(alignmentX, alignmentY, moduleSize);

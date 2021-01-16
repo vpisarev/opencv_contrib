@@ -11,9 +11,9 @@
 #ifndef __ZXING_QRCODE_DETECTOR_FINDER_PATTERN_INFO_HPP_
 #define __ZXING_QRCODE_DETECTOR_FINDER_PATTERN_INFO_HPP_
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/qrcode/detector/finder_pattern.hpp"
+#include "../../common/array.hpp"
+#include "../../common/counted.hpp"
+#include "finder_pattern.hpp"
 
 #include <vector>
 

@@ -11,14 +11,14 @@
 #ifndef __ZXING_QRCODE_DECODER_DECODEDBITSTREAMPARSER_HPP__
 #define __ZXING_QRCODE_DECODER_DECODEDBITSTREAMPARSER_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/bitsource.hpp"
-#include "zxing/common/characterseteci.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/common/decoder_result.hpp"
-#include "zxing/decodehints.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/decoder/mode.hpp"
+#include "../../common/array.hpp"
+#include "../../common/bitsource.hpp"
+#include "../../common/characterseteci.hpp"
+#include "../../common/counted.hpp"
+#include "../../common/decoder_result.hpp"
+#include "../../decodehints.hpp"
+#include "../../errorhandler.hpp"
+#include "mode.hpp"
 
 #include <map>
 #include <sstream>

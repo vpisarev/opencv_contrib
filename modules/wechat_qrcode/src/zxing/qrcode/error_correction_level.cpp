@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/error_correction_level.hpp"
+#include "error_correction_level.hpp"
 
 using std::string;
 using zxing::ErrorHandler;

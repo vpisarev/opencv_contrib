@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/perspective_transform.hpp"
+#include "perspective_transform.hpp"
 
 #include <cmath>
 
@@ -118,6 +118,5 @@ void PerspectiveTransform::transformPoints(vector<float>& points) {
         pts[i + 1] = (a12 * x + a22 * y + a32) * w;
     }
 }
-
 
 }  // namespace zxing

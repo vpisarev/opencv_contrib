@@ -8,12 +8,12 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/qrcode/detector/finder_pattern_finder.hpp"
-#include "zxing/common/kmeans.hpp"
-#include "zxing/common/mathutils.hpp"
-#include "zxing/decodehints.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/reader_exception.hpp"
+#include "finder_pattern_finder.hpp"
+#include "../../common/kmeans.hpp"
+#include "../../common/mathutils.hpp"
+#include "../../decodehints.hpp"
+#include "../../errorhandler.hpp"
+#include "../../reader_exception.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -273,8 +273,8 @@ std::vector<Ref<FinderPatternInfo>> FinderPatternFinder::find(DecodeHints const&
             COUNTER_TYPE* irow_offsets = matrix.getRowRecordsOffset(i);
             COUNTER_TYPE row_counter_width = matrix.getRowCounterOffsetEnd(i);
 
-            for (size_t rj = matrix.getRowFirstIsWhite(i) ? 1 : 0; (rj + 4) < size_t(row_counter_width);
-                 rj += 2) {
+            for (size_t rj = matrix.getRowFirstIsWhite(i) ? 1 : 0;
+                 (rj + 4) < size_t(row_counter_width); rj += 2) {
                 if (block_->GetUnicomBlockIndex(i, irow_offsets[rj]) ==
                         block_->GetUnicomBlockIndex(i, irow_offsets[rj + 4]) &&
                     block_->GetUnicomBlockIndex(i, irow_offsets[rj + 1]) ==
@@ -510,7 +510,8 @@ vector<Ref<FinderPatternInfo>> FinderPatternFinder::getPatternInfosFileMode(
             possibleCenters_[i]->getCount() >= FP_COUNT_MIN) {
             standardCenters.push_back(possibleCenters_[i]);
             if (standardCenters.size() >= size_t(FP_INPUT_MAX_NUM)) break;
-            if (hints.getUseNNDetector() && standardCenters.size() >= size_t(FP_INPUT_CNN_MAX_NUM)) break;
+            if (hints.getUseNNDetector() && standardCenters.size() >= size_t(FP_INPUT_CNN_MAX_NUM))
+                break;
         }
     }
 
@@ -572,8 +573,9 @@ vector<Ref<FinderPatternInfo>> FinderPatternFinder::getPatternInfosFileMode(
 
         sort(clusterPatterns.begin(), clusterPatterns.end(), BestComparator2());
 
-        for (size_t x = 0; x < clusters_out[i].samples.size() && cluster_select <= FPS_CLUSTER_MAX &&
-                         patternInfos.size() <= size_t(FPS_RESULT_MAX);
+        for (size_t x = 0;
+             x < clusters_out[i].samples.size() && cluster_select <= FPS_CLUSTER_MAX &&
+             patternInfos.size() <= size_t(FPS_RESULT_MAX);
              x++) {
             for (size_t y = x + 1;
                  y < clusters_out[i].samples.size() && cluster_select <= FPS_CLUSTER_MAX &&
@@ -1029,9 +1031,9 @@ float FinderPatternFinder::crossCheckVertical(size_t startI, size_t centerJ, int
     if (!vertical_check) return nan();
 
     if ((CURRENT_CHECK_STATE == FinderPatternFinder::LEFT_SPILL &&
-            tmpCheckState == FinderPatternFinder::RIHGT_SPILL) ||
+         tmpCheckState == FinderPatternFinder::RIHGT_SPILL) ||
         (CURRENT_CHECK_STATE == FinderPatternFinder::RIHGT_SPILL &&
-            tmpCheckState == FinderPatternFinder::LEFT_SPILL)) {
+         tmpCheckState == FinderPatternFinder::LEFT_SPILL)) {
         return nan();
     }
 
@@ -1154,9 +1156,9 @@ float FinderPatternFinder::crossCheckHorizontal(size_t startJ, size_t centerI, i
 
     // Cannot be a LEFT-RIGHT center
     if ((CURRENT_CHECK_STATE == FinderPatternFinder::LEFT_SPILL &&
-            tmpCheckState == FinderPatternFinder::RIHGT_SPILL) ||
+         tmpCheckState == FinderPatternFinder::RIHGT_SPILL) ||
         (CURRENT_CHECK_STATE == FinderPatternFinder::RIHGT_SPILL &&
-            tmpCheckState == FinderPatternFinder::LEFT_SPILL)) {
+         tmpCheckState == FinderPatternFinder::LEFT_SPILL)) {
         return nan();
     }
 
@@ -1654,7 +1656,7 @@ FinderPatternFinder::FinderPatternFinder(Ref<BitMatrix> image, Ref<UnicomBlock> 
       image_(image),
       possibleCenters_(),
       hasSkipped_(false),
-      block_(block){
+      block_(block) {
     CURRENT_CHECK_STATE = FinderPatternFinder::NORMAL;
 }
 

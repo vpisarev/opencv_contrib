@@ -11,7 +11,7 @@
 #ifndef __ZXING_COMMON_ARRAY_HPP__
 #define __ZXING_COMMON_ARRAY_HPP__
 
-#include "zxing/common/counted.hpp"
+#include "counted.hpp"
 
 #include <vector>
 

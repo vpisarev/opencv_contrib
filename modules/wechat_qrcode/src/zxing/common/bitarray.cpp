@@ -8,7 +8,7 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/bitarray.hpp"
+#include "bitarray.hpp"
 
 using std::vector;
 using zxing::ArrayRef;

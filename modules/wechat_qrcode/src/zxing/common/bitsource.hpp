@@ -11,8 +11,8 @@
 #ifndef __ZXING_COMMON_BITSOURCE_HPP__
 #define __ZXING_COMMON_BITSOURCE_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/errorhandler.hpp"
+#include "../errorhandler.hpp"
+#include "array.hpp"
 
 namespace zxing {
 /**

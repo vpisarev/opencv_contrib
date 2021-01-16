@@ -11,12 +11,12 @@
 #ifndef __ZXING_QRCODE_QRCODE_READER_HPP__
 #define __ZXING_QRCODE_QRCODE_READER_HPP__
 
-#include "zxing/decodehints.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/decoder/decoder.hpp"
-#include "zxing/qrcode/decoder/qrcode_decoder_metadata.hpp"
-#include "zxing/qrcode/detector/detector.hpp"
-#include "zxing/reader.hpp"
+#include "../decodehints.hpp"
+#include "../errorhandler.hpp"
+#include "../reader.hpp"
+#include "decoder/decoder.hpp"
+#include "decoder/qrcode_decoder_metadata.hpp"
+#include "detector/detector.hpp"
 
 namespace zxing {
 namespace qrcode {

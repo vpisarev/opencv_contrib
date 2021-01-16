@@ -11,8 +11,8 @@
 #ifndef __ZXING_COMMON_STRINGUTILS_HPP__
 #define __ZXING_COMMON_STRINGUTILS_HPP__
 
-#include "zxing/decodehints.hpp"
-#include "zxing/zxing.hpp"
+#include "../decodehints.hpp"
+#include "../zxing.hpp"
 
 #include <map>
 #include <string>

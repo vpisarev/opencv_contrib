@@ -8,8 +8,8 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#include "zxing/common/fast_window_binarizer.hpp"
-#include "zxing/common/illegal_argument_exception.hpp"
+#include "fast_window_binarizer.hpp"
+#include "illegal_argument_exception.hpp"
 
 using namespace std;
 using namespace zxing;
@@ -153,7 +153,8 @@ void FastWindowBinarizer::cumulative(int* data, int* output, int _width, int _he
     }
 }
 
-void FastWindowBinarizer::fastIntegral(const unsigned char* inputMatrix, unsigned int* outputMatrix) {
+void FastWindowBinarizer::fastIntegral(const unsigned char* inputMatrix,
+                                       unsigned int* outputMatrix) {
     // memset(outputMatrix,0,sizeof(int)*(height+1)*(width+1));
     // unsigned int *columnSum = new unsigned int[width]; // sum of each column
     // calculate integral of the first line
@@ -199,7 +200,8 @@ int FastWindowBinarizer::binarizeImage1(ErrorHandler& err_handler) {
     return 0;
 }
 
-void FastWindowBinarizer::fastWindow(const unsigned char* src, unsigned char* dst, ErrorHandler& err_handler) {
+void FastWindowBinarizer::fastWindow(const unsigned char* src, unsigned char* dst,
+                                     ErrorHandler& err_handler) {
     int r = (int)(min(width, height) * WINDOW_FRACTION / BLOCK_SIZE / 2 + 1);
     const int NEWH_BLOCK_SIZE = BLOCK_SIZE * r;
     if (height < NEWH_BLOCK_SIZE || width < NEWH_BLOCK_SIZE) {

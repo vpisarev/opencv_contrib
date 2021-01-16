@@ -11,11 +11,11 @@
 #ifndef __ZXING_QRCODE_DECODER_DATABLOCK_HPP__
 #define __ZXING_QRCODE_DECODER_DATABLOCK_HPP__
 
-#include "zxing/common/array.hpp"
-#include "zxing/common/counted.hpp"
-#include "zxing/errorhandler.hpp"
-#include "zxing/qrcode/error_correction_level.hpp"
-#include "zxing/qrcode/version.hpp"
+#include "../../common/array.hpp"
+#include "../../common/counted.hpp"
+#include "../../errorhandler.hpp"
+#include "../error_correction_level.hpp"
+#include "../version.hpp"
 
 #include <vector>
 

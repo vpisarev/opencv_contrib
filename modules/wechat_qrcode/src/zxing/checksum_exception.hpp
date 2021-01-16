@@ -11,7 +11,7 @@
 #ifndef __ZXING_CHECKSUM_EXCEPTION_HPP__
 #define __ZXING_CHECKSUM_EXCEPTION_HPP__
 
-#include "zxing/reader_exception.hpp"
+#include "reader_exception.hpp"
 
 namespace zxing {
 class ChecksumException : public ReaderException {
