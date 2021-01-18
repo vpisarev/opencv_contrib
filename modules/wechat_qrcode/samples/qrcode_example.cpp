@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         img = imread(argv[1]);
     } else {
         cout << "    Usage: " << argv[0] << " <input_image>" << endl;
-        return (0);
+        return 0;
     }
     auto detector = wechat_qrcode::WeChatQRCode("detect.prototxt", "detect.caffemodel",
                                                 "sr.prototxt", "sr.caffemodel");

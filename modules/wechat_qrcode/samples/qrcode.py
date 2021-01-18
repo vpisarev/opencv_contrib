@@ -14,9 +14,11 @@ if len(sys.argv) > 1:
 else:
     print("    Usage: " + sys.argv[0] + "  <input_image>")
     exit(0)
-for i in range(10):
-    detector = cv2.wechat_qrcode_WeChatQRCode(
-        "detect.prototxt", "detect.caffemodel", "sr.prototxt", "sr.caffemodel")
 
-    ret_str, points = detector.detectAndDecode(img)
-    print(ret_str)
+# for python API generator, it follows the template: {module_name}_{class_name}
+# so it is a little weird
+detector = cv2.wechat_qrcode_WeChatQRCode(
+    "detect.prototxt", "detect.caffemodel", "sr.prototxt", "sr.caffemodel")
+
+ret_str, points = detector.detectAndDecode(img)
+print(ret_str)
