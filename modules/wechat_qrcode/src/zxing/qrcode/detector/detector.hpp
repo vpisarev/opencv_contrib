@@ -61,13 +61,8 @@ private:
 
     vector<Ref<PatternResult> > possiblePatternResults_;
 
-#ifdef FIND_WHITE_ALIGNMENTPATTERN
-    Ref<AlignmentPattern> whiteAlignmentPattern_;
-    vector<Ref<AlignmentPattern> > possibleWhiteAlignmentPatterns_;
-#endif
 
     DetectorState detectorState_;
-    bool finderConditionLoose_;
 
 protected:
     Ref<BitMatrix> getImage() const;
@@ -124,18 +119,10 @@ public:
                        Ref<AlignmentPattern> alignmentPattern);
     void fixAlignmentPattern(float &alignmentX, float &alignmentY, float moduleSize);
 
-    // void processFinderPatternInfo(Ref<FinderPatternInfo> info);
     Ref<PatternResult> processFinderPatternInfo(Ref<FinderPatternInfo> info,
                                                 ErrorHandler &err_handler);
-    // void setConfirmedAlignmentPattern(int index);
-
-#ifdef FIND_WHITE_ALIGNMENTPATTERN
-    Ref<AlignmentPattern> getWhiteAlignmentPattern() { return whiteAlignmentPattern_; }
-#endif
 
 public:
-    // size_t getPossibleResultCount();
-
     Ref<FinderPatternInfo> getFinderPatternInfo(int idx) {
         return possiblePatternResults_[idx]->finderPatternInfo;
     }
@@ -144,8 +131,6 @@ public:
     }
 
     DetectorState getState() { return detectorState_; }
-    void setFinderLoose(bool loose) { finderConditionLoose_ = loose; }
-    bool getFinderLoose() { return finderConditionLoose_; }
 
     unsigned int getPossibleVersion(int idx) {
         return possiblePatternResults_[idx]->possibleVersion;

@@ -15,13 +15,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-//#ifndef START_TIMER2
-//#define START_TIMER2 0
-//#endif
-
-#ifdef START_TIMER2
-#include <windows.h>
-#endif
 
 using namespace std;
 using namespace zxing;
@@ -201,162 +194,6 @@ inline int cap(int value, int min, int max) {
 }
 }  // namespace
 
-/*
-// For each block in the image, calculates the average black point using a 5*5
-grid
-// of the blocks around it. Also handles the corner cases (fractional blocks are
-computed based
-// on the last pixels in the row/column which are also used in the previous
-block.) void HybridBinarizer::calculateThresholdForBlock(Ref<ByteMatrix>&
-luminances, int subWidth, int subHeight, int width, int height,
-    //ArrayRef<int> &blackPoints,
-    ArrayRef<BINARIZER_BLOCK>
-    Ref<BitMatrix> const& matrix) {
-        int maxYOffset = height - BLOCK_SIZE;
-        int maxXOffset = width - BLOCK_SIZE;
-#ifdef START_TIMER2
-        _LARGE_INTEGER time_start, time_over1,time_over2,time_over3;
-        double time1=0.0,time2=0.0,time3=0.0;
-        double dqFreq;
-        LARGE_INTEGER f;
-        QueryPerformanceFrequency(&f);
-        dqFreq=(double)f.QuadPart;
-        QueryPerformanceCounter(&time_start);
-#endif
-
-#ifndef USE_GOOGLE_CODE
-
-        int subSumWidth=subWidth+5;
-        int subSumHeight=subHeight+5;
-        int subSumSize=subSumWidth*subSumHeight;
-
-        int* secondSumRow=&subSumPoints[subSumWidth];
-        for(int i=0;i<subSumWidth;i++){
-            // first row
-            subSumPoints[i]=0;
-            // second row
-            if(i==0) {
-                subSumColumn[i]=0;
-                secondSumRow[i]=0;
-            }
-            else{
-                int tmp_i=cap(i,3,subWidth+2)-3;
-                secondSumRow[i]=secondSumRow[i-1]+blackPoints[tmp_i];
-                subSumColumn[i]=blackPoints[tmp_i];
-            }
-        }
-
-        for(int i=2;i<subSumHeight;i++){
-            int* tmpSumRow=&subSumPoints[i*subSumWidth];
-            int tmp_i=cap(i,3,subHeight+2)-3;
-            int* tmpPointRow=&blackPoints[tmp_i*subWidth];
-            tmpSumRow[0]=0;
-            for(int j=1;j<subSumWidth;j++){
-                int tmp_j=cap(j,3,subWidth+2)-3;
-                subSumColumn[j]=subSumColumn[j]+tmpPointRow[tmp_j];
-                tmpSumRow[j]=tmpSumRow[j-1]+subSumColumn[j];
-            }
-        }
-
-#ifdef START_TIMER2
-        QueryPerformanceCounter(&time_over1);
-        time1=(time_over1.QuadPart-time_start.QuadPart)*1000/dqFreq;
-#endif
-
-#ifdef USE_SET_INT
-        int setIntCircle=BITS_PER_WORD/BITS_PER_BYTE;
-        int* averages=new int[setIntCircle];
-#endif
-
-        for(int y=0;y<subHeight;y++){
-            int yoffset = y << BLOCK_SIZE_POWER;
-            if(yoffset > maxYOffset ) yoffset = maxYOffset;
-            // int blockHeight = BLOCK_SIZE;
-            //if (yoffset > maxYOffset) blockHeight = height - yoffset ;
-            int* tmpTopSumRow=&subSumPoints[y*subSumWidth];
-            int* tmpDownSumRow=&subSumPoints[(y+5)*subSumWidth];
-            unsigned char* pLuminaceTemp=luminances->getByteRow(yoffset);
-            for (int x = 0; x < subWidth ;x++) {
-#ifndef USE_SET_INT
-                int xoffset = x << BLOCK_SIZE_POWER;
-                if (xoffset > maxXOffset) xoffset = maxXOffset;
-                //int blockWidth = BLOCK_SIZE;
-                //if(xoffset > maxXOffset) blockWidth = width - xoffset;
-#endif
-                int sum=tmpDownSumRow[x+5]-tmpDownSumRow[x]
-                -tmpTopSumRow[x+5]+tmpTopSumRow[x];
-                int average = sum / 25;
-#ifndef USE_SET_INT
-                thresholdBlock(luminances, xoffset, yoffset, average, width,
-matrix);
-                //
-thresholdIrregularBlock(luminances,xoffset,yoffset,blockWidth,blockHeight,average,width,matrix);
-#else
-                // handle 4 blacks one time
-                int k=x%setIntCircle;
-                averages[k]=average;
-                if(k==(setIntCircle-1)){
-                    int tmp_x=x-setIntCircle+1;
-                    int xoffset=tmp_x<< BLOCK_SIZE_POWER;
-                    // if (xoffset > maxXOffset) xoffset = maxXOffset;
-                    thresholdFourBlocks(luminances,xoffset,yoffset,averages,width,matrix);
-                }
-                //else if(x==subWidth-1) {
-                // for(;k>0;k--){
-                //	  int tmp_x=x-k;
-                //	  int xoffset=tmp_x<< BLOCK_SIZE_POWER;
-                //	  if (xoffset > maxXOffset) xoffset = maxXOffset;
-                //	  thresholdBlock(luminances, xoffset, yoffset, averages[k],
-width, matrix);
-                // }
-                //}
-#endif
-            }
-
-        }
-#ifdef USE_SET_INT
-        delete [] averages;
-#endif
-
-#ifdef START_TIMER2
-        QueryPerformanceCounter(&time_over2);
-        time2=(time_over2.QuadPart-time_over1.QuadPart)*1000/dqFreq;
-        //cout<<"Interl image caculation time: "<<time1<<endl;
-        // cout<<"Threshold Block time: "<<time2<<endl;
-#endif
-
-#else
-        ////////  The original google codes ////////
-        for (int y = 0; y < subHeight; y++) {
-            int yoffset = y << BLOCK_SIZE_POWER;
-            if (yoffset > maxYOffset) {
-                yoffset = maxYOffset;
-            }
-            for (int x = 0; x < subWidth; x++) {
-                int xoffset = x << BLOCK_SIZE_POWER;
-                if (xoffset > maxXOffset) {
-                    xoffset = maxXOffset;
-                }
-                int left = cap(x, 2, subWidth - 3);
-                int top = cap(y, 2, subHeight - 3);
-                int sum = 0;
-                for (int z = -2; z <= 2; z++) {
-                    int *blackRow = &blackPoints[(top + z) * subWidth];
-                    sum += blackRow[left - 2];
-                    sum += blackRow[left - 1];
-                    sum += blackRow[left];
-                    sum += blackRow[left + 1];
-                    sum += blackRow[left + 2];
-                }
-                int average = sum / 25;
-                thresholdBlock(luminances, xoffset, yoffset, average, width,
-matrix);
-            }
-        }
-#endif
-
-}
-*/
 
 // For each block in the image, calculates the average black point using a 5*5
 // grid of the blocks around it. Also handles the corner cases (fractional
@@ -466,116 +303,6 @@ void HybridBinarizer::calculateThresholdForBlock(Ref<ByteMatrix>& luminances, in
                                                  ErrorHandler& err_handler) {
     int maxYOffset = _height - BLOCK_SIZE;
     int maxXOffset = _width - BLOCK_SIZE;
-#ifdef START_TIMER2
-    _LARGE_INTEGER time_start, time_over1, time_over2, time_over3;
-    double time1 = 0.0, time2 = 0.0, time3 = 0.0;
-    double dqFreq;
-    LARGE_INTEGER f;
-    QueryPerformanceFrequency(&f);
-    dqFreq = (double)f.QuadPart;
-    QueryPerformanceCounter(&time_start);
-#endif
-
-#ifndef USE_GOOGLE_CODE
-
-    int subSumWidth = subWidth + 5;
-    int subSumHeight = subHeight + 5;
-    int subSumSize = subSumWidth * subSumHeight;
-
-    int* secondSumRow = &subSumPoints[subSumWidth];
-    for (int i = 0; i < subSumWidth; i++) {
-        // first row
-        subSumPoints[i] = 0;
-        // second row
-        if (i == 0) {
-            subSumColumn[i] = 0;
-            secondSumRow[i] = 0;
-        } else {
-            int tmp_i = cap(i, 3, subWidth + 2) - 3;
-            secondSumRow[i] = secondSumRow[i - 1] + blackPoints[tmp_i];
-            subSumColumn[i] = blackPoints[tmp_i];
-        }
-    }
-
-    for (int i = 2; i < subSumHeight; i++) {
-        int* tmpSumRow = &subSumPoints[i * subSumWidth];
-        int tmp_i = cap(i, 3, subHeight + 2) - 3;
-        int* tmpPointRow = &blackPoints[tmp_i * subWidth];
-        tmpSumRow[0] = 0;
-        for (int j = 1; j < subSumWidth; j++) {
-            int tmp_j = cap(j, 3, subWidth + 2) - 3;
-            subSumColumn[j] = subSumColumn[j] + tmpPointRow[tmp_j];
-            tmpSumRow[j] = tmpSumRow[j - 1] + subSumColumn[j];
-        }
-    }
-
-#ifdef START_TIMER2
-    QueryPerformanceCounter(&time_over1);
-    time1 = (time_over1.QuadPart - time_start.QuadPart) * 1000 / dqFreq;
-#endif
-
-#ifdef USE_SET_INT
-    int setIntCircle = BITS_PER_WORD / BITS_PER_BYTE;
-    int* averages = new int[setIntCircle];
-#endif
-
-    for (int y = 0; y < subHeight; y++) {
-        int yoffset = y << BLOCK_SIZE_POWER;
-        if (yoffset > maxYOffset) yoffset = maxYOffset;
-        // int blockHeight = BLOCK_SIZE;
-        // if (yoffset > maxYOffset) blockHeight = height - yoffset ;
-        int* tmpTopSumRow = &subSumPoints[y * subSumWidth];
-        int* tmpDownSumRow = &subSumPoints[(y + 5) * subSumWidth];
-        unsigned char* pLuminaceTemp = luminances->getByteRow(yoffset);
-        for (int x = 0; x < subWidth; x++) {
-#ifndef USE_SET_INT
-            int xoffset = x << BLOCK_SIZE_POWER;
-            if (xoffset > maxXOffset) xoffset = maxXOffset;
-                // int blockWidth = BLOCK_SIZE;
-                // if(xoffset > maxXOffset) blockWidth = width - xoffset;
-#endif
-            int sum =
-                tmpDownSumRow[x + 5] - tmpDownSumRow[x] - tmpTopSumRow[x + 5] + tmpTopSumRow[x];
-            int average = sum / 25;
-#ifndef USE_SET_INT
-            thresholdBlock(luminances, xoffset, yoffset, average, matrix, err_handler);
-            if (err_handler.ErrCode()) return;
-                // thresholdIrregularBlock(luminances,xoffset,yoffset,blockWidth,blockHeight,average,width,matrix);
-#else
-            // handle 4 blacks one time
-            int k = x % setIntCircle;
-            averages[k] = average;
-            if (k == (setIntCircle - 1)) {
-                int tmp_x = x - setIntCircle + 1;
-                int xoffset = tmp_x << BLOCK_SIZE_POWER;
-                // if (xoffset > maxXOffset) xoffset = maxXOffset;
-                thresholdFourBlocks(luminances, xoffset, yoffset, averages, width, matrix);
-            }
-            // else if(x==subWidth-1) {
-            // for(;k>0;k--){
-            //	  int tmp_x=x-k;
-            //	  int xoffset=tmp_x<< BLOCK_SIZE_POWER;
-            //	  if (xoffset > maxXOffset) xoffset = maxXOffset;
-            //	  thresholdBlock(luminances, xoffset, yoffset, averages[k],
-            // width, matrix);
-            // }
-            //}
-#endif
-        }
-    }
-#ifdef USE_SET_INT
-    delete[] averages;
-#endif
-
-#ifdef START_TIMER2
-    QueryPerformanceCounter(&time_over2);
-    time2 = (time_over2.QuadPart - time_over1.QuadPart) * 1000 / dqFreq;
-    // cout<<"Interl image caculation time: "<<time1<<endl;
-// cout<<"Threshold Block time: "<<time2<<endl;
-#endif
-
-#else
-    ////////  The original google codes ////////
 
     int blockArea = ((2 * THRES_BLOCKSIZE + 1) * (2 * THRES_BLOCKSIZE + 1));
 
@@ -612,7 +339,6 @@ void HybridBinarizer::calculateThresholdForBlock(Ref<ByteMatrix>& luminances, in
             if (err_handler.ErrCode()) return;
         }
     }
-#endif
 }
 
 #endif
@@ -692,18 +418,6 @@ void HybridBinarizer::thresholdIrregularBlock(Ref<ByteMatrix>& _luminances, int 
 }
 
 namespace {
-#ifndef USE_GOOGLE_CODE
-int getBlackPointFromNeighbors(ArrayRef<int>& blackPoints, int subWidth, int x, int y) {
-    int neihbors = 0;
-    int* pTemp = &blackPoints[(y - 1) * subWidth + x];
-    neihbors += *pTemp;
-    --pTemp;
-    neihbors += *pTemp;
-    pTemp = pTemp + subWidth;
-    neihbors += *pTemp;
-    return neihbors >> 2;
-}
-#else
 #ifdef USE_LEVEL_BINARIZER
 ////////  The original google codes ////////
 inline int getBlackPointFromNeighbors(ArrayRef<BINARIZER_BLOCK> block, int subWidth, int x, int y) {
@@ -720,7 +434,7 @@ inline int getBlackPointFromNeighbors(ArrayRef<int> blackPoints, int subWidth, i
 }
 #endif
 
-#endif
+
 }  // namespace
 
 /*
@@ -858,56 +572,6 @@ ArrayRef<int> HybridBinarizer::calculateBlackPoints(Ref<ByteMatrix>& luminances,
     const int minDynamicRange = 24;
     int maxYOffset = _height - BLOCK_SIZE;
     int maxXOffset = _width - BLOCK_SIZE;
-
-#ifndef USE_GOOGLE_CODE
-
-    ArrayRef<int> blackPoints(subHeight * subWidth);
-    ArrayRef<BlacKPointsInfo> blackPointsInfo = new Array<BlacKPointsInfo>(subHeight * subWidth);
-    // memset(blackPointsInfo,0,sizeof(BlacKPointsInfo)*subHeight*subWidth);
-    for (int i = 0; i < subWidth * subHeight; i++) {
-        blackPointsInfo[i].sum = 0;
-        blackPointsInfo[i].min = 0xFF;
-        blackPointsInfo[i].max = 0;
-    }
-    unsigned char* pLuminanceTemp = luminances->bytes;
-
-    for (int i = 0; i < _height; i++) {
-        int i_black = i / 8;
-        BlacKPointsInfo* pInfoTemp = &blackPointsInfo[i_black * subWidth];
-        for (int j = 0; j < _width; j++) {
-            int j_black = j / 8;
-            int pixel = *pLuminanceTemp++;
-#ifdef USE_MAX_MIN
-            if (pixel < pInfoTemp[j_black].min) pInfoTemp[j_black].min = pixel;
-            if (pixel > pInfoTemp[j_black].max) pInfoTemp[j_black].max = pixel;
-#endif
-            pInfoTemp[j_black].sum += pixel;
-        }
-    }
-
-    for (int y = 0, k = 0; y < subHeight; y++) {
-        for (int x = 0; x < subWidth; x++, k++) {
-            int sum = blackPointsInfo[k].sum;
-            int average = sum >> (BLOCK_SIZE_POWER * 2);
-#ifdef USE_MAX_MIN
-            int max = blackPointsInfo[k].max;
-            int min = blackPointsInfo[k].min;
-            if (max - min <= minDynamicRange) {
-                average = min >> 1;
-                if (x > 0 && y > 0) {
-                    int bp = getBlackPointFromNeighbors(blackPoints, subWidth, x, y);
-                    if (min < bp) average = bp;
-                }
-            }
-#endif
-            blackPoints[k] = average;
-        }
-    }
-    // delete [] blackPointsInfo;
-
-#else
-
-    ////////  The original google codes ////////
     ArrayRef<int> blackPoints(subWidth * subHeight);
     for (int y = 0; y < subHeight; y++) {
         int yoffset = y << BLOCK_SIZE_POWER;
@@ -978,7 +642,7 @@ ArrayRef<int> HybridBinarizer::calculateBlackPoints(Ref<ByteMatrix>& luminances,
             blackPoints[y * subWidth + x] = average;
         }
     }
-#endif
+
     // int k=0;
     // ofstream fout("blackpoints2.txt");
     // for(int i=0;i<subHeight;i++){
@@ -1001,15 +665,6 @@ int HybridBinarizer::binarizeByBlock(ErrorHandler& err_handler) {
         // ArrayRef<char> luminances = source.getMatrix();
         // Ref<ByteMatrix> luminanMatix=source.getByteMatrix();
 
-#ifdef START_TIMER2
-        _LARGE_INTEGER time_start, time_over1, time_over2, time_over3;
-        double time1 = 0.0, time2 = 0.0, time3 = 0.0;
-        double dqFreq;
-        LARGE_INTEGER f;
-        QueryPerformanceFrequency(&f);
-        dqFreq = (double)f.QuadPart;
-        QueryPerformanceCounter(&time_start);
-#endif
 
 #ifndef USE_LEVEL_BINARIZER
         ArrayRef<int> blackPoints =
@@ -1018,11 +673,6 @@ int HybridBinarizer::binarizeByBlock(ErrorHandler& err_handler) {
         // ArrayRef<int> blackPoints = getBlackPoints(1);
 #endif
 
-#ifdef START_TIMER2
-        QueryPerformanceCounter(&time_over1);
-        time1 = (time_over1.QuadPart - time_start.QuadPart) * 1000 / dqFreq;
-
-#endif
 
         Ref<BitMatrix> newMatrix(new BitMatrix(width, height, err_handler));
         if (err_handler.ErrCode()) return -1;

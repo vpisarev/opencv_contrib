@@ -48,7 +48,6 @@ using zxing::qrcode::PatternResult;
 // even if the QR Code is rotated or skewed, or partially obscured.
 Detector::Detector(Ref<BitMatrix> image, Ref<UnicomBlock> block) : image_(image), block_(block) {
     detectorState_ = START;
-    finderConditionLoose_ = false;
     possiblePatternResults_.clear();
 }
 
@@ -57,7 +56,6 @@ Ref<BitMatrix> Detector::getImage() const { return image_; }
 // Detects a QR Code in an image
 void Detector::detect(DecodeHints const &hints, ErrorHandler &err_handler) {
     FinderPatternFinder finder(image_, block_);
-    finder.setFinderLoose(finderConditionLoose_);
     std::vector<Ref<FinderPatternInfo> > finderInfos = finder.find(hints, err_handler);
     if (err_handler.ErrCode()) return;
 
@@ -528,20 +526,10 @@ Ref<AlignmentPattern> Detector::findAlignmentInRegion(float overallEstModuleSize
         image_, alignmentAreaLeftX, alignmentAreaTopY, alignmentAreaRightX - alignmentAreaLeftX,
         alignmentAreaBottomY - alignmentAreaTopY, overallEstModuleSize);
 
-#ifdef FIND_WHITE_ALIGNMENTPATTERN
-    vector<Ref<AlignmentPattern> > findAlignments = alignmentFinder.find(err_handler);
-    if (err_handler.ErrCode()) return Ref<AlignmentPattern>();
-    if (findAlignments.size() > 1) whiteAlignmentPattern_ = findAlignments[1];
-    for (int i = 0; i < findAlignments.size(); i++) {
-        possibleAlignmentPatterns_.push_back(findAlignments[i]);
-    }
-    return findAlignments[0];
-#else
-    // return alignmentFinder.find();
     Ref<AlignmentPattern> ap = alignmentFinder.find(err_handler);
     if (err_handler.ErrCode()) return Ref<AlignmentPattern>();
     return ap;
-#endif
+
 }
 
 Ref<AlignmentPattern> Detector::findAlignmentWithFitLine(Ref<ResultPoint> topLeft,

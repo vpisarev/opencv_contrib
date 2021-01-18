@@ -17,9 +17,6 @@
 #include "bitarray.hpp"
 #include "bitmatrix.hpp"
 
-#ifndef USE_GOOGLE_CODE
-#define USE_GOOGLE_CODE 0
-#endif
 //#define INPUT_BINARIZED
 namespace zxing {
 

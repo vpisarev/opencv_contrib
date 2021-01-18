@@ -22,9 +22,6 @@
 #define USE_MAX_MIN 0
 #endif
 
-#ifndef USE_GOOGLE_CODE
-#define USE_GOOGLE_CODE 0
-#endif
 
 namespace zxing {
 

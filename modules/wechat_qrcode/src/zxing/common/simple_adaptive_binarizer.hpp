@@ -17,9 +17,6 @@
 #include "bitmatrix.hpp"
 #include "global_histogram_binarizer.hpp"
 
-#ifndef USE_GOOGLE_CODE
-#define USE_GOOGLE_CODE 0
-#endif
 
 namespace zxing {
 

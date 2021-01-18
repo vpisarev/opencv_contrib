@@ -29,19 +29,6 @@ Ref<FinderPattern> FinderPatternInfo::getTopLeft() { return topLeft_; }
 
 Ref<FinderPattern> FinderPatternInfo::getTopRight() { return topRight_; }
 
-void FinderPatternInfo::showDetail() {
-    vector<Ref<FinderPattern> > findPatterns;
-    findPatterns.push_back(topLeft_);
-    findPatterns.push_back(topRight_);
-    findPatterns.push_back(bottomLeft_);
-
-    for (size_t i = 0; i < findPatterns.size(); i++) {
-        printf("count %d ms %.4f hstate %d vstate %d anglefix %.4f\n", findPatterns[i]->getCount(),
-               findPatterns[i]->getEstimatedModuleSize(),
-               findPatterns[i]->getHorizontalCheckState(), findPatterns[i]->getVerticalCheckState(),
-               anglePossibleFix_);
-    }
-}
 
 float FinderPatternInfo::getPossibleFix() { return possibleFix_; }
 

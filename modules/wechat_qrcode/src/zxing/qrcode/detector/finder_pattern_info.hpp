@@ -41,7 +41,6 @@ public:
     static void calculateSides(Ref<FinderPattern> centerA, Ref<FinderPattern> centerB,
                                Ref<FinderPattern> centerC, float &longSide, float &shortSide1,
                                float &shortSide2);
-    void showDetail();
 };
 }  // namespace qrcode
 }  // namespace zxing

@@ -580,7 +580,7 @@ bool FinderPatternFinder::foundPatternCross(int* stateCount) {
 
     int maxVariance = moduleSize;
 
-    if (!getFinderLoose() || moduleSize > minModuleSizeINT) maxVariance = moduleSize / 2;
+    if (moduleSize > minModuleSizeINT) maxVariance = moduleSize / 2;
 
     int startCountINT = stateCountINT[0];
     int endCountINT = stateCountINT[4];
@@ -625,94 +625,6 @@ int FinderPatternFinder::getMinModuleSize() {
     return minModuleSize;
 }
 
-// return if the proportions of the counts is close enough to 1/1/3/1/1 ratios
-// used by finder patterns to be considered a match
-bool FinderPatternFinder::foundPatternCrossLoose(int* stateCount) {
-    int totalModuleSize = 0;
-
-    int stateCountINT[5];
-
-    int minModuleSizeINT = 3;
-    minModuleSizeINT <<= INTEGER_MATH_SHIFT;
-
-    for (int i = 0; i < 5; i++) {
-        if (stateCount[i] <= 0) {
-            return false;
-        }
-        stateCountINT[i] = stateCount[i] << INTEGER_MATH_SHIFT;
-        totalModuleSize += stateCount[i];
-    }
-    if (totalModuleSize < 7) {
-        return false;
-    }
-
-    CURRENT_CHECK_STATE = FinderPatternFinder::NOT_PATTERN;
-
-    totalModuleSize = totalModuleSize << INTEGER_MATH_SHIFT;
-
-    // Older version to check 3 times, use 4 or 5 points
-    int moduleSize = totalModuleSize / 7;
-
-    int maxVariance = moduleSize;
-
-    if (!getFinderLoose() || moduleSize > minModuleSizeINT) maxVariance = moduleSize / 2;
-
-    // 1:1:3:1:1
-    if (abs(moduleSize - stateCountINT[0]) < maxVariance &&
-        abs(moduleSize - stateCountINT[1]) < maxVariance &&
-        abs(3 * moduleSize - stateCountINT[2]) < 1.5 * maxVariance &&
-        abs(moduleSize - stateCountINT[3]) < maxVariance &&
-        abs(moduleSize - stateCount[4]) < maxVariance) {
-        CURRENT_CHECK_STATE = FinderPatternFinder::NORMAL;
-        return true;
-    }
-
-    // n:1:3:1:1 (but n > 1)
-    moduleSize = (totalModuleSize - stateCountINT[0]) / 6;
-    maxVariance = moduleSize;
-
-    if (!getFinderLoose() || moduleSize > minModuleSizeINT) maxVariance = moduleSize / 2;
-
-    if (abs(moduleSize - stateCountINT[1]) < maxVariance &&
-        abs(3 * moduleSize - stateCountINT[2]) < 1.5 * maxVariance &&
-        abs(moduleSize - stateCountINT[3]) < maxVariance &&
-        abs(moduleSize - stateCountINT[4]) < maxVariance) {
-        CURRENT_CHECK_STATE = FinderPatternFinder::LEFT_SPILL;
-        return true;
-    }
-
-    // 1:1:3:1:n (but n > 1)
-    moduleSize = (totalModuleSize - stateCountINT[4]) / 6;
-    maxVariance = moduleSize;
-
-    if (!getFinderLoose() || moduleSize > minModuleSizeINT) maxVariance = moduleSize / 2;
-
-    if (abs(moduleSize - stateCountINT[0]) < maxVariance &&
-        abs(moduleSize - stateCountINT[1]) < maxVariance &&
-        abs(3 * moduleSize - stateCountINT[2]) < 1.5 * maxVariance &&
-        abs(moduleSize - stateCountINT[3]) < maxVariance) {
-        CURRENT_CHECK_STATE = FinderPatternFinder::RIHGT_SPILL;
-        return true;
-    }
-
-    // n:1:3:1:n (but n > 1)
-    moduleSize = (totalModuleSize - stateCountINT[4] - stateCountINT[0]) / 5;
-    maxVariance = moduleSize;
-
-    if (!getFinderLoose() || moduleSize > minModuleSizeINT) maxVariance = moduleSize / 2;
-
-    if (abs(moduleSize - stateCountINT[1]) < maxVariance &&
-        abs(3 * moduleSize - stateCountINT[2]) < 1.5 * maxVariance &&
-        abs(moduleSize - stateCountINT[3]) < maxVariance) {
-        if ((stateCountINT[4] - moduleSize) > -maxVariance &&
-            (stateCountINT[0] - moduleSize) > -maxVariance) {
-            CURRENT_CHECK_STATE = FinderPatternFinder::LEFT_RIGHT_SPILL;
-            return true;
-        }
-    }
-    return false;
-}
-
 /**
  * After a vertical and horizontal scan finds a potential finder pattern, this
  * method "cross-cross-cross-checks" by scanning down diagonally through the
@@ -742,7 +654,7 @@ bool FinderPatternFinder::crossCheckDiagonal(int startI, int centerJ, int maxCou
     stateCount[3] = 0;
     stateCount[4] = 0;
 
-    if (getFinderLoose() && !image_->get(centerJ, startI)) {
+    if (!image_->get(centerJ, startI)) {
         if (startI + 1 < maxI && image_->get(centerJ, startI + 1))
             startI = startI + 1;
         else if (0 < startI - 1 && image_->get(centerJ, startI - 1))
@@ -870,7 +782,7 @@ float FinderPatternFinder::crossCheckVertical(size_t startI, size_t centerJ, int
     int stateCount[5];
     for (int i = 0; i < 5; i++) stateCount[i] = 0;
 
-    if (getFinderLoose() && !image_->get(centerJ, startI)) {
+    if (!image_->get(centerJ, startI)) {
         if ((int)startI + 1 < maxI && image_->get(centerJ, startI + 1))
             startI = startI + 1;
         else if (0 < (int)startI - 1 && image_->get(centerJ, startI - 1))
@@ -916,9 +828,7 @@ float FinderPatternFinder::crossCheckVertical(size_t startI, size_t centerJ, int
         ii--;
         p -= imgWidth;
     }
-    // if (stateCount[0] > maxCount) {
-    //	return nan();
-    //}
+
     if (stateCount[0] >= maxCount) {
         tmpCheckState = FinderPatternFinder::LEFT_SPILL;
     }
@@ -1005,7 +915,7 @@ float FinderPatternFinder::crossCheckHorizontal(size_t startJ, size_t centerI, i
     int stateCount[5];
     for (int i = 0; i < 5; i++) stateCount[i] = 0;
 
-    if (getFinderLoose() && !image_->get(startJ, centerI)) {
+    if (!image_->get(startJ, centerI)) {
         if ((int)startJ + 1 < maxJ && image_->get(startJ + 1, centerI))
             startJ = startJ + 1;
         else if (0 < (int)startJ - 1 && image_->get(startJ - 1, centerI))
@@ -1420,17 +1330,17 @@ vector<Ref<FinderPattern>> FinderPatternFinder::selectBestPatterns(ErrorHandler&
     int tryHardPossibleCenterSize = 15;
     int possibleCenterSize = 12;
 
-    if (possibleCenters_.size() > size_t(tryHardPossibleCenterSize) && getFinderLoose()) {
+    if (possibleCenters_.size() > size_t(tryHardPossibleCenterSize)) {
         sort(possibleCenters_.begin(), possibleCenters_.end(), CountComparator());
         possibleCenters_.erase(possibleCenters_.begin() + tryHardPossibleCenterSize,
                                possibleCenters_.end());
-    } else if (possibleCenters_.size() > size_t(possibleCenterSize) && getFinderLoose()) {
+    } else if (possibleCenters_.size() > size_t(possibleCenterSize)) {
         sort(possibleCenters_.begin(), possibleCenters_.end(), CountComparator());
         possibleCenters_.erase(possibleCenters_.begin() + possibleCenterSize,
                                possibleCenters_.end());
     }
 
-    if (possibleCenters_.size() >= 6 && getFinderLoose()) {
+    if (possibleCenters_.size() >= 6) {
         sort(possibleCenters_.begin(), possibleCenters_.end(), XComparator());
         possibleCenters_.erase(possibleCenters_.begin() + 4, possibleCenters_.end() - 2);
         sort(possibleCenters_.begin(), possibleCenters_.begin() + 4, YComparator());

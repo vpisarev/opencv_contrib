@@ -38,73 +38,25 @@ private:
     int width_;
     int height_;
     float moduleSize_;
-
-#ifdef FIND_WHITE_ALIGNMENTPATTERN
-    std::vector<AlignmentPattern *> *possibleWhiteCenters_;
-    Ref<AlignmentPattern> confirmedWhiteAlignmentPattern;
-    Ref<AlignmentPattern> confirmedAlignmentPattern;
-    bool foundAlignmentPattern;
-    bool foundWhiteAlignmentPattern;
-    bool lastTry;
-#endif
-
     static float centerFromEnd(std::vector<int> &stateCount, int end);
     float crossCheckVertical(int startI, int centerJ, int maxCount, int originalStateCountTotal);
-#ifdef FIND_WHITE_ALIGNMENTPATTERN
-    static float centerFromEndWhite(std::vector<int> &stateCount, int end);
-    float crossCheckVerticalWhite(int startI, int centerJ, int maxCount,
-                                  int originalStateCountTotal);
-#endif
+
 
 public:
     AlignmentPatternFinder(Ref<BitMatrix> image, int startX, int startY, int width, int height,
                            float moduleSize);
     AlignmentPatternFinder(Ref<BitMatrix> image, float moduleSize);
     ~AlignmentPatternFinder();
-#ifdef FIND_WHITE_ALIGNMENTPATTERN
-    std::vector<Ref<AlignmentPattern> > find(ErrorHandler &err_handler);
-    void setLastTry(bool toSet) { lastTry = toSet; }
-    void foundPatternCross(std::vector<int> &stateCount);
-    void handlePossibleCenter(std::vector<int> &stateCount, int i, int j);
-#else
+
     Ref<AlignmentPattern> find(ErrorHandler &err_handler);
     bool foundPatternCross(std::vector<int> &stateCount);
     Ref<AlignmentPattern> handlePossibleCenter(std::vector<int> &stateCount, int i, int j);
-#endif
+
 
 private:
     AlignmentPatternFinder(const AlignmentPatternFinder &);
     AlignmentPatternFinder &operator=(const AlignmentPatternFinder &);
 
-#ifdef USING_WX
-private:
-    std::vector<float> sinTable_;
-    std::vector<float> cosTable_;
-    float crossCheckVertical(size_t startI, size_t centerJ, int maxCount,
-                             int originalStateCountTotal, int *state);
-    float crossCheckHorizontal(size_t startI, size_t centerJ, int maxCount,
-                               int originalStateCountTotal, int *state);
-    static float centerFromEnd(int *stateCount, int end);
-    bool foundPatternCross(int *stateCount);
-
-public:
-    AlignmentPatternFinder(Ref<BitMatrix> image, float moduleSize);
-    void initAngleTable();
-    bool findPatternLine(Ref<FinderPattern> const &from, Ref<FinderPattern> const &to,
-                         double &aValue, double &pValue);
-    bool findPatternLineSample(Ref<FinderPattern> const &from, Ref<FinderPattern> const &to,
-                               std::vector<std::pair<int, int> > &sample);
-    int findPatternLineCenterOneSide(int startX, int startY, int deltaX, bool steep, int side);
-    int findPatternLineCenter(int startX, int startY, int deltaX, bool steep);
-    bool findPatternLineStartPoint(Ref<FinderPattern> const &from, Ref<FinderPattern> const &to,
-                                   int &startX, int &startY, bool &steep, int &xstep);
-    void findPatternLineSampleOneSide(int startX, int startY, int endY, int deltaX, int steep,
-                                      int side, std::vector<std::pair<int, int> > &sample);
-    Ref<AlignmentPattern> findInRange(Ref<AlignmentPattern> const &estimateCenter, size_t startX,
-                                      size_t startY, size_t width, size_t height,
-                                      ErrorHandler &err_handler);
-    void handlePossibleCenter(int *stateCount, size_t i, size_t j);
-#endif
 };
 }  // namespace qrcode
 }  // namespace zxing

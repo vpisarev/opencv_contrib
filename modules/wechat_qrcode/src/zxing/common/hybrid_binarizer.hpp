@@ -25,25 +25,9 @@
 #define USE_MAX_MIN 0
 #endif
 
-#ifndef USE_GOOGLE_CODE
-#define USE_GOOGLE_CODE 0
-#endif
 
 #define USE_LEVEL_BINARIZER 1
 
-// Macro to set the 8 bits one time in function calculateThresholdForBlock
-// and BitMatrix::setEightOneTime
-//#ifndef USE_SET_EIGHT
-//#define USE_SET_EIGHT 0
-//#endif
-
-// Macro to set the entire integer one time in function
-// calculateThresholdForBlock and BitMatrix::setIntOneTime
-//#ifndef USE_SET_INT
-//#ifndef USE_GOOGLE_CODE
-//#define USE_SET_INT 0
-//#endif
-//#endif
 
 namespace zxing {
 

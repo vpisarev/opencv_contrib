@@ -306,7 +306,6 @@ int GlobalHistogramBinarizer::binarizeImage0(ErrorHandler& err_handler) {
     initArrays(width);
     ArrayRef<int> localBuckets = buckets;
 
-#ifdef USE_GOOGLE_CODE
     for (int y = 1; y < 5; y++) {
         int row = height * y / 5;
         ArrayRef<char> localLuminances = source.getRow(row, luminances, err_handler);
@@ -318,31 +317,6 @@ int GlobalHistogramBinarizer::binarizeImage0(ErrorHandler& err_handler) {
         }
     }
 
-#else
-    // use this sampling method, improve the correct rate a little
-    for (int y = 1; y < 5; y++) {
-        int row = height * y / 5;
-        if (y == 2) {
-            int right = (width << 2) / 5;
-            for (; row < height * 3 / 5 - 1; row += 4) {
-                ArrayRef<char> localLuminances = source.getRow(row, luminances, err_handler);
-                if (err_handler.ErrCode()) return -1;
-                for (int x = width / 5; x < right; x += 2) {
-                    int pixel = localLuminances[x] & 0xff;
-                    localBuckets[pixel >> LUMINANCE_SHIFT]++;
-                }
-            }
-        } else {
-            ArrayRef<char> localLuminances = source.getRow(row, luminances, err_handler);
-            if (err_handler.ErrCode()) return -1;
-            int right = (width << 2) / 5;
-            for (int x = width / 5; x < right; x++) {
-                int pixel = localLuminances[x] & 0xff;
-                localBuckets[pixel >> LUMINANCE_SHIFT]++;
-            }
-        }
-    }
-#endif
 
     int blackPoint = estimateBlackPoint(localBuckets, err_handler);
     if (err_handler.ErrCode()) return -1;

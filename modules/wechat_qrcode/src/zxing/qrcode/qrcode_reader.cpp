@@ -13,14 +13,7 @@
 #include "../common/bitarray.hpp"
 #include "../reader_exception.hpp"
 #include "detector/detector.hpp"
-#ifdef STRAT_TIMER
-#include <windows.h>
-#endif
 
-#define USE_ANOTHER_LOG 1
-#ifdef WITH_OPENCV
-#define SHOW_IMAGE
-#endif
 
 using zxing::ErrorHandler;
 
@@ -68,21 +61,13 @@ Ref<Result> QRCodeReader::decodeMore(Ref<BinaryBitmap> image, Ref<BitMatrix> ima
     nowHints_ = hints;
     std::string ept;
 
-    bool useLoose[2] = {false, true};
-    // bool useLoose[2] = {true, false};
     if (imageBitMatrix == NULL) return Ref<Result>();
     image->m_poUnicomBlock->Init();
     image->m_poUnicomBlock->Reset(imageBitMatrix);
 
     for (int tryTimes = 0; tryTimes < 1; tryTimes++) {
-        err_handler.Reset();
         Ref<Detector> detector(new Detector(imageBitMatrix, image->m_poUnicomBlock));
         err_handler.Reset();
-
-        // Use loose ?
-        if (useLoose[tryTimes] == true) {
-            detector->setFinderLoose(true);
-        }
 
         detector->detect(hints, err_handler);
         if (err_handler.ErrCode()) {

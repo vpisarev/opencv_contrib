@@ -22,8 +22,6 @@
 
 using zxing::ErrorHandler;
 using zxing::ReaderErrorHandler;
-// Donot handle to small finder pattern, as it may usually caused by noise
-//#define MIN_MODULESIZE 3.0
 
 namespace zxing {
 
@@ -39,8 +37,6 @@ public:
         RIHGT_SPILL = 2,
         LEFT_RIGHT_SPILL = 3,
         NOT_PATTERN = 4,
-        // UP_SPILL = 3,
-        // DOWN_SPILL = 4,
     };
 
 private:
@@ -71,14 +67,12 @@ private:
     CrossCheckState CURRENT_CHECK_STATE;
     int compared_finder_counts;
 
-    // ArrayRef<float> _isVerticalChecked;
     struct HorizontalCheckedResult {
         size_t centerI;
         float centerJ;
     };
 
     vector<vector<HorizontalCheckedResult> > _horizontalCheckedResult;
-    // ArrayRef<float> _checkedResult;
 
     // INI CONFIG
 
@@ -93,9 +87,6 @@ protected:
     float centerFromEnd(int* stateCount, int end);
     // check if satisfies finder pattern
     bool foundPatternCross(int* stateCount);
-    // Used only for checkDiagonal
-    bool foundPatternCrossLoose(int* stateCount);
-    bool finderConditionLoose_;
 
     // try to insert to possibleCenters_
     int getStateCountTotal(int* stateCount, const CrossCheckState& check_state);
@@ -138,8 +129,6 @@ public:
     FinderPatternFinder(Ref<BitMatrix> image, Ref<UnicomBlock> block);
 
     std::vector<Ref<FinderPatternInfo> > find(DecodeHints const& hints, ErrorHandler& err_handler);
-    void setFinderLoose(bool loose) { finderConditionLoose_ = loose; }
-    bool getFinderLoose() { return finderConditionLoose_; }
 
     bool checkIsoscelesRightTriangle(Ref<FinderPattern> centerA, Ref<FinderPattern> centerB,
                                      Ref<FinderPattern> centerC, float& longSide);
