@@ -7,8 +7,6 @@
 
 #include "bytematrix.hpp"
 #include <stdio.h>
-#include "illegal_argument_exception.hpp"
-
 #include <iostream>
 #include <sstream>
 #include <string>

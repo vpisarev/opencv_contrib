@@ -129,7 +129,6 @@ Version *BitMatrixParser::readVersion(ErrorHandler &err_handler) {
  * within the QR Code.</p>
  *
  * @return bytes encoded within the QR Code
- * @throws FormatException if the exact number of bytes expected is not read
  */
 ArrayRef<char> BitMatrixParser::readCodewords(ErrorHandler &err_handler) {
     Ref<FormatInformation> formatInfo = readFormatInformation(err_handler);

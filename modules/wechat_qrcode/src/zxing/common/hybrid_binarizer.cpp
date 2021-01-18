@@ -10,8 +10,6 @@
 
 #include "hybrid_binarizer.hpp"
 #include <stdint.h>
-#include "illegal_argument_exception.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -63,10 +61,6 @@ Ref<Binarizer> HybridBinarizer::createBinarizer(Ref<LuminanceSource> source) {
     return Ref<Binarizer>(new GlobalHistogramBinarizer(source));
 }
 
-/* Init integral
- */
-
-#ifdef USE_LEVEL_BINARIZER
 int HybridBinarizer::initBlockIntegral() {
     blockIntegral_ = new Array<int>(width * height);
 
@@ -110,47 +104,6 @@ int HybridBinarizer::initBlockIntegral() {
 
     return 1;
 }
-#endif
-
-/*
-int HybridBinarizer::initIntegral()
-{
-    int width = grayByte_->getWidth();
-    int height = grayByte_->getHeight();
-
-    int* integral = integral_->data();
-
-    unsigned char* therow = grayByte_->getByteRow(0);
-
-    // first row only
-    int rs = 0;
-    for(int j=0; j<width; j++)
-    {
-        rs += therow[j];
-        integral[j] = rs;
-    }
-
-    // remaining cells are sum above and to the left
-    int offset = 0;
-
-    for(int i=1; i<height; ++i)
-    {
-        therow = grayByte_->getByteRow(i);
-
-        rs = 0;
-
-        offset += width;
-
-        for(int j=0; j<width; ++j)
-        {
-            rs += therow[j];
-            integral[offset+j] = rs + integral[offset-width+j];
-        }
-    }
-
-    return 1;
-}
-*/
 
 /**
  * Calculates the final BitMatrix once for all requests. This could be called
@@ -202,7 +155,6 @@ inline int cap(int value, int min, int max) {
 
 #define THRES_BLOCKSIZE 2
 
-#ifdef USE_LEVEL_BINARIZER
 // No use of level now
 ArrayRef<int> HybridBinarizer::getBlackPoints() {
     int blackWidth, blackHeight;
@@ -264,84 +216,12 @@ void HybridBinarizer::calculateThresholdForBlock(Ref<ByteMatrix>& _luminances, i
             sum = blockIntegral[offset1] - blockIntegral[offset1 + blocksize] -
                   blockIntegral[offset2] + blockIntegral[offset2 + blocksize];
 
-            /*
-            for (int z = -THRES_BLOCKSIZE; z <= THRES_BLOCKSIZE; z++) {
-                int *blackRow = &blackPoints[(top + z) * subWidth];
-      #if 0
-                sum += blackRow[left - 3];
-                sum += blackRow[left - 2];
-                sum += blackRow[left - 1];
-                sum += blackRow[left];
-                sum += blackRow[left + 1];
-                sum += blackRow[left + 2];
-      #endif
-
-
-                for (int k=-THRES_BLOCKSIZE;k<=THRES_BLOCKSIZE;k++)
-                {
-                    sum += blackRow[left+k];
-                }
-
-            }
-
-            if (sum != sum2)
-            {
-                cout<<"ERROR!!"<<endl;
-            }
-            */
-
             int average = sum / blockArea;
             thresholdBlock(_luminances, xoffset, yoffset, average, matrix, err_handler);
             if (err_handler.ErrCode()) return;
         }
     }
 }
-#else
-void HybridBinarizer::calculateThresholdForBlock(Ref<ByteMatrix>& luminances, int subWidth,
-                                                 int subHeight, ArrayRef<int>& blackPoints,
-                                                 Ref<BitMatrix> const& matrix,
-                                                 ErrorHandler& err_handler) {
-    int maxYOffset = _height - BLOCK_SIZE;
-    int maxXOffset = _width - BLOCK_SIZE;
-
-    int blockArea = ((2 * THRES_BLOCKSIZE + 1) * (2 * THRES_BLOCKSIZE + 1));
-
-    for (int y = 0; y < subHeight; y++) {
-        int yoffset = y << BLOCK_SIZE_POWER;
-        if (yoffset > maxYOffset) {
-            yoffset = maxYOffset;
-        }
-        for (int x = 0; x < subWidth; x++) {
-            int xoffset = x << BLOCK_SIZE_POWER;
-            if (xoffset > maxXOffset) {
-                xoffset = maxXOffset;
-            }
-            int left = cap(x, THRES_BLOCKSIZE, subWidth - THRES_BLOCKSIZE - 1);
-            int top = cap(y, THRES_BLOCKSIZE, subHeight - THRES_BLOCKSIZE - 1);
-            int sum = 0;
-            for (int z = -THRES_BLOCKSIZE; z <= THRES_BLOCKSIZE; z++) {
-                int* blackRow = &blackPoints[(top + z) * subWidth];
-                /*
-                //sum += blackRow[left - 3];
-                sum += blackRow[left - 2];
-                sum += blackRow[left - 1];
-                sum += blackRow[left];
-                sum += blackRow[left + 1];
-                sum += blackRow[left + 2];
-                //sum += blackRow[left + 3];*/
-
-                for (int k = -THRES_BLOCKSIZE; k <= THRES_BLOCKSIZE; k++) {
-                    sum += blackRow[left + k];
-                }
-            }
-            int average = sum / blockArea;
-            thresholdBlock(luminances, xoffset, yoffset, average, matrix, err_handler);
-            if (err_handler.ErrCode()) return;
-        }
-    }
-}
-
-#endif
 
 #ifdef USE_SET_INT
 void HybridBinarizer::thresholdFourBlocks(Ref<ByteMatrix>& luminances, int xoffset, int yoffset,
@@ -418,38 +298,18 @@ void HybridBinarizer::thresholdIrregularBlock(Ref<ByteMatrix>& _luminances, int 
 }
 
 namespace {
-#ifdef USE_LEVEL_BINARIZER
-////////  The original google codes ////////
+
 inline int getBlackPointFromNeighbors(ArrayRef<BINARIZER_BLOCK> block, int subWidth, int x, int y) {
     return (block[(y - 1) * subWidth + x].threshold + 2 * block[y * subWidth + x - 1].threshold +
             block[(y - 1) * subWidth + x - 1].threshold) >>
            2;
 }
-#else
-////////  The original google codes ////////
-inline int getBlackPointFromNeighbors(ArrayRef<int> blackPoints, int subWidth, int x, int y) {
-    return (blackPoints[(y - 1) * subWidth + x] + 2 * blackPoints[y * subWidth + x - 1] +
-            blackPoints[(y - 1) * subWidth + x - 1]) >>
-           2;
-}
-#endif
-
 
 }  // namespace
 
-/*
-namespace{
-    struct BlacKPointsInfo{
-        int sum;
-        int max;
-        int min;
-    };
-}
-*/
 
 #define MIN_DYNAMIC_RANGE 24
 
-#ifdef USE_LEVEL_BINARIZER
 // Calculates a single black point for each block of pixels and saves it away.
 int HybridBinarizer::initBlocks() {
     Ref<ByteMatrix>& _luminances = grayByte_;
@@ -507,23 +367,6 @@ int HybridBinarizer::initBlocks() {
         }
     }
 
-    /*
-    for(int y=0;y<subHeight;y++){
-        //int yoffset=y<<BLOCK_SIZE_POWER;
-        //int maxYOffset=height - BLOCK_SIZE;
-        //if(yoffset>maxYOffset) yoffset = maxYOffset;
-        for(int x=0;x<subWidth;x++){
-            //blocks_[y * subWidth + x].min = min;
-            //blocks_[y * subWidth + x].max = max;
-            //blocks_[y * subWidth + x].sum = sum;
-            int min = blocks_[y * subWidth + x].min;
-            int max = blocks_[y * subWidth + x].max;
-            int sum = blocks_[y * subWidth + x].sum;
-            blocks_[y * subWidth + x].threshold = getBlockThreshold(x, y,
-    subWidth, sum, min, max, minDynamicRange, BLOCK_SIZE_POWER);
-        }
-    }*/
-
     return 1;
 }
 
@@ -565,115 +408,9 @@ int HybridBinarizer::getBlockThreshold(int x, int y, int subWidth, int sum, int 
     return average;
 }
 
-#else
-// Calculates a single black point for each block of pixels and saves it away.
-ArrayRef<int> HybridBinarizer::calculateBlackPoints(Ref<ByteMatrix>& luminances, int subWidth,
-                                                    int subHeight, int _width, int _height) {
-    const int minDynamicRange = 24;
-    int maxYOffset = _height - BLOCK_SIZE;
-    int maxXOffset = _width - BLOCK_SIZE;
-    ArrayRef<int> blackPoints(subWidth * subHeight);
-    for (int y = 0; y < subHeight; y++) {
-        int yoffset = y << BLOCK_SIZE_POWER;
-        int maxYOffset = _height - BLOCK_SIZE;
-        if (yoffset > maxYOffset) yoffset = maxYOffset;
-        for (int x = 0; x < subWidth; x++) {
-            int xoffset = x << BLOCK_SIZE_POWER;
-            int maxXOffset = _width - BLOCK_SIZE;
-            if (xoffset > maxXOffset) xoffset = maxXOffset;
-            int sum = 0;
-            int min = 0xFF;
-            int max = 0;
-            for (int yy = 0, offset = yoffset * _width + xoffset; yy < BLOCK_SIZE;
-                 yy++, offset += _width) {
-                for (int xx = 0; xx < BLOCK_SIZE; xx++) {
-                    int pixel = luminances->bytes[offset + xx] & 0xFF;
-                    sum += pixel;
-                    // still looking for good contrast
-                    if (pixel < min) {
-                        min = pixel;
-                    }
-                    if (pixel > max) {
-                        max = pixel;
-                    }
-                }
-
-                // short-circuit min/max tests once dynamic range is met
-                if (max - min > minDynamicRange) {
-                    // finish the rest of the rows quickly
-                    for (yy++, offset += _width; yy < BLOCK_SIZE; yy++, offset += _width) {
-                        for (int xx = 0; xx < BLOCK_SIZE; xx += 2) {
-                            sum += luminances->bytes[offset + xx] & 0xFF;
-                            sum += luminances->bytes[offset + xx + 1] & 0xFF;
-                        }
-                    }
-                }
-            }
-            // See
-            // http://groups.google.com/group/zxing/browse_thread/thread/d06efa2c35a7ddc0
-
-            // The default estimate is the average of the values in the block.
-            int average = sum >> (BLOCK_SIZE_POWER * 2);
-            if (max - min <= minDynamicRange) {
-                // If variation within the block is low, assume this is a block
-                // withe only light or only dark pixels. In that case we do not
-                // want to use the average, as it would divide this low contrast
-                // area into black and white pixels, essentially creating data
-                // out of noise. The default assumption is that the block is
-                // light/background. Since no estimate for the level of dark
-                // pixels exists locally, use half the min for the block.
-                average = min >> 1;
-                if (y > 0 && x > 0) {
-                    // Correct the "white background" assumption for blocks that
-                    // have neighbors by comparing the pixels in this block to
-                    // the previously calculated black points. This is based on
-                    // the fact that dark barcode symbology is always surrounded
-                    // by some amout of light background for which reasonable
-                    // black point estimates were made. The bp estimated at the
-                    // boundaries is used for the interior.
-                    int bp = getBlackPointFromNeighbors(blackPoints, subWidth, x, y);
-                    // The (min<bp) is arbitrary but works better than other
-                    // heuristics that were tried.
-                    if (min < bp) {
-                        average = bp;
-                    }
-                }
-            }
-            blackPoints[y * subWidth + x] = average;
-        }
-    }
-
-    // int k=0;
-    // ofstream fout("blackpoints2.txt");
-    // for(int i=0;i<subHeight;i++){
-    //	for(int j=0;j<subWidth;j++){
-    //		fout<<blackPoints[k++]<<" ";
-    //	}
-    //	cout<<endl;
-    //}
-
-    return blackPoints;
-}
-#endif
 
 int HybridBinarizer::binarizeByBlock(ErrorHandler& err_handler) {
-    // LuminanceSource& source = *getLuminanceSource();
-    // int width = source.getWidth();
-    // int height = source.getHeight();
-
     if (width >= MINIMUM_DIMENSION && height >= MINIMUM_DIMENSION) {
-        // ArrayRef<char> luminances = source.getMatrix();
-        // Ref<ByteMatrix> luminanMatix=source.getByteMatrix();
-
-
-#ifndef USE_LEVEL_BINARIZER
-        ArrayRef<int> blackPoints =
-            calculateBlackPoints(grayByte_, subWidth_, subHeight_, width, height);
-#else
-        // ArrayRef<int> blackPoints = getBlackPoints(1);
-#endif
-
-
         Ref<BitMatrix> newMatrix(new BitMatrix(width, height, err_handler));
         if (err_handler.ErrCode()) return -1;
 

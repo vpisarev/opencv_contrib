@@ -12,7 +12,6 @@
 #define __ZXING_QRCODE_ERROR_CORRECTION_LEVEL_HPP__
 
 #include "../errorhandler.hpp"
-#include "../reader_exception.hpp"
 
 namespace zxing {
 namespace qrcode {

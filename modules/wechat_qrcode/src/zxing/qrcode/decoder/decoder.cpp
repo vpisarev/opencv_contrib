@@ -9,9 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "decoder.hpp"
-#include "../../checksum_exception.hpp"
-#include "../../format_exception.hpp"
-#include "../../reader_exception.hpp"
 #include "../error_correction_level.hpp"
 #include "../version.hpp"
 #include "datablock.hpp"
@@ -85,7 +82,6 @@ Ref<DecoderResult> Decoder::decode(Ref<BitMatrix> bits, bool isMirror, ErrorHand
         // Preemptively read the version.
         parser.readVersion(err_handler);
         if (err_handler.ErrCode()) {
-            //     throw ReaderException("Decoder::decode mirror & no mirror");
             err_handler = zxing::ReaderErrorHandler("Decoder::decode mirror & no mirror");
             return Ref<DecoderResult>();
         }
@@ -108,7 +104,6 @@ Ref<DecoderResult> Decoder::decode(Ref<BitMatrix> bits, bool isMirror, ErrorHand
     possibleFix_ = 0;
     Version *version = parser.readVersion(err_handler);
     if (err_handler.ErrCode() || version == NULL) {
-        //   throw ReaderException("Decoder::decode mirror & no mirror");
         err_handler = ReaderErrorHandler("Decoder::decode mirror & no mirror");
         return Ref<DecoderResult>();
     }
@@ -120,13 +115,11 @@ Ref<DecoderResult> Decoder::decode(Ref<BitMatrix> bits, bool isMirror, ErrorHand
     if (err_handler.ErrCode()) return Ref<DecoderResult>();
     ErrorCorrectionLevel &ecLevel = formatInfo->getErrorCorrectionLevel();
 
-    // float formatScore = parser.readFormatInformation()->getPossiableFix();
     decoderState_ = READERRORCORRECTIONLEVEL;
 
     // Read codewords
     ArrayRef<char> codewords(parser.readCodewords(err_handler));
     if (err_handler.ErrCode()) {
-        //   throw ReaderException("Decoder::decode mirror & no mirror");
         err_handler = zxing::ReaderErrorHandler("Decoder::decode mirror & no mirror");
         return Ref<DecoderResult>();
     }

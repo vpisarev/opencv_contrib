@@ -25,4 +25,5 @@
 #include "imgsource.hpp"
 using std::ostringstream;
 using std::string;
+using std::vector;
 #endif  // __OPENCV_WECHAT_QRCODE_PRECOMP_HPP__

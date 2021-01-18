@@ -11,7 +11,6 @@
 #include "qrcode_reader.hpp"
 #include <ctime>
 #include "../common/bitarray.hpp"
-#include "../reader_exception.hpp"
 #include "detector/detector.hpp"
 
 

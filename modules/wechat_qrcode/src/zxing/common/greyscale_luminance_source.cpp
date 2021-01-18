@@ -11,8 +11,6 @@
 #include "greyscale_luminance_source.hpp"
 #include "bytematrix.hpp"
 #include "greyscale_rotated_luminance_source.hpp"
-#include "illegal_argument_exception.hpp"
-
 using zxing::ArrayRef;
 using zxing::ByteMatrix;
 using zxing::ErrorHandler;

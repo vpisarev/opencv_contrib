@@ -9,12 +9,9 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "fast_window_binarizer.hpp"
-#include "illegal_argument_exception.hpp"
-
 using namespace std;
 using namespace zxing;
 
-//#define  USE_OLD_FASTWIN 1
 
 namespace {
 const int BLOCK_SIZE = 6;
@@ -65,17 +62,12 @@ Ref<Binarizer> FastWindowBinarizer::createBinarizer(Ref<LuminanceSource> source)
  * callers don't expect it.
  */
 Ref<BitMatrix> FastWindowBinarizer::getBlackMatrix(ErrorHandler& err_handler) {
-#ifdef USE_OLD_FASTWIN
-    binarizeImage0();
-    return matrix_;
-#else
     if (!matrix0_) {
         binarizeImage1(err_handler);
         if (err_handler.ErrCode()) return Ref<BitMatrix>();
     }
 
     return Binarizer::getBlackMatrix(err_handler);
-#endif
 }
 
 /**
@@ -86,22 +78,12 @@ Ref<BitMatrix> FastWindowBinarizer::getBlackMatrix(ErrorHandler& err_handler) {
 
 Ref<BitArray> FastWindowBinarizer::getBlackRow(int y, Ref<BitArray> row,
                                                ErrorHandler& err_handler) {
-#ifdef USE_OLD_FASTWIN
-    if (!matrix_) {
-        binarizeImage0();
-    }
-    matrix_->getRow(y, row);
-    return row;
-#else
     if (!matrix0_) {
         binarizeImage1(err_handler);
         if (err_handler.ErrCode()) return Ref<BitArray>();
     }
     // Call parent getBlackMatrix to get current matrix
     return Binarizer::getBlackRow(y, row, err_handler);
-#endif
-    // Call parent getBlackMatrix to get current matrix
-    // return Binarizer::getBlackRow(y, row);
 }
 
 void FastWindowBinarizer::calcBlockTotals(int* luminancesInt, int* output, int aw, int ah) {
@@ -109,7 +91,6 @@ void FastWindowBinarizer::calcBlockTotals(int* luminancesInt, int* output, int a
         int ey = (by + 1) * BLOCK_SIZE;
         for (int bx = 0; bx < aw; bx++) {
             int t = 0;
-
             for (int y = by * BLOCK_SIZE; y < ey; y++) {
                 int offset = y * width + bx * BLOCK_SIZE;
                 int ex = offset + BLOCK_SIZE;
@@ -189,13 +170,9 @@ int FastWindowBinarizer::binarizeImage1(ErrorHandler& err_handler) {
 
     unsigned char* src = (unsigned char*)localLuminances->data();
     unsigned char* dst = matrix->getPtr();
-    // long area=width*height;
-    // if((width*height)>LONG_MAX/255)
     fastWindow(src, dst, err_handler);
     if (err_handler.ErrCode()) return -1;
 
-    // else
-    //	niblcakBinarizeWithFastIntegral(src,dst,width,height);
     matrix0_ = matrix;
     return 0;
 }
@@ -209,7 +186,6 @@ void FastWindowBinarizer::fastWindow(const unsigned char* src, unsigned char* ds
         return;
     }
     const unsigned char* _img = src;
-    // unsigned int* _internal=new unsigned int[(height+1)*(width+1)];
     fastIntegral(_img, _internal);
     int aw = width / BLOCK_SIZE;
     int ah = height / BLOCK_SIZE;

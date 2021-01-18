@@ -15,8 +15,6 @@
 #include "../zxing.hpp"
 #include "array.hpp"
 #include "counted.hpp"
-#include "illegal_argument_exception.hpp"
-
 #include <cstring>
 #include <iostream>
 #include <limits>

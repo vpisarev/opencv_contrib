@@ -17,11 +17,6 @@
 #include "bytematrix.hpp"
 #include "global_histogram_binarizer.hpp"
 
-// Macro to use max-min in function calculateBlackPoints
-#ifndef USE_MAX_MIN
-#define USE_MAX_MIN 0
-#endif
-
 
 namespace zxing {
 

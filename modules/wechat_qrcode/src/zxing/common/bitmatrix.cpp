@@ -9,8 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "bitmatrix.hpp"
-#include "illegal_argument_exception.hpp"
-
 #include <iostream>
 #include <sstream>
 #include <string>

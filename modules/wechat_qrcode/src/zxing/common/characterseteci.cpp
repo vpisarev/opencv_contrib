@@ -9,12 +9,8 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "characterseteci.hpp"
-#include "../format_exception.hpp"
-#include "illegal_argument_exception.hpp"
-
 using std::string;
 
-using zxing::IllegalArgumentException;
 using zxing::common::CharacterSetECI;
 
 // Fix memory leak

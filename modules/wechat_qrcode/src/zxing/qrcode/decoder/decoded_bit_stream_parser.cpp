@@ -10,7 +10,6 @@
 
 #include "decoded_bit_stream_parser.hpp"
 #include "../../common/stringutils.hpp"
-#include "../../format_exception.hpp"
 #include "../../zxing.hpp"
 
 #include <iostream>
@@ -19,11 +18,8 @@
 #endif
 #include <iomanip>
 
-// Required for compatibility. TODO: test on Symbian
-//#ifdef ZXING_ICONV_CONST
 #undef ICONV_CONST
 #define ICONV_CONST const
-//#endif
 
 #ifndef ICONV_CONST
 #define ICONV_CONST /**/
@@ -199,9 +195,6 @@ void DecodedBitStreamParser::decodeByteSegment(Ref<BitSource> bits_, string& res
     int nBytes = count;
     BitSource& bits(*bits_);
     // Don't crash trying to read more bits than we have available.
-    // if (count << 3 > bits.available()) {
-    //  throw FormatException();
-    //}
     int available = bits.available();
     // try to repair count data if count data is invalid
     if (count * 8 > available) {

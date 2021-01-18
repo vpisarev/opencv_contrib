@@ -9,8 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "line_binarizer.hpp"
-#include "illegal_argument_exception.hpp"
-
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 using namespace std;

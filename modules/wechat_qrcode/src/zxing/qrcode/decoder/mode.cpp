@@ -10,7 +10,6 @@
 
 #include "mode.hpp"
 #include "../../common/counted.hpp"
-#include "../../reader_exception.hpp"
 #include "../../zxing.hpp"
 #include "../version.hpp"
 

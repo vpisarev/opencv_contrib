@@ -14,7 +14,6 @@
 #include "../common/bitmatrix.hpp"
 #include "../common/counted.hpp"
 #include "../errorhandler.hpp"
-#include "../reader_exception.hpp"
 #include "error_correction_level.hpp"
 
 #include <vector>

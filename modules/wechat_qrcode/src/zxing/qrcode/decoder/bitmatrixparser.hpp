@@ -15,7 +15,6 @@
 #include "../../common/bitmatrix.hpp"
 #include "../../common/counted.hpp"
 #include "../../errorhandler.hpp"
-#include "../../reader_exception.hpp"
 #include "../format_information.hpp"
 #include "../version.hpp"
 

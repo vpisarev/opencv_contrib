@@ -13,13 +13,10 @@
 #include "../../common/mathutils.hpp"
 #include "../../decodehints.hpp"
 #include "../../errorhandler.hpp"
-#include "../../reader_exception.hpp"
 
 #include <algorithm>
 #include <cmath>
 
-//#include <fstream>
-// using namespace std;
 using std::abs;
 using std::max;
 using std::sort;
@@ -39,9 +36,6 @@ namespace zxing {
 
 namespace qrcode {
 
-// f#define OUTPUT_FINDER_CENTER 1
-//#define USE_BLURE_POLICE 1
-#define CHECK_MORE_THAN_ONE_CENTER 1
 
 namespace {
 class FurthestFromAverageComparator {

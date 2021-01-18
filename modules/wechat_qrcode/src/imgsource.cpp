@@ -10,9 +10,6 @@
 
 #include "imgsource.hpp"
 #include "precomp.hpp"
-
-#include "zxing/common/illegal_argument_exception.hpp"
-
 using zxing::ArrayRef;
 using zxing::ByteMatrix;
 using zxing::ErrorHandler;

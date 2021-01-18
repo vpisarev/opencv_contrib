@@ -20,14 +20,6 @@
 
 #include <vector>
 
-// Macro to use max-min in function calculateBlackPoints
-#ifndef USE_MAX_MIN
-#define USE_MAX_MIN 0
-#endif
-
-
-#define USE_LEVEL_BINARIZER 1
-
 
 namespace zxing {
 
@@ -54,7 +46,6 @@ public:
     Ref<Binarizer> createBinarizer(Ref<LuminanceSource> source) override;
 
 private:
-#ifdef USE_LEVEL_BINARIZER
     int initIntegral();
     int initBlockIntegral();
     int initBlocks();
@@ -63,19 +54,12 @@ private:
     ArrayRef<int> getBlackPoints();
     int getBlockThreshold(int x, int y, int subWidth, int sum, int min, int max,
                           int minDynamicRange, int SIZE_POWER);
-#else
-    ArrayRef<int> calculateBlackPoints(Ref<ByteMatrix>& luminances, int subWidth, int subHeight);
-#endif
 
-#ifdef USE_LEVEL_BINARIZER
+
     void calculateThresholdForBlock(Ref<ByteMatrix>& luminances, int subWidth, int subHeight,
                                     int SIZE_POWER, Ref<BitMatrix> const& matrix,
                                     ErrorHandler& err_handler);
-#else
-    void calculateThresholdForBlock(Ref<ByteMatrix>& luminances, int subWidth, int subHeight,
-                                    ArrayRef<int>& blackPoints, Ref<BitMatrix> const& matrix,
-                                    ErrorHandler& err_handler);
-#endif
+
 
     void thresholdBlock(Ref<ByteMatrix>& luminances, int xoffset, int yoffset, int threshold,
                         Ref<BitMatrix> const& matrix, ErrorHandler& err_handler);

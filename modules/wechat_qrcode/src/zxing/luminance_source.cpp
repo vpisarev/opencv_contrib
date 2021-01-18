@@ -9,8 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "luminance_source.hpp"
-#include "common/illegal_argument_exception.hpp"
-
 #include <sstream>
 
 using zxing::LuminanceSource;

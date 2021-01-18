@@ -9,7 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "version.hpp"
-#include "../format_exception.hpp"
 #include "format_information.hpp"
 
 #include <cstdarg>

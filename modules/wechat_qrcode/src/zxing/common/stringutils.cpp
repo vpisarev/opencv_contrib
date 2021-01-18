@@ -163,13 +163,8 @@ string StringUtils::guessEncodingUCharDet(char* bytes, int length) {
     uchardet_delete(handle);
 
     if (charsetStr.size() != 0) {
-        // printf("%s\n", charset);
-        // cout<<"Charset : "<<charsetStr<<endl;
         return charsetStr;
-        // return GBK;
     } else {
-        // printf("ascii/unknown\n");
-        // return GBK;
         return guessEncodingZXing(bytes, length);
     }
 
@@ -192,20 +187,15 @@ string StringUtils::guessEncodingZXing(char* bytes, int length) {
     bool canBeASCII = true;
 
     int utf8BytesLeft = 0;
-    // int utf8LowChars = 0;
     int utf2BytesChars = 0;
     int utf3BytesChars = 0;
     int utf4BytesChars = 0;
     int sjisBytesLeft = 0;
-    // int sjisLowChars = 0;
     int sjisKatakanaChars = 0;
-    // int sjisDoubleBytesChars = 0;
     int sjisCurKatakanaWordLength = 0;
     int sjisCurDoubleBytesWordLength = 0;
     int sjisMaxKatakanaWordLength = 0;
     int sjisMaxDoubleBytesWordLength = 0;
-    // int isoLowChars = 0;
-    // int isoHighChars = 0;
     int isoHighOther = 0;
 
     int gb2312SCByteChars = 0;
@@ -246,9 +236,7 @@ string StringUtils::guessEncodingZXing(char* bytes, int length) {
                         }
                     }
                 }
-            }  // else {
-               // utf8LowChars++;
-               //}
+            }  
         }
 
         // Shift_JIS stuff

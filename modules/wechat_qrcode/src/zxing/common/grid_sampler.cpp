@@ -9,7 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "grid_sampler.hpp"
-#include "../reader_exception.hpp"
 #include "perspective_transform.hpp"
 
 #include <iostream>
@@ -97,16 +96,6 @@ int GridSampler::checkAndNudgePoints(int width, int height, vector<float> &point
 
         if (x < -1 || x > width || y < -1 || y > height) {
             outCount++;
-
-            /*
-            if (outCount > maxError)
-            {
-                ostringstream s;
-                //s << "Transformed point out of bounds at " << x << "," << y;
-                s << "Over 30% points out of bounds.";
-                throw ReaderException(s.str().c_str());
-            }
-            */
             if (x > width + maxborder || y > height + maxborder || x < -maxborder ||
                 y < -maxborder) {
                 err_handler = ReaderErrorHandler("checkAndNudgePoints::Out of bounds!");

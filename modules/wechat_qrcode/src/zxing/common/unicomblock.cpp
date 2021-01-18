@@ -120,7 +120,6 @@ void UnicomBlock::Bfs(int y, int x) {
     const int iMinCombine = iMinY << 16 | iMinX;
     const int iMaxCombine = iMaxY << 16 | iMaxX;
     for (int i = 0; i < iTail; ++i) {
-        // iPosition = iY * m_iWidth + iX
         const int iPosition = (m_vcQueue[i] >> 16) * m_iWidth + (m_vcQueue[i] & (0xFFFF));
 
         m_vcCount[iPosition] = iCount;
