@@ -19,22 +19,6 @@ using zxing::GenericGF;
 using zxing::GenericGFPoly;
 using zxing::Ref;
 
-// Ref<GenericGF> GenericGF::AZTEC_DATA_12(new GenericGF(0x1069, 4096, 1,
-// err_handler)); Ref<GenericGF> GenericGF::AZTEC_DATA_10(new GenericGF(0x409,
-// 1024, 1, err_handler)); Ref<GenericGF> GenericGF::AZTEC_DATA_6(new
-// GenericGF(0x43, 64, 1, err_handler )); Ref<GenericGF>
-// GenericGF::AZTEC_PARAM(new GenericGF(0x13, 16, 1, err_handler));
-// Ref<GenericGF> GenericGF::QR_CODE_FIELD_256(new GenericGF(0x011D, 256, 0,
-// err_handler)); Ref<GenericGF> GenericGF::DATA_MATRIX_FIELD_256(new
-// GenericGF(0x012D, 256, 1, err_handler)); Ref<GenericGF>
-// GenericGF::AZTEC_DATA_8 = DATA_MATRIX_FIELD_256; Ref<GenericGF>
-// GenericGF::MAXICODE_FIELD_64 = AZTEC_DATA_6; Ref<GenericGF> GenericGF::WXCODE
-// = QR_CODE_FIELD_256;
-
-// namespace {
-//  int INITIALIZATION_THRESHOLD = 0;
-//}
-
 GenericGF::GenericGF(int primitive_, int size_, int b, ErrorHandler &err_handler)
     : size(size_), primitive(primitive_), generatorBase(b) {
     expTable.resize(size);
@@ -64,26 +48,12 @@ GenericGF::GenericGF(int primitive_, int size_, int b, ErrorHandler &err_handler
     //  initialized = true;
 }
 
-// void GenericGF::checkInit() {
-//  if (!initialized) {
-//    initialize();
-//  }
-//}
+Ref<GenericGFPoly> GenericGF::getZero() { return zero; }
 
-Ref<GenericGFPoly> GenericGF::getZero() {
-    //  checkInit();
-    return zero;
-}
-
-Ref<GenericGFPoly> GenericGF::getOne() {
-    //  checkInit();
-    return one;
-}
+Ref<GenericGFPoly> GenericGF::getOne() { return one; }
 
 Ref<GenericGFPoly> GenericGF::buildMonomial(int degree, int coefficient,
                                             ErrorHandler &err_handler) {
-    // checkInit();
-
     if (degree < 0) {
         err_handler = IllegalArgumentErrorHandler("Degree must be non-negative");
         return Ref<GenericGFPoly>();
@@ -101,13 +71,9 @@ Ref<GenericGFPoly> GenericGF::buildMonomial(int degree, int coefficient,
 
 int GenericGF::addOrSubtract(int a, int b) { return a ^ b; }
 
-int GenericGF::exp(int a) {
-    // checkInit();
-    return expTable[a];
-}
+int GenericGF::exp(int a) { return expTable[a]; }
 
 int GenericGF::log(int a, ErrorHandler &err_handler) {
-    // checkInit();
     if (a == 0) {
         err_handler = IllegalArgumentErrorHandler("cannot give log(0)");
         return -1;
@@ -116,7 +82,6 @@ int GenericGF::log(int a, ErrorHandler &err_handler) {
 }
 
 int GenericGF::inverse(int a, ErrorHandler &err_handler) {
-    // checkInit();
     if (a == 0) {
         err_handler = IllegalArgumentErrorHandler("Cannot calculate the inverse of 0");
         return -1;
@@ -125,8 +90,6 @@ int GenericGF::inverse(int a, ErrorHandler &err_handler) {
 }
 
 int GenericGF::multiply(int a, int b) {
-    // checkInit();
-
     if (a == 0 || b == 0) {
         return 0;
     }

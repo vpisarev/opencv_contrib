@@ -10,7 +10,6 @@
 
 #include "decoder.hpp"
 #include "../../checksum_exception.hpp"
-#include "../../common/reedsolomon/reed_solomon_exception.hpp"
 #include "../../format_exception.hpp"
 #include "../../reader_exception.hpp"
 #include "../error_correction_level.hpp"
@@ -210,13 +209,11 @@ float Decoder::estimateFixedPattern(Ref<BitMatrix> bits, zxing::qrcode::Version 
                                     ErrorHandler &err_handler) {
     Ref<BitMatrix> fixedPatternValue = version->buildFixedPatternValue(err_handler);
     if (err_handler.ErrCode()) {
-        //   throw ReaderException("Decoder::decode mirror & no mirror");
         err_handler = zxing::ReaderErrorHandler("Decoder::decode mirror & no mirror");
         return -1.0;
     }
     Ref<BitMatrix> fixedPatternTemplate = version->buildFixedPatternTemplate(err_handler);
     if (err_handler.ErrCode()) {
-        //    throw ReaderException("Decoder::decode mirror & no mirror");
         err_handler = zxing::ReaderErrorHandler("Decoder::decode mirror & no mirror");
         return -1.0;
     }

@@ -10,7 +10,6 @@
 
 #include "reed_solomon_decoder.hpp"
 #include "../illegal_argument_exception.hpp"
-#include "reed_solomon_exception.hpp"
 
 #include <iostream>
 #include <memory>

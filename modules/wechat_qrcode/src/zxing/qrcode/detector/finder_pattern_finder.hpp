@@ -91,14 +91,13 @@ protected:
 
     /** stateCount must be int[5] */
     float centerFromEnd(int* stateCount, int end);
-    // 检查是否满足回字形
+    // check if satisfies finder pattern
     bool foundPatternCross(int* stateCount);
     // Used only for checkDiagonal
     bool foundPatternCrossLoose(int* stateCount);
     bool finderConditionLoose_;
-    // 尝试插入到possibleCenters_
-    // 返回true表示成功插入
-    // 返回false表示列表中已经有了
+
+    // try to insert to possibleCenters_
     int getStateCountTotal(int* stateCount, const CrossCheckState& check_state);
     bool tryToPushToCenters(float posX, float posY, float estimatedModuleSize,
                             CrossCheckState horizontalState = FinderPatternFinder::NORMAL,
@@ -115,15 +114,10 @@ protected:
 
     bool isEqualResult(Ref<FinderPatternInfo> src, Ref<FinderPatternInfo> dst);
 
-    // float getEstimatedVerticalModuleSize(int* stateCount_, CrossCheckState
-    // checkState_);
-
     /** stateCount must be int[5] */
     bool handlePossibleCenter(int* stateCount, size_t i, size_t j);
-    int getMaxMinModuleSize(float& minModuleSize, float& maxModuleSize);
     int findRowSkip();
 
-    // std::vector<Ref<FinderPattern> > selectBestPatterns();
     std::vector<Ref<FinderPattern> > selectBestPatterns(ErrorHandler& err_handler);
     std::vector<Ref<FinderPattern> > selectFileBestPatterns(ErrorHandler& err_handler);
     std::vector<Ref<FinderPattern> > orderBestPatterns(std::vector<Ref<FinderPattern> > patterns);

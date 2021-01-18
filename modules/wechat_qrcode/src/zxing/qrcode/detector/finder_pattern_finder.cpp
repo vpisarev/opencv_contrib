@@ -44,11 +44,6 @@ namespace qrcode {
 #define CHECK_MORE_THAN_ONE_CENTER 1
 
 namespace {
-class FinderPatternComination : public Counted {
-public:
-    int point[3];
-};
-
 class FurthestFromAverageComparator {
 private:
     const float averageModuleSize_;
@@ -134,19 +129,6 @@ public:
 class YComparator {
 public:
     bool operator()(Ref<FinderPattern> a, Ref<FinderPattern> b) { return a->getY() < b->getY(); }
-};
-
-class ModuleSizeBucket {
-public:
-    ModuleSizeBucket() {
-        count = 0;
-        centers.clear();
-    }
-
-public:
-    int count;
-
-    vector<Ref<FinderPattern>> centers;
 };
 
 }  // namespace
@@ -374,23 +356,6 @@ bool FinderPatternFinder::tryToPushToCenters(float centerI, float centerJ,
     possibleCenters_.push_back(newPattern);
     return true;
 }
-int FinderPatternFinder::getMaxMinModuleSize(float& minModuleSize, float& maxModuleSize) {
-    minModuleSize = 1000000000000.0f;
-    maxModuleSize = 0.0f;
-
-    for (size_t i = 0; i < possibleCenters_.size(); i++) {
-        float moduleSize = possibleCenters_[i]->getEstimatedModuleSize();
-
-        if (moduleSize < minModuleSize) {
-            minModuleSize = moduleSize;
-        }
-        if (moduleSize > maxModuleSize) {
-            maxModuleSize = moduleSize;
-        }
-    }
-
-    return 1;
-}
 
 bool FinderPatternFinder::isEqualResult(Ref<FinderPatternInfo> src, Ref<FinderPatternInfo> dst) {
     if (src == NULL) {
@@ -401,31 +366,14 @@ bool FinderPatternFinder::isEqualResult(Ref<FinderPatternInfo> src, Ref<FinderPa
         return true;
     }
 
-    Ref<FinderPattern> topLeft = src->getTopLeft();
-    Ref<FinderPattern> bottomLeft = src->getBottomLeft();
-    Ref<FinderPattern> topRight = src->getTopRight();
+    auto topLeft = src->getTopLeft();
+    auto bottomLeft = src->getBottomLeft();
+    auto topRight = src->getTopRight();
 
-    bool res = true;
-
-    res = topLeft->aboutEquals(1.0, dst->getTopLeft()->getY(), dst->getTopLeft()->getX());
-
-    if (!res) {
-        return false;
-    }
-
-    res = bottomLeft->aboutEquals(1.0, dst->getBottomLeft()->getY(), dst->getBottomLeft()->getX());
-
-    if (!res) {
-        return false;
-    }
-
-    res = topRight->aboutEquals(1.0, dst->getTopRight()->getY(), dst->getTopRight()->getX());
-
-    if (!res) {
-        return false;
-    }
-
-    return true;
+    return topLeft->aboutEquals(1.0, dst->getTopLeft()->getY(), dst->getTopLeft()->getX()) &&
+           bottomLeft->aboutEquals(1.0, dst->getBottomLeft()->getY(),
+                                   dst->getBottomLeft()->getX()) &&
+           topRight->aboutEquals(1.0, dst->getTopRight()->getY(), dst->getTopRight()->getX());
 }
 
 bool FinderPatternFinder::IsPossibleFindPatterInfo(Ref<FinderPattern> a, Ref<FinderPattern> b,
@@ -442,11 +390,8 @@ bool FinderPatternFinder::IsPossibleFindPatterInfo(Ref<FinderPattern> a, Ref<Fin
     if (val >= FPS_MS_VAL) return false;
 
     float longSize = 0.0;
-    if (!checkIsoscelesRightTriangle(a, b, c, longSize)) {
-        return false;
-    }
 
-    return true;
+    return checkIsoscelesRightTriangle(a, b, c, longSize);
 }
 
 void FinderPatternFinder::PushToResult(Ref<FinderPattern> a, Ref<FinderPattern> b,
@@ -544,8 +489,6 @@ vector<Ref<FinderPatternInfo>> FinderPatternFinder::getPatternInfosFileMode(
     if (k < 1) k = 1;
 
     vector<vector<double>> trainX;
-    // sort(standardCenters.begin(), standardCenters.end(),
-    // ModuleSizeComparator());
     for (size_t i = 0; i < standardCenters.size(); i++) {
         vector<double> tmp;
         tmp.push_back(standardCenters[i]->getCount());
