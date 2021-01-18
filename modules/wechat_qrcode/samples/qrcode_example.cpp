@@ -25,6 +25,8 @@ int main(int argc, char* argv[]) {
         cout << "    Usage: " << argv[0] << " <input_image>" << endl;
         return 0;
     }
+    // The model is downloaded to ${CMAKE_BINARY_DIR}/modules/wechat_qrcode if cmake runs without warnings,
+    // otherwise you can download them from https://github.com/WeChatCV/opencv_3rdparty/tree/wechat_qrcode.
     auto detector = wechat_qrcode::WeChatQRCode("detect.prototxt", "detect.caffemodel",
                                                 "sr.prototxt", "sr.caffemodel");
     vector<Mat> points;

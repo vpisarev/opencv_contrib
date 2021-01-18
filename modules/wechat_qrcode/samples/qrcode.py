@@ -15,8 +15,10 @@ else:
     print("    Usage: " + sys.argv[0] + "  <input_image>")
     exit(0)
 
-# for python API generator, it follows the template: {module_name}_{class_name}
-# so it is a little weird
+# For python API generator, it follows the template: {module_name}_{class_name},
+# so it is a little weird.
+# The model is downloaded to ${CMAKE_BINARY_DIR}/modules/wechat_qrcode if cmake runs without warnings,
+# otherwise you can download them from https://github.com/WeChatCV/opencv_3rdparty/tree/wechat_qrcode.
 detector = cv2.wechat_qrcode_WeChatQRCode(
     "detect.prototxt", "detect.caffemodel", "sr.prototxt", "sr.caffemodel")
 
