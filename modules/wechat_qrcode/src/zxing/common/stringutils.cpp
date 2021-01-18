@@ -236,9 +236,8 @@ string StringUtils::guessEncodingZXing(char* bytes, int length) {
                         }
                     }
                 }
-            }  
+            }
         }
-
         // Shift_JIS stuff
         if (canBeShiftJIS) {
             if (sjisBytesLeft > 0) {
