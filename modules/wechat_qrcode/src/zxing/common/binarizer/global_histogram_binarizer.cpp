@@ -9,7 +9,6 @@
 // Licensed under the Apache License, Version 2.0 (the "License").
 
 #include "global_histogram_binarizer.hpp"
-#include "array.hpp"
 
 using zxing::ArrayRef;
 using zxing::Binarizer;

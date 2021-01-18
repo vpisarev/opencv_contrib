@@ -39,9 +39,6 @@ zxing::Ref<Binarizer> BinarizerMgr::Binarize(zxing::Ref<LuminanceSource> source)
         case SimpleAdaptive:
             binarizer = new zxing::SimpleAdaptiveBinarizer(source);
             break;
-        case Line:
-            binarizer = new zxing::LineBinarizer(source);
-            break;
         case AdaptiveThreshold:
             binarizer = new zxing::AdaptiveThresholdMeanBinarizer(source);
             break;

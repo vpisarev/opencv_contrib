@@ -10,11 +10,11 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <vector>
-#include "../binarizer.hpp"
-#include "../errorhandler.hpp"
-#include "bitarray.hpp"
-#include "bitmatrix.hpp"
-#include "bytematrix.hpp"
+#include "../../binarizer.hpp"
+#include "../../errorhandler.hpp"
+#include "../bitarray.hpp"
+#include "../bitmatrix.hpp"
+#include "../bytematrix.hpp"
 #include "global_histogram_binarizer.hpp"
 
 

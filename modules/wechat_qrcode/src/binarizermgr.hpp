@@ -9,12 +9,11 @@
 #define __OPENCV_WECHAT_QRCODE_BINARIZERMGR_HPP__
 
 #include "zxing/binarizer.hpp"
-#include "zxing/common/adaptive_threshold_mean_binarizer.hpp"
+#include "zxing/common/binarizer/adaptive_threshold_mean_binarizer.hpp"
 #include "zxing/common/counted.hpp"
-#include "zxing/common/fast_window_binarizer.hpp"
-#include "zxing/common/hybrid_binarizer.hpp"
-#include "zxing/common/line_binarizer.hpp"
-#include "zxing/common/simple_adaptive_binarizer.hpp"
+#include "zxing/common/binarizer/fast_window_binarizer.hpp"
+#include "zxing/common/binarizer/hybrid_binarizer.hpp"
+#include "zxing/common/binarizer/simple_adaptive_binarizer.hpp"
 #include "zxing/zxing.hpp"
 
 namespace cv {
@@ -25,8 +24,7 @@ public:
         Hybrid = 0,
         FastWindow = 1,
         SimpleAdaptive = 2,
-        AdaptiveThreshold = 3,
-        Line = 4
+        AdaptiveThreshold = 3
     };
 
 public:

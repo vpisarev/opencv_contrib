@@ -8,39 +8,33 @@
 // Modified from ZXing. Copyright ZXing authors.
 // Licensed under the Apache License, Version 2.0 (the "License").
 
-#ifndef __ZXING_COMMON_GLOBAL_HISTOGRAM_BINARIZER_HPP__
-#define __ZXING_COMMON_GLOBAL_HISTOGRAM_BINARIZER_HPP__
+#ifndef __ZXING_COMMON_SIMPLEADAPTIVEBINARIZER_HPP__
+#define __ZXING_COMMON_SIMPLEADAPTIVEBINARIZER_HPP__
 
-#include "../binarizer.hpp"
-#include "../errorhandler.hpp"
-#include "array.hpp"
-#include "bitarray.hpp"
-#include "bitmatrix.hpp"
+#include "../../binarizer.hpp"
+#include "../array.hpp"
+#include "../bitarray.hpp"
+#include "../bitmatrix.hpp"
+#include "global_histogram_binarizer.hpp"
 
-//#define INPUT_BINARIZED
+
 namespace zxing {
 
-class GlobalHistogramBinarizer : public Binarizer {
-protected:
-    ArrayRef<char> luminances;
-    ArrayRef<int> buckets;
-
+class SimpleAdaptiveBinarizer : public GlobalHistogramBinarizer {
 public:
-    explicit GlobalHistogramBinarizer(Ref<LuminanceSource> source);
-    virtual ~GlobalHistogramBinarizer();
+    explicit SimpleAdaptiveBinarizer(Ref<LuminanceSource> source);
+    virtual ~SimpleAdaptiveBinarizer();
 
     virtual Ref<BitArray> getBlackRow(int y, Ref<BitArray> row, ErrorHandler &err_handler) override;
     virtual Ref<BitMatrix> getBlackMatrix(ErrorHandler &err_handler) override;
-    int estimateBlackPoint(ArrayRef<int> const &buckets, ErrorHandler &err_handler);
-    int estimateBlackPoint2(ArrayRef<int> const &buckets);
     Ref<Binarizer> createBinarizer(Ref<LuminanceSource> source) override;
 
 private:
     int binarizeImage0(ErrorHandler &err_handler);
-    void initArrays(int luminanceSize);
+    int qrBinarize(const unsigned char *src, unsigned char *dst);
     bool filtered;
 };
 
 }  // namespace zxing
 
-#endif  // __ZXING_COMMON_GLOBAL_HISTOGRAM_BINARIZER_HPP__
+#endif  // __ZXING_COMMON_SIMPLEADAPTIVEBINARIZER_HPP__

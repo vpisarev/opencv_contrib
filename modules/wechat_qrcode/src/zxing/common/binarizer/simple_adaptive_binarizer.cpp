@@ -10,7 +10,6 @@
 
 #include "simple_adaptive_binarizer.hpp"
 #include <cstdlib>
-#include "array.hpp"
 
 using namespace std;
 using namespace zxing;

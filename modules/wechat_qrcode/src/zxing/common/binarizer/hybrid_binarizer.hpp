@@ -11,11 +11,11 @@
 #ifndef __ZXING_COMMON_HYBRID_BINARIZER_HPP__
 #define __ZXING_COMMON_HYBRID_BINARIZER_HPP__
 
-#include "../binarizer.hpp"
-#include "../errorhandler.hpp"
-#include "bitarray.hpp"
-#include "bitmatrix.hpp"
-#include "bytematrix.hpp"
+#include "../../binarizer.hpp"
+#include "../../errorhandler.hpp"
+#include "../bitarray.hpp"
+#include "../bitmatrix.hpp"
+#include "../bytematrix.hpp"
 #include "global_histogram_binarizer.hpp"
 
 #include <vector>
